@@ -1,0 +1,38 @@
+﻿CREATE TABLE {databaseOwner}[{objectQualifier}40F_SEO_RedirectLog](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[RequestedUrl] [nvarchar](max) NOT NULL,
+	[RequestDateTime] [datetime] NOT NULL,
+	[Referrer] [nvarchar](max) NULL,
+	[HTTP_USER_AGENT] [nvarchar](max) NULL,
+	[RedirectedToUrl] [nvarchar](max) NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}40F_SEO_AddRedirectLog]
+@RequestedUrl nvarchar(max),
+@RequestDateTime DATETIME,
+@Referrer nvarchar(max),
+@HTTP_USER_AGENT nvarchar(max),
+@RedirectedToUrl nvarchar(max)
+AS
+BEGIN
+
+INSERT INTO {databaseOwner}[{objectQualifier}40F_SEO_RedirectLog]
+           ([RequestedUrl]
+           ,[RequestDateTime]
+           ,[Referrer]
+           ,[HTTP_USER_AGENT]
+           ,[RedirectedToUrl])
+     VALUES
+           (@RequestedUrl
+           ,@RequestDateTime
+           ,@Referrer
+           ,@HTTP_USER_AGENT
+           ,@RedirectedToUrl)
+
+END
+
+GO
+
+

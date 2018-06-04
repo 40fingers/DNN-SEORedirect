@@ -1,0 +1,59 @@
+﻿ALTER TABLE {databaseOwner}[{objectQualifier}40F_SEO_RedirectLog]
+ADD PortalId INT NULL
+CONSTRAINT [{objectQualifier}DF_40F_SEO_RedirectLog] DEFAULT 0
+WITH VALUES
+GO
+
+ALTER PROCEDURE {databaseOwner}[{objectQualifier}40F_SEO_AddRedirectLog]
+@PortalId INT,
+@RequestedUrl nvarchar(max),
+@RequestDateTime DATETIME,
+@Referrer nvarchar(max),
+@HTTP_USER_AGENT nvarchar(max),
+@RedirectedToUrl nvarchar(max)
+AS
+BEGIN
+
+INSERT INTO {databaseOwner}[{objectQualifier}40F_SEO_RedirectLog]
+           ([PortalId]
+		   ,[RequestedUrl]
+           ,[RequestDateTime]
+           ,[Referrer]
+           ,[HTTP_USER_AGENT]
+           ,[RedirectedToUrl])
+     VALUES
+           (@PortalId
+		   ,@RequestedUrl
+           ,@RequestDateTime
+           ,@Referrer
+           ,@HTTP_USER_AGENT
+           ,@RedirectedToUrl)
+
+END
+
+GO
+
+ALTER PROCEDURE {databaseOwner}[{objectQualifier}40F_SEO_GetTopUnhandledUrls]
+@PortalId INT,
+@StartDate DATETIME,
+@MaxUrls INT
+AS
+BEGIN
+	SELECT  
+		TOP (@MaxUrls)
+		L.RequestedUrl AS Url, COUNT(L.Id) as Occurrences
+	FROM 
+		{databaseOwner}[{objectQualifier}40F_SEO_RedirectLog] L
+	WHERE
+		L.PortalId = @PortalId
+		AND
+		L.RequestDateTime > @StartDate
+		AND
+		L.RedirectedToUrl = ''
+		AND
+		L.HandledOn IS NULL
+	GROUP BY
+		L.RequestedUrl
+	ORDER BY COUNT(L.Id) DESC
+END
+GO

@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!-- PLEASE NOTE THAT CHANGES TO THIS FILE WILL NOT TAKE AFFECT UNTIL YOU UNLOAD AND RELOAD YOUR PROJECT! -->
+    <!-- 
+	 requirements
+		
+		Subversion: http://subversion.tigris.org/
+		MsBuildCommunityTasks: http://msbuildtasks.tigris.org/
+
+	 modifiations to project file:
+	
+		<Import Project="$(MSBuildProjectDirectory)\MSBuild\Project.targets" />
+
+	 personalization:
+		
+  		CompanyName: 40Fingers
+		ModuleName: name of module
+		svn: path of svn repository (trunk)
+  -->
+    <PropertyGroup>
+        <CompanyName>40Fingers</CompanyName>
+        <ModuleName>SeoRedirect</ModuleName>
+        <InstallDir>_Installation\$(MSBuildProjectName)</InstallDir>
+        <svn></svn>
+        <BinDir>$(MSBuildProjectDirectory)\bin</BinDir>
+        <DotNetNukeDir>$(MSBuildProjectDirectory)\..\..\..</DotNetNukeDir>
+        <DotNetNukeVer>4</DotNetNukeVer>
+    </PropertyGroup>
+
+    <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" Condition="Exists('$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets')"/>
+
+    <ItemGroup>
+        <AssemblyInfoFile Include="$(MSBuildProjectDirectory)\Properties\AssemblyInfo.cs" />
+        <dnnFile Include="$(MSBuildProjectDirectory)\$(MSBuildProjectName).dnn" />
+    </ItemGroup>
+    
+    <Target Name="BeforeBuild">
+        <CallTarget Targets="SetVersionInfo" />
+    </Target>
+    <Target Name="AfterBuild">
+        <CallTarget Targets="DeployFiles" />
+    </Target>
+    
+    <!-- Set the version numbers in DNN file and Assembly -->
+    <Target Name="SetVersionInfo">
+        <Message Text="MSBUILD: getting version from $(MSBuildProjectDirectory)\msbuild\version.txt ..." Importance="high"></Message>
+        <!-- Obtain Version information from version.txt -->
+        <Version BuildType="None" RevisionType="None" VersionFile="$(MSBuildProjectDirectory)\msbuild\version.txt">
+            <Output TaskParameter="Major" PropertyName="Major" />
+            <Output TaskParameter="Minor" PropertyName="Minor" />
+            <Output TaskParameter="Build" PropertyName="Build" />
+            <Output TaskParameter="Revision" PropertyName="Revision" />
+        </Version>
+        <!-- DNN requires single digits to be prefixed with a zero -->
+        <CreateProperty Value="0$(Major)" Condition="$(Major) &lt;= 9" >
+            <Output TaskParameter="Value" PropertyName="Major" />
+        </CreateProperty>
+        <CreateProperty Value="0$(Minor)" Condition="$(Minor) &lt;= 9" >
+            <Output TaskParameter="Value" PropertyName="Minor" />
+        </CreateProperty>
+        <CreateProperty Value="0$(Build)" Condition="$(Build) &lt;= 9" >
+            <Output TaskParameter="Value" PropertyName="Build" />
+        </CreateProperty>
+        <CreateProperty Value="0$(Revision)" Condition="$(Revision) &lt;= 9" >
+            <Output TaskParameter="Value" PropertyName="Revision" />
+        </CreateProperty>
+
+        <!-- Write new version to assemblyinfo.cs -->
+        <Message Text="MSBUILD: Updating @(AssemblyInfoFile) and @(dnnFile) with new version: $(Major).$(Minor).$(Build).$(Revision)" Importance="high"></Message>
+        <FileUpdate Files="@(AssemblyInfoFile)" Encoding="ASCII" Regex="AssemblyVersion\(&quot;.*&quot;\)" ReplacementText="AssemblyVersion(&quot;$(Major).$(Minor).$(Build).$(Revision)&quot;)" />
+        <FileUpdate Files="@(AssemblyInfoFile)" Encoding="ASCII" Regex="AssemblyFileVersion\(&quot;.*&quot;\)" ReplacementText="AssemblyFileVersion(&quot;$(Major).$(Minor).$(Build).$(Revision)&quot;)" />
+        <!-- update dnn 4 style version in dnn file
+        <FileUpdate Files="@(dnnFile)" Regex="&lt;version&gt;.*&lt;/version&gt;"
+					ReplacementText="&lt;version&gt;$(Major).$(Minor).$(Build)&lt;/version&gt;" /> -->
+        <!-- update dnn 5 style version in dnn file -->
+        <FileUpdate Files="@(dnnFile)" Regex="&quot;Module&quot; version=&quot;.*&quot;" 
+                    ReplacementText="&quot;Module&quot; version=&quot;$(Major).$(Minor).$(Build)&quot;" />
+    </Target>
+
+    <Target Name="DeployFiles">
+        <MakeDir Directories="$(InstallDir)\$(Major).$(Minor).$(Build)\" />
+        
+        <CallTarget Targets="RemoveZips" />
+        <CallTarget Targets="ZipInstall" />
+        <CallTarget Targets="Documentation" />
+        <CallTarget Targets="CopyFilesToDotNetNuke" Condition="'$(DotNetNukeDir)'!=''" />
+
+    </Target>
+
+
+    <!-- remove files with same version number from installation dir -->
+    <Target Name="RemoveZips" Condition="'$(ConfigurationName)'=='Release'">
+        <Message Text="MSBUILD: removing old zips with version $(Major).$(Minor).$(Build) from $(InstallDir)\$(Major).$(Minor).$(Build)\" Importance="high"></Message>
+        <CreateItem Include="$(InstallDir)\$(Major).$(Minor).$(Build)\$(CompanyName).$(ModuleName).$(Major).$(Minor).$(Build).Source.zip;
+				     $(InstallDir)\$(Major).$(Minor).$(Build)\$(CompanyName).$(ModuleName).$(Major).$(Minor).$(Build).Install.zip;
+             $(InstallDir)\$(Major).$(Minor).$(Build)\$(CompanyName).$(ModuleName).$(Major).$(Minor).$(Build).Developer.zip;">
+            <Output TaskParameter="Include" ItemName="deleteFiles" />
+        </CreateItem>
+        <Delete ContinueOnError="true" Files="@(deleteFiles)"></Delete>
+    </Target>
+
+    <!-- creat install zip file -->
+    <Target Name="ZipInstall" Condition="'$(ConfigurationName)'=='Release'">
+        <Message Text="MSBUILD: creating Installation Zip file: $(InstallDir)\$(Major).$(Minor).$(Build)\$(CompanyName).$(ModuleName).$(Major).$(Minor).$(Build).$(Revision).Install.zip" Importance="high"></Message>
+        <!-- delete resource zip to make it is not there -->
+        <Delete Files="$(MSBuildProjectDirectory)\resources.zip"></Delete>
+
+        <!-- get files for resource zip-->
+        <CreateItem Exclude="$(MSBuildProjectDirectory)\**\.svn\**;
+						          $(MSBuildProjectDirectory)\_ReSharper**;
+						          $(MSBuildProjectDirectory)\**\obj\**;
+						          $(MSBuildProjectDirectory)\**\bin\**;
+						          $(MSBuildProjectDirectory)\**\My Project\**;
+						          $(MSBuildProjectDirectory)\Dependencies\**;
+						          $(MSBuildProjectDirectory)\**\Properties\**;
+						          $(MSBuildProjectDirectory)\*.dnn;
+						          $(MSBuildProjectDirectory)\**\msbuild\**"
+					          Include="$(MSBuildProjectDirectory)\**\*.ascx;
+						          $(MSBuildProjectDirectory)\**\*.aspx;
+						          $(MSBuildProjectDirectory)\**\*.ashx;
+						          $(MSBuildProjectDirectory)\**\*.css;
+						          $(MSBuildProjectDirectory)\**\*.js;
+				  	          $(MSBuildProjectDirectory)\**\*.resx;
+						          $(MSBuildProjectDirectory)\**\*.rdlc;
+						          $(MSBuildProjectDirectory)\**\*.gif;
+						          $(MSBuildProjectDirectory)\**\*.jpg;
+						          $(MSBuildProjectDirectory)\**\*.png;
+                      $(MSBuildProjectDirectory)\Templates\**">
+            <Output TaskParameter="Include" ItemName="resources" />
+        </CreateItem>
+        
+        <!--get files for install zip-->
+         <CreateItem 
+              Exclude="**.*"
+              Include="$(BinDir)\$(CompanyName).*.dll;
+					    $(MSBuildProjectDirectory)\resources.zip;
+				        $(MSBuildProjectDirectory)\**\*.SqlDataProvider;
+						          $(MSBuildProjectDirectory)\releaseNotes.htm;
+					    $(MSBuildProjectDirectory)\*.dnn;">
+            <Output TaskParameter="Include" ItemName="install"/>
+        </CreateItem>
+
+        <!-- Create resources.zip -->
+        <Zip Files="@(resources)" WorkingDirectory="$(MSBuildProjectDirectory)" ZipFileName="$(MSBuildProjectDirectory)\resources.zip" />
+
+        <!-- create  install zip. file will contain folder structure -->
+        <Zip Files="@(install)" WorkingDirectory="$(MSBuildProjectDirectory)"
+				 ZipFileName="$(InstallDir)\$(Major).$(Minor).$(Build)\$(CompanyName).$(ModuleName).$(Major).$(Minor).$(Build).$(Revision).Install.zip" />
+
+        <!-- cleanup -->
+        <Delete Files="$(MSBuildProjectDirectory)\resources.zip"></Delete>
+    </Target>
+    <!-- creat Documentation zip file -->
+    <Target Name="Documentation" Condition="'$(ConfigurationName)'=='Release' AND  Exists('$(MSBuildProjectDirectory)\Documentation\License.txt')">
+        <Message Text="MSBUILD: creating Documentation Zip file: $(InstallDir)\$(Major).$(Minor).$(Build)\Documentation.zip" Importance="high"></Message>
+        <Delete Files="$(InstallDir)\$(Major).$(Minor).$(Build)\Documentation.zip"></Delete>
+
+        <!-- get files for documentation zip-->
+        <CreateItem Exclude="$(MSBuildProjectDirectory)\Documentation\**\.svn\**;
+						$(MSBuildProjectDirectory)\Documentation\**\*.doc"
+					Include="$(MSBuildProjectDirectory)\Documentation\**\*.*"
+					>
+            <Output TaskParameter="Include" ItemName="documents" />
+        </CreateItem>
+
+        <!-- create  documentation zip. file will contain folder structure -->
+        <Zip Files="@(documents)" WorkingDirectory="$(MSBuildProjectDirectory)\Documentation"
+				 ZipFileName="$(InstallDir)\$(Major).$(Minor).$(Build)\Documentation.zip" />
+
+    </Target>
+    <Target Name="CopyFilesToDotNetNuke">
+        <!-- Copy assemblies and Debug Info to DNN Bin Dir -->
+        <Message Text="MSBUILD: copying @(Assemblies) to $(DotNetNukeDir)\bin\" Importance="high"></Message>
+        <CreateItem Include="$(BinDir)\*.pdb;$(BinDir)\*.dll;
+                            $(BinDir)\*.pdb;$(BinDir)\*.pdb">
+            <Output TaskParameter="Include" ItemName="Assemblies" />
+        </CreateItem>
+        <Copy SourceFiles="@(Assemblies)" DestinationFolder="$(DotNetNukeDir)\bin\" SkipUnchangedFiles="false" ContinueOnError="true" />
+        <Message Text="MSBUILD: Copied @(Assemblies) to $(DotNetNukeDir)\bin\" Importance="high"></Message>
+    </Target>
+</Project>
+
+

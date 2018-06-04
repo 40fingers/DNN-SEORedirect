@@ -1,0 +1,64 @@
+﻿.loader {
+     position: absolute;
+     /*left: 50%;*/
+     /*top: 50%;*/
+     z-index: 1;
+     border: 6px solid #b5b9b9;
+     border-radius: 50%;
+     border-top: 6px solid rgba(2,139,255,1);
+     width: 40px;
+     height: 40px;
+     -webkit-animation: spin 2s linear infinite;
+     animation: spin 2s linear infinite;
+ }
+.loaderSmall {
+    position: absolute;
+    /*left: 50%;*/
+    /*top: 50%;*/
+    z-index: 1;
+    border: 6px solid #b5b9b9;
+    border-radius: 50%;
+    border-top: 6px solid rgba(2,139,255,1);
+    width: 20px;
+    height: 20px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.SeoRedirectEdit td {
+    vert-align: top;
+    vertical-align: text-top;
+}
+.SeoRedirectEdit input {
+    margin-bottom: 5px !important;
+}
+.SeoRedirectEdit .dnnDropDownList {
+    width: 300px;
+}
+
+.ffsr .dnnGrid{width:100%; margin:1em 0; table-layout:fixed;}
+.ffsr .dnnGrid .dnnForm{padding:0.5em;}
+.ffsr .dnnGrid .dnnForm .dnnFormItem{border-bottom:solid 1px #eee; margin:0.5em; width:auto;}
+.ffsr .dnnGrid .dnnActions{padding:0 0.5em;}
+.ffsr .dnnGrid td{border-bottom:solid 1px #ddd;}
+
+.ffsr .dnnGrid th:last-child{width:2em;}
+
+.ffsr-view .dnnGrid th:nth-child(2){width:3em;}
+
+.ffsr-edit input[type="text"] {
+    width: 98%;
+	margin: 0.5em 0 0.5em;
+}
+
+.hidden{ display: none; }

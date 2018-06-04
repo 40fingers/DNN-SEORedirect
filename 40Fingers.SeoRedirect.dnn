@@ -1,0 +1,99 @@
+﻿<dotnetnuke type="Package" version="5.0">
+  <packages><package name="40Fingers.SeoRedirect" type="Module" version="02.02.03">
+  <friendlyName>40Fingers SeoRedirect</friendlyName>
+  <description>This is a 40FINGERS module will allow you to monintor and manage the 404's your DNN site is receiving.</description>
+  <owner>
+    <name>40Fingers</name>
+    <organization>40Fingers</organization>
+    <url>http://www.40fingers.net</url>
+    <email>info@40fingers.net</email>
+  </owner>
+  <license>The license for this package is not currently included within the installation file, please check with the vendor for full license details.</license>
+  <releaseNotes src="ReleaseNotes.htm"></releaseNotes>
+  <dependencies>
+    <dependency type="CoreVersion">07.02.01</dependency>
+  </dependencies>
+  <components>
+    <component type="Module">
+      <desktopModule>
+        <moduleName>40Fingers.SeoRedirect</moduleName>
+        <foldername>40Fingers/SeoRedirect</foldername>
+        <businessControllerClass />
+        <supportedFeatures />
+        <moduleDefinitions>
+          <moduleDefinition>
+            <friendlyName>40Fingers SeoRedirect</friendlyName>
+            <defaultCacheTime>0</defaultCacheTime>
+            <moduleControls>
+              <moduleControl>
+                <controlKey />
+                <controlSrc>DesktopModules/40Fingers/SeoRedirect/View.ascx</controlSrc>
+                <supportsPartialRendering>False</supportsPartialRendering>
+                <controlTitle />
+                <controlType>View</controlType>
+                <iconFile />
+                <helpUrl />
+                <viewOrder>0</viewOrder>
+              </moduleControl>
+              <moduleControl>
+                <controlKey>Edit</controlKey>
+                <controlSrc>DesktopModules/40Fingers/SeoRedirect/Edit.ascx</controlSrc>
+                <supportsPartialRendering>False</supportsPartialRendering>
+                <controlTitle>Change</controlTitle>
+                <controlType>Edit</controlType>
+                <iconFile />
+                <helpUrl />
+              </moduleControl>
+              <moduleControl>
+                <controlKey>Settings</controlKey>
+                <controlSrc>DesktopModules/40Fingers/SeoRedirect/Settings.ascx</controlSrc>
+                <supportsPartialRendering>True</supportsPartialRendering>
+                <controlTitle>SeoRedirect Settings</controlTitle>
+                <controlType>Admin</controlType>
+                <iconFile />
+                <helpUrl />
+              </moduleControl>
+            </moduleControls>
+          </moduleDefinition>
+        </moduleDefinitions>
+      </desktopModule>
+    </component>
+    <component type="Assembly">
+      <assemblies>
+        <basePath>bin</basePath>
+        <assembly>
+          <name>40Fingers.DNN.Modules.SeoRedirect.dll</name>
+        </assembly>
+      </assemblies>
+    </component>
+    <component type="ResourceFile">
+      <resourceFiles>
+        <basePath>DesktopModules/40Fingers/SeoRedirect</basePath>
+        <resourceFile>
+          <name>Resources.zip</name>
+        </resourceFile>
+      </resourceFiles>
+    </component>
+      <component type="Script">
+          <scripts>
+              <basePath>DesktopModules\40Fingers\SeoRedirect</basePath>
+              <script type="Install">
+                  <path>SQL</path>
+                  <name>01.02.01.SqlDataProvider</name>
+                  <version>01.02.01</version>
+              </script>
+              <script type="Install">
+                  <path>SQL</path>
+                  <name>02.00.00.SqlDataProvider</name>
+                  <version>02.00.00</version>
+              </script>
+              <script type="Install">
+                  <path>SQL</path>
+                  <name>02.01.02.SqlDataProvider</name>
+                  <version>02.01.02</version>
+              </script>
+          </scripts>
+      </component>
+  </components>
+</package></packages>
+</dotnetnuke>
