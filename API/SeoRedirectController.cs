@@ -96,6 +96,7 @@ namespace FortyFingers.SeoRedirect.API
             if (map == null && string.IsNullOrEmpty(model.Id))
             {
                 map = new Mapping();
+                map.Id = Guid.NewGuid().ToString();
             }
 
             map.SourceUrl = model.SourceUrl;

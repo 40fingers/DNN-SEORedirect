@@ -40,7 +40,7 @@
                     </tr>
                 </thead>
                 <tbody data-bind="foreach: urls">
-                    <tr class="dnnGridItem ffsr-item">
+                    <tr class="dnnGridItem ffsr-item" data-bind="css: { hidden : isHandled }">
                         <td><a target="_new"><span data-bind="text: url"></span></a></td>
                         <td><span data-bind="text: occurrences"></span></td>
                         <td>
@@ -51,14 +51,14 @@
                     <tr class="ffsr-edit ffrs-addRedirectPanel hidden" data-bind="attr: {id: 'addRedirectPanel_' + $index()} ">
                         <td colspan="3">
                             <div class="loader" data-bind="visible: isLoading"></div>
-                            <div class="dnnForm">
-                                <div class="dnnFormItem">
+                            <div class="">
+                                <div class="">
                                     <div>
                                         <input type="radio" data-bind="checked: mapToType, attr: {id: 'redirectTypeRadioUrl_' + $index(), name: 'redirectType_' + $index(), value: 'URL'} " /><%= Localization.GetString("RedirectToUrl", LocalResourceFile) %>
                                     </div>
                                     <input type="text" data-bind="value: internalTargetUrl, attr: {id: 'redirectUrl_' + $index(), name: 'redirectUrl_' + $index()} " />
                                 </div>
-                                <div class="dnnFormItem" data-bind="attr: {id: 'redirectPageDropdown_' + $index()} ">
+                                <div class="" data-bind="attr: {id: 'redirectPageDropdown_' + $index()} ">
                                     <div>
                                         <input type="radio" data-bind="checked: mapToType, attr: {id: 'redirectTypeRadioTab_' + $index(), name: 'redirectType_' + $index(), value: 'TAB'} " /><%= Localization.GetString("RedirectToTabId", LocalResourceFile) %>
                                     </div>
@@ -69,7 +69,7 @@
                                         <input type="hidden" data-bind="attr: {id: 'createPageDropdownState_' + $index()}, event: { change: setSelectedTab }" />
                                     </div>
                                 </div>
-                                <div class="dnnFormItem">
+                                <div class="">
                                     <div>
                                         <input type="radio" data-bind="checked: mapToType, attr: {id: 'redirectTypeRadioNone_' + $index(), name: 'redirectType_' + $index(), value: 'NONE'} " /><%= Localization.GetString("NoRedirect", LocalResourceFile) %>
                                     </div>

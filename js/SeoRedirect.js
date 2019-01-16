@@ -1,6 +1,6 @@
 ﻿var SR = SR || {};
 
-SR.UnhandledUrlVm = function (data) {
+SR.UnhandledUrlVm = function(data) {
     // reference to self
     var self = this;
 
@@ -8,6 +8,7 @@ SR.UnhandledUrlVm = function (data) {
     ko.mapping.fromJS(data, null, self);
 
     self.isLoading = ko.observable(false);
+    self.isHandled = ko.observable(false);
     self.isBinding = ko.observable(true);
     self.index = ko.observable(0);
     self.isAddRedirect = ko.observable(false);
@@ -19,34 +20,38 @@ SR.UnhandledUrlVm = function (data) {
 
     self.mapToType = ko.observable("NONE");
 
-    self.mapToUrl = ko.computed(function () {
-        var retval = !self.mapToPage() && self.targetUrl() != null && self.targetUrl().length > 0;
+    self.mapToUrl = ko.computed(function() {
+        var retval = !self.mapToPage() && self.targetUrl() !== null && self.targetUrl().length > 0;
         return retval;
     });
-    self.mapToPage = ko.computed(function () {
-        var retval = self.targetTabId() != null && self.targetTabId() > 0 && (self.targetTabName() == null || self.targetTabName() !== "");
+    self.mapToPage = ko.computed(function() {
+        var retval = self.targetTabId() !== null &&
+            self.targetTabId() > 0 &&
+            (self.targetTabName() === null || self.targetTabName() !== "");
         return retval;
     });
-    self.mapToNone = ko.computed(function () {
+    self.mapToNone = ko.computed(function() {
         var retval = !(self.mapToUrl() || self.mapToPage());
         return retval;
     });
 
-    self.initMapToType = function () {
+    self.initMapToType = function() {
         if (self.mapToUrl()) {
-            FF.log(self.id() + " setting to URL"); self.mapToType("URL");
+            FF.log(self.id() + " setting to URL");
+            self.mapToType("URL");
         }
         if (self.mapToPage()) {
-            FF.log(self.id() + " setting to TAB"); self.mapToType("TAB");
+            FF.log(self.id() + " setting to TAB");
+            self.mapToType("TAB");
         }
-    }
+    };
 
     self.getTargetUrl = function() {
         if (self.mapToUrl()) {
             return self.internalTargetUrl();
         }
         return "";
-    }
+    };
     //self.getTargetTabId = function() {
     //    if (self.mapToPage()) {
     //        // looks like this: 
@@ -57,7 +62,7 @@ SR.UnhandledUrlVm = function (data) {
     //    return 0;
     //}
 
-    self.saveRedirect = function () {
+    self.saveRedirect = function() {
         var postData = {};
         postData.SourceUrl = self.url();
         //postData.UseRegex = self.useRegex();
@@ -95,16 +100,17 @@ SR.UnhandledUrlVm = function (data) {
             type: "POST",
             data: postData,
             dataType: "json"
-        }).done(function (data) {
-            srVM.removeItem(self);
-        }).always(function (data) {
+        }).done(function(data) {
+            self.toggleAddRedirectPanel();
+            self.isHandled(true);
+        }).always(function(data) {
             self.isLoading(false);
         });
 
         return false;
-    }
+    };
 
-    self.toggleAddRedirectPanel = function () {
+    self.toggleAddRedirectPanel = function() {
         var panelSelector = "#addRedirectPanel_" + self.index().toString();
         var showImgSelector = "#showAddRedirect_" + self.index().toString();
         var hideImgSelector = "#hideAddRedirect_" + self.index().toString();
@@ -138,23 +144,55 @@ SR.UnhandledUrlVm = function (data) {
                         "disabled": false,
                         "selectItemDefaultText": "Select A Web Page",
                         "initialState": initialstate,
-                        "services": { "moduleId": srMid.toString(), "serviceRoot": "InternalServices", "getTreeMethod": "ItemListService/GetPages", "sortTreeMethod": "ItemListService/SortPages", "getNodeDescendantsMethod": "ItemListService/GetPageDescendants", "searchTreeMethod": "ItemListService/SearchPages", "getTreeWithNodeMethod": "ItemListService/GetTreePathForPage", "rootId": "Root", "parameters": { "PortalId": "" + srPid.toString() + "", "includeDisabled": "true", "includeAllTypes": "false", "includeActive": "false", "includeHostPages": "false", "roles": "" } },
-                        "itemList": { "sortAscendingButtonTitle": "A-Z", "unsortedOrderButtonTooltip": "Remove sorting", "sortAscendingButtonTooltip": "Sort in ascending order", "sortDescendingButtonTooltip": "Sort in descending order", "selectedItemExpandTooltip": "Click to expand", "selectedItemCollapseTooltip": "Click to collapse", "searchInputPlaceHolder": "Search...", "clearButtonTooltip": "Clear", "searchButtonTooltip": "Search", "loadingResultText": "...Loading Results", "resultsText": "Results", "firstItem": null, "disableUnspecifiedOrder": false },
+                        "services": {
+                            "moduleId": srMid.toString(),
+                            "serviceRoot": "InternalServices",
+                            "getTreeMethod": "ItemListService/GetPages",
+                            "sortTreeMethod": "ItemListService/SortPages",
+                            "getNodeDescendantsMethod": "ItemListService/GetPageDescendants",
+                            "searchTreeMethod": "ItemListService/SearchPages",
+                            "getTreeWithNodeMethod": "ItemListService/GetTreePathForPage",
+                            "rootId": "Root",
+                            "parameters": {
+                                "PortalId": "" + srPid.toString() + "",
+                                "includeDisabled": "true",
+                                "includeAllTypes": "false",
+                                "includeActive": "false",
+                                "includeHostPages": "false",
+                                "roles": ""
+                            }
+                        },
+                        "itemList": {
+                            "sortAscendingButtonTitle": "A-Z",
+                            "unsortedOrderButtonTooltip": "Remove sorting",
+                            "sortAscendingButtonTooltip": "Sort in ascending order",
+                            "sortDescendingButtonTooltip": "Sort in descending order",
+                            "selectedItemExpandTooltip": "Click to expand",
+                            "selectedItemCollapseTooltip": "Click to collapse",
+                            "searchInputPlaceHolder": "Search...",
+                            "clearButtonTooltip": "Clear",
+                            "searchButtonTooltip": "Search",
+                            "loadingResultText": "...Loading Results",
+                            "resultsText": "Results",
+                            "firstItem": null,
+                            "disableUnspecifiedOrder": false
+                        },
                         "onSelectionChanged": ["ff_seo_selectedPageChanged"]
-                    }, {});
+                    },
+                    {});
             }
 
         }
-    }
+    };
 
-    self.setSelectedTab = function (currentVal, event) {
+    self.setSelectedTab = function(currentVal, event) {
         FF.log("setselectedtab");
         var selItem = FF.parseJSON(event.currentTarget.value);
         var tabid = -1;
         var tabName = "";
-        if (typeof (selItem) == "object") {
+        if (typeof (selItem) === "object") {
             var kvPair = selItem.selectedItem;
-            if (kvPair != null) {
+            if (kvPair !== null) {
                 tabid = parseInt(kvPair.key);
                 tabName = kvPair.value;
             }
@@ -166,9 +204,8 @@ SR.UnhandledUrlVm = function (data) {
         self.mapToType('TAB');
 
         //$(event.currentTarget).val(event.currentTarget.value);
-    }
-
-}
+    };
+};
 
 SR.UnhandledUrlsVm = function() {
     // reference to self
@@ -177,7 +214,7 @@ SR.UnhandledUrlsVm = function() {
     var urlIndexCounter = 0;
     self.mapping = {
         'urls': {
-            create: function (options) {
+            create: function(options) {
                 var retval = new SR.UnhandledUrlVm(options.data);
                 retval.index(urlIndexCounter);
                 urlIndexCounter++;
@@ -189,15 +226,13 @@ SR.UnhandledUrlsVm = function() {
     self.isLoading = ko.observable(false);
     self.bindingsApplied = ko.observable(false);
 
-    self.load = function (numUrls) {
-        var url = 
-
+    self.load = function(numUrls) {
         self.isLoading(true);
         var jqXHR = $.ajax({
             url: SR.service.baseUrl + "GetUnhandledUrls",
             beforeSend: SR.service.setModuleHeaders,
             dataType: "json"
-        }).done(function (data) {
+        }).done(function(data) {
             if (data) {
                 // we maken nieuwe properties van de data
                 ko.mapping.fromJS(data, self.mapping, self);
@@ -207,18 +242,17 @@ SR.UnhandledUrlsVm = function() {
                     ko.applyBindings(self, $("#koUnhandledUrlsWrapper")[0]);
                 }
             }
-        }).always(function (data) {
+        }).always(function(data) {
             self.isLoading(false);
         });
     };
 
-    self.removeItem = function (item) {
+    self.removeItem = function(item) {
         self.urls.remove(item);
-    }
+    };
+};
 
-}
-
-SR.MappingVm = function (data) {
+SR.MappingVm = function(data) {
     // reference to self
     var self = this;
 
@@ -226,34 +260,41 @@ SR.MappingVm = function (data) {
     ko.mapping.fromJS(data, null, self);
 
     self.isLoading = ko.observable(false);
+    self.isRemoved = ko.observable(false);
     self.isBinding = ko.observable(true);
     self.index = ko.observable(0);
     self.PageDropDownInitialized = ko.observable(false);
     self.mapToType = ko.observable("NONE");
 
-    self.mapToUrl = ko.computed(function () {
+    self.mapToUrl = ko.computed(function() {
         // we have a url and no tabid
-        var retval = self.targetUrl() != null && self.targetUrl().length > 0 && (self.targetTabId() == null || self.targetTabId() <= 0);
+        var retval = self.targetUrl() !== null &&
+            self.targetUrl().length > 0 &&
+            (self.targetTabId() === null || self.targetTabId() <= 0);
         return retval;
     });
-    self.mapToPage = ko.computed(function () {
+    self.mapToPage = ko.computed(function() {
         // we have a tabid and a tabname (which means the tabid exists)
-        var retval = self.targetTabId() != null && self.targetTabId() > 0 && (self.targetTabName() == null || self.targetTabName() !== "");
+        var retval = self.targetTabId() !== null &&
+            self.targetTabId() > 0 &&
+            (self.targetTabName() === null || self.targetTabName() !== "");
         return retval;
     });
-    self.mapToNone = ko.computed(function () {
+    self.mapToNone = ko.computed(function() {
         var retval = !(self.mapToUrl() || self.mapToPage());
         return retval;
     });
 
     self.initMapToType = function() {
         if (self.mapToUrl()) {
-            FF.log(self.id() + " setting to URL"); self.mapToType("URL");
+            FF.log(self.id() + " setting to URL");
+            self.mapToType("URL");
         }
         if (self.mapToPage()) {
-            FF.log(self.id() + " setting to TAB"); self.mapToType("TAB");
+            FF.log(self.id() + " setting to TAB");
+            self.mapToType("TAB");
         }
-    }
+    };
 
     //var summary = {};
     //summary.id = self.id();
@@ -266,7 +307,7 @@ SR.MappingVm = function (data) {
     //FF.log(JSON.stringify(summary));
 
 
-    self.saveMapping = function () {
+    self.saveMapping = function() {
         FF.log(self.id() + " saving with maptotype " + self.mapToType());
 
         var postData = {};
@@ -277,18 +318,18 @@ SR.MappingVm = function (data) {
         var maptotype = self.mapToType();
 
         switch (maptotype) {
-            case "URL":
-                postData.TargetTabId = -1;
-                postData.TargetUrl = self.targetUrl();
-                break;
-            case "TAB":
-                postData.TargetTabId = self.targetTabId();
-                postData.TargetUrl = "";
-                break;
-            default:
-                postData.TargetTabId = -1;
-                postData.TargetUrl = "";
-                break;
+        case "URL":
+            postData.TargetTabId = -1;
+            postData.TargetUrl = self.targetUrl();
+            break;
+        case "TAB":
+            postData.TargetTabId = self.targetTabId();
+            postData.TargetUrl = "";
+            break;
+        default:
+            postData.TargetTabId = -1;
+            postData.TargetUrl = "";
+            break;
         }
 
 
@@ -299,31 +340,32 @@ SR.MappingVm = function (data) {
             data: postData,
             beforeSend: SR.service.setModuleHeaders,
             dataType: "json"
-        }).done(function (data) {
-
-            if (data == null) {
+        }).done(function(data) {
+            if (data === null) {
                 // this item should be removed
-                srVM.removeItem(self);
+                self.toggleEditMappingPanel();
+                self.isRemoved(true);
                 return;
             }
 
             self.toggleEditMappingPanel();
 
             var obj = FF.parseJSON(data);
+            self.id(obj.id);
             self.sourceUrl(obj.sourceUrl);
             self.useRegex(obj.useRegex);
             self.targetUrl(obj.targetUrl);
             self.targetTabId(obj.targetTabId);
             self.initMapToType();
 
-        }).always(function (data) {
+        }).always(function(data) {
             self.isLoading(false);
         });
 
         return false;
-    }
+    };
 
-    self.toggleEditMappingPanel = function () {
+    self.toggleEditMappingPanel = function() {
         FF.log("toggleEditMappingPanel " + self.index().toString());
         var panelSelector = "#editMappingPanel_" + self.index().toString();
         var showImgSelector = "#showEditMapping_" + self.index().toString();
@@ -355,8 +397,8 @@ SR.MappingVm = function (data) {
             if (self.PageDropDownInitialized() === false) {
                 self.PageDropDownInitialized(true);
                 var initialstate = { "selectedItem": null };
-                if (self.mapToPage() && self.targetTabName() !== "" ) {
-                    initialstate.selectedItem = {"key": self.targetTabId().toString() ,"value": self.targetTabName() }
+                if (self.mapToPage() && self.targetTabName() !== "") {
+                    initialstate.selectedItem = { "key": self.targetTabId().toString(), "value": self.targetTabName() };
                 }
                 //FF.log("Trying to create dropdown in " + createdropdownContainerSelector + " with initialstate: " + JSON.stringify(initialstate));
 
@@ -367,25 +409,57 @@ SR.MappingVm = function (data) {
                         "disabled": false,
                         "selectItemDefaultText": "Select A Web Page",
                         "initialState": initialstate,
-                        "services": { "moduleId": srMid.toString(), "serviceRoot": "InternalServices", "getTreeMethod": "ItemListService/GetPages", "sortTreeMethod": "ItemListService/SortPages", "getNodeDescendantsMethod": "ItemListService/GetPageDescendants", "searchTreeMethod": "ItemListService/SearchPages", "getTreeWithNodeMethod": "ItemListService/GetTreePathForPage", "rootId": "Root", "parameters": { "PortalId": "" + srPid.toString() + "", "includeDisabled": "true", "includeAllTypes": "false", "includeActive": "false", "includeHostPages": "false", "roles": "" } },
-                        "itemList": { "sortAscendingButtonTitle": "A-Z", "unsortedOrderButtonTooltip": "Remove sorting", "sortAscendingButtonTooltip": "Sort in ascending order", "sortDescendingButtonTooltip": "Sort in descending order", "selectedItemExpandTooltip": "Click to expand", "selectedItemCollapseTooltip": "Click to collapse", "searchInputPlaceHolder": "Search...", "clearButtonTooltip": "Clear", "searchButtonTooltip": "Search", "loadingResultText": "...Loading Results", "resultsText": "Results", "firstItem": null, "disableUnspecifiedOrder": false },
+                        "services": {
+                            "moduleId": srMid.toString(),
+                            "serviceRoot": "InternalServices",
+                            "getTreeMethod": "ItemListService/GetPages",
+                            "sortTreeMethod": "ItemListService/SortPages",
+                            "getNodeDescendantsMethod": "ItemListService/GetPageDescendants",
+                            "searchTreeMethod": "ItemListService/SearchPages",
+                            "getTreeWithNodeMethod": "ItemListService/GetTreePathForPage",
+                            "rootId": "Root",
+                            "parameters": {
+                                "PortalId": "" + srPid.toString() + "",
+                                "includeDisabled": "true",
+                                "includeAllTypes": "false",
+                                "includeActive": "false",
+                                "includeHostPages": "false",
+                                "roles": ""
+                            }
+                        },
+                        "itemList": {
+                            "sortAscendingButtonTitle": "A-Z",
+                            "unsortedOrderButtonTooltip": "Remove sorting",
+                            "sortAscendingButtonTooltip": "Sort in ascending order",
+                            "sortDescendingButtonTooltip": "Sort in descending order",
+                            "selectedItemExpandTooltip": "Click to expand",
+                            "selectedItemCollapseTooltip": "Click to collapse",
+                            "searchInputPlaceHolder": "Search...",
+                            "clearButtonTooltip": "Clear",
+                            "searchButtonTooltip": "Search",
+                            "loadingResultText": "...Loading Results",
+                            "resultsText": "Results",
+                            "firstItem": null,
+                            "disableUnspecifiedOrder": false
+                        },
                         "onSelectionChanged": ["ff_seo_selectedPageChanged"]
-                    }, {});
+                    },
+                    {});
             }
             //debugger;
             //var selectedItem = null;
             //$("#moveablePageDropDown .dnnDropDownList").DropDownList("selectedItem", selectedItem);
         }
-    }
+    };
 
-    self.setSelectedTab = function (currentVal, event) {
+    self.setSelectedTab = function(currentVal, event) {
         FF.log("setselectedtab");
         var selItem = FF.parseJSON(event.currentTarget.value);
         var tabid = -1;
         var tabName = "";
-        if (typeof (selItem) == "object") {
+        if (typeof (selItem) === "object") {
             var kvPair = selItem.selectedItem;
-            if (kvPair != null) {
+            if (kvPair !== null) {
                 tabid = parseInt(kvPair.key);
                 tabName = kvPair.value;
             }
@@ -397,10 +471,10 @@ SR.MappingVm = function (data) {
         self.mapToType('TAB');
 
         //$(event.currentTarget).val(event.currentTarget.value);
-    }
+    };
 
     return self;
-}
+};
 
 SR.MappingsVm = function() {
     // reference to self
@@ -409,7 +483,7 @@ SR.MappingsVm = function() {
     var urlIndexCounter = 0;
     self.mapping = {
         'mappings': {
-            create: function (options) {
+            create: function(options) {
                 var retval = new SR.MappingVm(options.data);
                 retval.index(urlIndexCounter);
                 urlIndexCounter++;
@@ -421,13 +495,13 @@ SR.MappingsVm = function() {
     self.isLoading = ko.observable(false);
     self.bindingsApplied = ko.observable(false);
 
-    self.load = function () {
+    self.load = function() {
         self.isLoading(true);
         var jqXHR = $.ajax({
             url: SR.service.baseUrl + "GetMappings",
             beforeSend: SR.service.setModuleHeaders,
             dataType: "json"
-        }).done(function (data) {
+        }).done(function(data) {
             if (data) {
                 // we maken nieuwe properties van de data
                 ko.mapping.fromJS(data, self.mapping, self);
@@ -437,14 +511,14 @@ SR.MappingsVm = function() {
                     ko.applyBindings(self, $("#koEditMappingsWrapper")[0]);
                 }
             }
-        }).always(function (data) {
+        }).always(function(data) {
             self.isLoading(false);
         });
     };
 
-    self.addMapping = function () {
+    self.addMapping = function() {
 
-        var newMap = SR.MappingVm(
+        var newMap = new SR.MappingVm(
             {
                 "id": "",
                 "sourceUrl": "",
@@ -456,10 +530,10 @@ SR.MappingsVm = function() {
         newMap.index(self.mappings().length);
         self.mappings.push(newMap);
         newMap.toggleEditMappingPanel();
-    }
+    };
 
-    self.removeItem = function (mappingModel) {
+    self.removeItem = function(mappingModel) {
         FF.log("About to remove item " + mappingModel.id());
         self.mappings.remove(mappingModel);
-    }
-}
+    };
+};

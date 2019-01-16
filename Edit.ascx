@@ -38,7 +38,7 @@
                 </tr>
             </thead>
             <tbody data-bind="foreach: mappings">
-                <tr class="dnnGridItem ffsr-item">
+                <tr class="dnnGridItem ffsr-item"  data-bind="css:{ hidden : isRemoved }">
                     <td><a target="_new"><span data-bind="text: sourceUrl"></span></a></td>
                     <td><span data-bind="text: targetUrl"></span></td>
                     <td>
@@ -51,29 +51,28 @@
                 <tr class="ffsr-edit ffrs-editMappingPanel hidden" data-bind="attr: {id: 'editMappingPanel_' + $index()} ">
                     <td colspan="3">
                         <div class="loader" data-bind="visible: isLoading"></div>
-                        <div class="dnnForm">
-                            <div class="dnnFormItem">
+                        <div class="">
+                            <div class="">
                                 <div>
                                     <%= Localization.GetString("SourceUrlHeaderLabel", LocalResourceFile) %>
                                 </div>
                                 <input type="text" data-bind="value: sourceUrl, attr: {id: 'sourceUrl_' + $index(), name: 'sourceUrl_' + $index()} " />
                             </div>
-                            <div class="dnnFormItem">
-                                <div><%= Localization.GetString("UseRegexHeaderLabel", LocalResourceFile) %></div>
-                                <input type="checkbox" value="true" data-bind="checked: useRegex" />
+                            <div class="">
+                                <div><input type="checkbox" value="true" data-bind="checked: useRegex" /><%= Localization.GetString("UseRegexHeaderLabel", LocalResourceFile) %></div>
                             </div>
                             <div class="dnnFormMessage dnnFormValidationSummary" data-bind="visible: targetTabId() > 0 && targetTabName() === ''">
                                 <div>
                                     <%= Localization.GetString("RedirectTabNotFound", LocalResourceFile) %>
                                 </div>
                             </div>
-                            <div class="dnnFormItem">
+                            <div class="">
                                 <div>
                                     <input type="radio" data-bind="checked: mapToType, attr: {name: 'mapToTypeRadio_' + $index()}" value="URL" /><%= Localization.GetString("RedirectToUrl", LocalResourceFile) %>
                                 </div>
                                 <input type="text" data-bind="value: targetUrl, attr: {id: 'redirectUrl_' + $index(), name: 'redirectUrl_' + $index()}, event: { change: mapToType('URL') }" />
                             </div>
-                            <div class="dnnFormItem" data-bind="attr: {id: 'redirectPageDropdown_' + $index()} ">
+                            <div class="" data-bind="attr: {id: 'redirectPageDropdown_' + $index()} ">
                                 <div>
                                     <input type="radio" data-bind="checked: mapToType, attr: {name: 'mapToTypeRadio_' + $index()}" value="TAB" /><%= Localization.GetString("RedirectToTabId", LocalResourceFile) %>
                                 </div>
@@ -84,7 +83,7 @@
                                     <input type="hidden" data-bind="attr: {id: 'createPageDropdownState_' + $index()}, event: { change: setSelectedTab }" />
                                 </div>
                             </div>
-                            <div class="dnnFormItem">
+                            <div class="">
                                 <div>
                                     <input type="radio" data-bind="checked: mapToType, attr: {name: 'mapToTypeRadio_' + $index()}" value="NONE" /><%= Localization.GetString("NoRedirect", LocalResourceFile) %>
                                 </div>
