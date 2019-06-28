@@ -8,6 +8,7 @@ using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Tabs;
 using DotNetNuke.Framework;
+using DotNetNuke.UI.Skins;
 using DotNetNuke.UI.Utilities;
 using DotNetNuke.Web.Client;
 using DotNetNuke.Web.Client.ClientResourceManagement;
@@ -21,7 +22,7 @@ namespace FortyFingers.SeoRedirect
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            RegisterResources();
+            RegisterResources(Page);
 
             //if (!IsPostBack)
             //{
@@ -31,9 +32,20 @@ namespace FortyFingers.SeoRedirect
             //}
         }
 
-        private void RegisterResources()
+        private void RegisterResources(Page page)
         {
             jQuery.RequestRegistration();
+
+            ClientResourceManager.RegisterStyleSheet(page, "~/Resources/Shared/components/DropDownList/dnn.DropDownList.css", FileOrder.Css.ModuleCss);
+            ClientResourceManager.RegisterStyleSheet(page, "~/Resources/Shared/scripts/jquery/dnn.jScrollBar.css", FileOrder.Css.ModuleCss);
+            ClientResourceManager.RegisterScript(page, "~/Resources/Shared/scripts/dnn.extensions.js");
+            ClientResourceManager.RegisterScript(page, "~/Resources/Shared/scripts/dnn.jquery.extensions.js");
+            ClientResourceManager.RegisterScript(page, "~/Resources/Shared/scripts/dnn.DataStructures.js");
+            ClientResourceManager.RegisterScript(page, "~/Resources/Shared/scripts/jquery/jquery.mousewheel.js");
+            ClientResourceManager.RegisterScript(page, "~/Resources/Shared/scripts/jquery/dnn.jScrollBar.js");
+            ClientResourceManager.RegisterScript(page, "~/Resources/Shared/scripts/TreeView/dnn.TreeView.js");
+            ClientResourceManager.RegisterScript(page, "~/Resources/Shared/scripts/TreeView/dnn.DynamicTreeView.js");
+            ClientResourceManager.RegisterScript(page, "~/Resources/Shared/Components/DropDownList/dnn.DropDownList.js");
 
             ClientResourceManager.RegisterScript(Page, "resources/shared/scripts/knockout.js", FileOrder.Js.jQuery);
             ClientResourceManager.RegisterScript(Page, "resources/shared/scripts/knockout.mapping.js", FileOrder.Js.jQuery + 1);
@@ -46,6 +58,10 @@ namespace FortyFingers.SeoRedirect
             //Page.ClientScript.RegisterClientScriptInclude("jQuery.DataTables.1.8.2", ResolveUrl("js/DataTables-1.8.2/media/js/jquery.dataTables.min.js"));
             //Common.AddCssLink(ResolveUrl("js/DataTables-1.8.2/media/demo_table.css"), Page);
             //Page.ClientScript.RegisterStartupScript(this.GetType(), "40Fingers.SeoRedirect.DataTablesStartup", "jQuery(document).ready(function() { jQuery('#SeoRedirectMappingsTable').dataTable(); } );", true);
+        }
+        internal static void RegisterClientScript(Page page, string skin)
+        {
+
         }
 
         //protected void MappingsRepeater_ItemDatabound(object sender, RepeaterItemEventArgs e)

@@ -15,6 +15,7 @@ using DotNetNuke.Entities.Modules.Actions;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Tabs;
 using DotNetNuke.Framework;
+using DotNetNuke.Framework.JavaScriptLibraries;
 using DotNetNuke.Security.Permissions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Services.Tokens;
@@ -72,7 +73,7 @@ namespace FortyFingers.SeoRedirect
             {
                 if (TabPermissionController.CanAdminPage())
                 {
-                    UnhandledUrlsPanel.Visible = true;
+                    UnhandledUrlsPanel.Visible = EditMode;
                 }
             }
         }
@@ -101,6 +102,19 @@ namespace FortyFingers.SeoRedirect
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            jQuery.RequestRegistration();
+
+            ClientResourceManager.RegisterStyleSheet(Page, "~/Resources/Shared/components/DropDownList/dnn.DropDownList.css", FileOrder.Css.ModuleCss);
+            ClientResourceManager.RegisterStyleSheet(Page, "~/Resources/Shared/scripts/jquery/dnn.jScrollBar.css", FileOrder.Css.ModuleCss);
+            ClientResourceManager.RegisterScript(Page, "~/Resources/Shared/scripts/dnn.extensions.js");
+            ClientResourceManager.RegisterScript(Page, "~/Resources/Shared/scripts/dnn.jquery.extensions.js");
+            ClientResourceManager.RegisterScript(Page, "~/Resources/Shared/scripts/dnn.DataStructures.js");
+            ClientResourceManager.RegisterScript(Page, "~/Resources/Shared/scripts/jquery/jquery.mousewheel.js");
+            ClientResourceManager.RegisterScript(Page, "~/Resources/Shared/scripts/jquery/dnn.jScrollBar.js");
+            ClientResourceManager.RegisterScript(Page, "~/Resources/Shared/scripts/TreeView/dnn.TreeView.js");
+            ClientResourceManager.RegisterScript(Page, "~/Resources/Shared/scripts/TreeView/dnn.DynamicTreeView.js");
+            ClientResourceManager.RegisterScript(Page, "~/Resources/Shared/Components/DropDownList/dnn.DropDownList.js");
+
             ClientResourceManager.RegisterScript(Page, "resources/shared/scripts/knockout.js", FileOrder.Js.jQuery);
             ClientResourceManager.RegisterScript(Page, "resources/shared/scripts/knockout.mapping.js", FileOrder.Js.jQuery + 1);
             ClientAPI.RegisterClientReference(Page, ClientAPI.ClientNamespaceReferences.dnn);
@@ -108,6 +122,7 @@ namespace FortyFingers.SeoRedirect
             ServicesFramework.Instance.RequestAjaxScriptSupport();
             ClientResourceManager.RegisterScript(Page, "desktopmodules/40fingers/seoredirect/js/40F-Common.js", FileOrder.Js.jQuery);
             ClientResourceManager.RegisterScript(Page, "desktopmodules/40fingers/seoredirect/js/SeoRedirect.js", FileOrder.Js.jQuery);
+            JavaScript.RequestRegistration(CommonJs.DnnPlugins);
 
             UnhandledUrlsPanelHeader.Text = String.Format(Localization.GetString("UnhandledUrlsPanelHeader.Text", LocalResourceFile), Config.NoOfEntries);
 

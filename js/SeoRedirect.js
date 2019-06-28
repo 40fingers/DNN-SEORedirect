@@ -183,6 +183,7 @@ SR.UnhandledUrlVm = function(data) {
             }
 
         }
+        return false;
     };
 
     self.setSelectedTab = function(currentVal, event) {
