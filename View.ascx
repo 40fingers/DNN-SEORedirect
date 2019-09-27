@@ -56,7 +56,7 @@
                                     <div>
                                         <input type="radio" data-bind="checked: mapToType, attr: {id: 'redirectTypeRadioUrl_' + $index(), name: 'redirectType_' + $index(), value: 'URL'} " /><%= Localization.GetString("RedirectToUrl", LocalResourceFile) %>
                                     </div>
-                                    <input type="text" data-bind="value: internalTargetUrl, attr: {id: 'redirectUrl_' + $index(), name: 'redirectUrl_' + $index()} " />
+                                    <input type="text" data-bind="value: targetUrl, attr: {id: 'redirectUrl_' + $index(), name: 'redirectUrl_' + $index()} " />
                                 </div>
                                 <div class="" data-bind="attr: {id: 'redirectPageDropdown_' + $index()} ">
                                     <div>
