@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MappingsLabel.Help">
+    <value xml:space="preserve">Wijzig de doorverwijzing hier:</value>
+  </data>
+  <data name="MappingsLabel.Text">
+    <value xml:space="preserve">Doorverwijzingen</value>
+  </data>
+  <data name="NoRedirect.Text">
+    <value xml:space="preserve">Verwijder deze uit de lijst (toekomstige 404's zorgen ervoor dat deze weer in de lijst komt)</value>
+  </data>
+  <data name="RedirectTabNotFound.Text">
+    <value xml:space="preserve">De URL is gekoppeld aan een pagina, maar die pagina is niet te vinden</value>
+  </data>
+  <data name="RedirectToTabId.Text">
+    <value xml:space="preserve">Verwijs door naar pagina:</value>
+  </data>
+  <data name="RedirectToUrl.Text">
+    <value xml:space="preserve">Verwijs door naar URL:</value>
+  </data>
+  <data name="ReturnLink.Text">
+    <value xml:space="preserve">Terug</value>
+  </data>
+  <data name="SaveMappingsButton.Text">
+    <value xml:space="preserve">Bewaar doorverwijzingen</value>
+  </data>
+  <data name="SourceUrlHeaderLabel.Text">
+    <value xml:space="preserve">Bron URL</value>
+  </data>
+  <data name="TargetUrlHeaderLabel.Text">
+    <value xml:space="preserve">Doel URL of TabID</value>
+  </data>
+  <data name="UseRegexHeaderLabel.Text">
+    <value xml:space="preserve">Gebruik RegEx </value>
+  </data>
+</root>

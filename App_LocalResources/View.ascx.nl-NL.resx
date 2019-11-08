@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Actions.Header">
+    <value xml:space="preserve">Kop</value>
+  </data>
+  <data name="Dnn404PortalSettingAbsent.Text">
+    <value xml:space="preserve">SInds DNN versie 7.1 is er een instelling genaamd 'AUM_ErrorPage404' met de TabId van de 404 pagina van de site.
+Dit is belangrijk wanneer je geavanceerde FriendlyURLS's gebruikt, dus het aanmaken van de instelling en pagina is geadviseerd.</value>
+  </data>
+  <data name="EditModule.Action">
+    <value xml:space="preserve">Wijzig doorverwijzing</value>
+  </data>
+  <data name="NoRedirect.Text">
+    <value xml:space="preserve">Verwijder de doorverwijzing (geen doorverwijzingen meer)</value>
+  </data>
+  <data name="Occurrences.Header">
+    <value xml:space="preserve">Aantal</value>
+  </data>
+  <data name="RedirectToTabId.Text">
+    <value xml:space="preserve">Verwijs door naar pagina:</value>
+  </data>
+  <data name="RedirectToUrl.Text">
+    <value xml:space="preserve">Verwijs door naar URL:</value>
+  </data>
+  <data name="UnhandledUrlsPanelHeader.Text">
+    <value xml:space="preserve">Top {0} niet verwerkte URL's</value>
+  </data>
+  <data name="Url.Header">
+    <value xml:space="preserve">Gevraagde URL</value>
+  </data>
+</root>
