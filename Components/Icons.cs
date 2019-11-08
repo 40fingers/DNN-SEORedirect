@@ -12,7 +12,9 @@ namespace FortyFingers.SeoRedirect.Components
         Delete,
         Edit,
         Save,
-        Cancel
+        Cancel,
+        Open,
+        Close
     }
     public static class Icons
     {
@@ -27,25 +29,27 @@ namespace FortyFingers.SeoRedirect.Components
 
             switch (iconType)
             {
+                case IconTypes.Open:
+                    retval = Globals.ResolveUrl("<i class='demo-icon icon-down-open-big'></i>");
+                    break;
+
+                case IconTypes.Close:
+                    retval = Globals.ResolveUrl("<i class='demo-icon icon-up-open-big'></i>");
+                    break;
                 case IconTypes.Delete:
-                    retval = Globals.ResolveUrl(Constants.DESKTOPMODULES_MODULEROOT_URL +
-                                                             "img/icons/delete.png");
+                    retval = Globals.ResolveUrl("<i class='demo-icon icon-cancel-trash'></i>");
                     break;
                 case IconTypes.Add:
-                    retval = Globals.ResolveUrl(Constants.DESKTOPMODULES_MODULEROOT_URL +
-                                                             "img/icons/add.png");
+                    retval = Globals.ResolveUrl("<i class='demo-icon icon-plus-circled'></i>");
                     break;
                 case IconTypes.Edit:
-                    retval = Globals.ResolveUrl(Constants.DESKTOPMODULES_MODULEROOT_URL +
-                                                             "img/icons/pencil.png");
+                    retval = Globals.ResolveUrl("<i class='demo-icon icon-pencil'></i>"); 
                     break;
                 case IconTypes.Save:
-                    retval = Globals.ResolveUrl(Constants.DESKTOPMODULES_MODULEROOT_URL +
-                                                             "img/icons/disk.png");
+                    retval = Globals.ResolveUrl("<i class='demo-icon icon-drive'></i>");
                     break;
                 case IconTypes.Cancel:
-                    retval = Globals.ResolveUrl(Constants.DESKTOPMODULES_MODULEROOT_URL +
-                                                             "img/icons/cancel.png");
+                    retval = Globals.ResolveUrl("<i class='demo-icon icon-cancel-circled'></i>");
                     break;
                 default:
                     retval = Globals.ResolveUrl(Constants.DESKTOPMODULES_MODULEROOT_URL +

@@ -1,0 +1,5 @@
+1. Drop the source file (zip) on http://fontello.com/
+2. Add Icons
+3. Download the webfont
+4. Place the zip in this folder, delete the old one.
+5. Extract the files in the folder above this one
