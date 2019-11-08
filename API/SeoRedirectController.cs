@@ -38,7 +38,7 @@ namespace FortyFingers.SeoRedirect.API
         public HttpResponseMessage SaveRedirect(MappingModel model)
         {
             var map = new Mapping();
-            map.SourceUrl = model.SourceUrl;
+            map.SourceUrl = model.SourceUrl.Trim();
             if (!string.IsNullOrEmpty(model.TargetUrl))
             {
                 map.TargetUrl = model.TargetUrl;
@@ -97,9 +97,10 @@ namespace FortyFingers.SeoRedirect.API
             {
                 map = new Mapping();
                 map.Id = Guid.NewGuid().ToString();
+                RedirectConfig.Instance.Mappings.Add(map);
             }
 
-            map.SourceUrl = model.SourceUrl;
+            map.SourceUrl = model.SourceUrl.Trim();
             map.UseRegex = model.UseRegex;
             if (!string.IsNullOrEmpty(model.TargetUrl))
             {
@@ -116,10 +117,6 @@ namespace FortyFingers.SeoRedirect.API
                 // remove mapping
                 RedirectConfig.Instance.Mappings.Remove(map);
                 map = null;
-            }
-            if (map != null)
-            {
-                RedirectConfig.Instance.Mappings.Add(map);
             }
 
             RedirectConfig.Instance.ToFile(Common.RedirectConfigFile());
