@@ -132,8 +132,10 @@ namespace FortyFingers.SeoRedirect.Components
         //{
         //    return String.Format("40FINGERS.SeoRedirect.MAPPINGS,{0},{1}", Common.CurrentPortalSettings.PortalId, usingRegex);
         //}
+        private static string loggingListLockObject = "lockIt";
         private static string mappingsDicLockObject = "lockIt";
         private static string mappingsDicRegexLockObject = "lockIt";
+        private List<string> _LoggingSourceUrls = null;
         private Dictionary<string, string> _MappingsDictionary = null;
         private Dictionary<string, string> _MappingsDictionaryRegex = null;
         public Dictionary<string, string> MappingsDictionary(bool usingRegex)
@@ -197,6 +199,23 @@ namespace FortyFingers.SeoRedirect.Components
             }
         }
 
+        public bool IsLoggingEnabled(string mappingSourceUrl)
+        {
+            if (_LoggingSourceUrls == null)
+            {
+                lock (loggingListLockObject)
+                {
+                    _LoggingSourceUrls = new List<string>();
+                    foreach (var mapping in Mappings)
+                    {
+                        if (mapping.EnableLogging && !_LoggingSourceUrls.Contains(mapping.SourceUrl.ToLower()))
+                            _LoggingSourceUrls.Add(mapping.SourceUrl.ToLower());
+                    }
+                }
+            }
+
+            return _LoggingSourceUrls.Contains(mappingSourceUrl);
+        }
         //private static void ClearCache()
         //{
         //    DataCache.RemoveCache(RedirectConfigCacheKey);

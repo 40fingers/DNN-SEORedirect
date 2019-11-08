@@ -36,7 +36,7 @@ namespace FortyFingers.SeoRedirect.Components.Data
         #endregion
 
         public abstract void AddRedirectLog(int portalId, string requestedUrl, DateTime requestDateTime, string referrer,
-                                       string httpUserAgent, string redirectedToUrl);
+                                       string httpUserAgent, string redirectedToUrl, bool isHandled = false);
 
         public abstract IDataReader GetTopUnhandledUrls(int portalId, DateTime startDate, int maxUrls);
         public abstract void SetHandledUrl(string url, DateTime handledOn, string handledBy);

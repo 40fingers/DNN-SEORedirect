@@ -76,6 +76,8 @@ namespace FortyFingers.SeoRedirect.Components
                 if (UserInfo.IsSuperUser) logToControls.Add(new LiteralControl(String.Format("Mappings (with regex): {0}<br/>", RedirectConfig.Instance.MappingsDictionary(true).Count)));
                 if (UserInfo.IsSuperUser) logToControls.Add(new LiteralControl(String.Format("Mappings (no regex): {0}<br/>", mappingsNoRegex.Count)));
 
+
+                bool addRedirectLogging = true;
                 // if we're in a 404, let's try to find a mapping
                 if (is404 || redirectWhenNo404Detected)
                 {
@@ -84,11 +86,15 @@ namespace FortyFingers.SeoRedirect.Components
                     if (mappingsNoRegex.ContainsKey(incoming))
                     {
                         target = mappingsNoRegex[incoming];
+                        HttpContext.Current.Items["40F_SEO_MappingFound"] = true;
+                        addRedirectLogging = RedirectConfig.Instance.IsLoggingEnabled(incoming);
                         Common.Logger.Debug($"Mapping without regex found, Target: [{target}]");
                     }
                     else if (mappingsNoRegex.ContainsKey(ToRelativeUrl(incoming)))
                     {
                         target = mappingsNoRegex[ToRelativeUrl(incoming)];
+                        HttpContext.Current.Items["40F_SEO_MappingFound"] = true;
+                        addRedirectLogging = RedirectConfig.Instance.IsLoggingEnabled(incoming);
                         Common.Logger.Debug($"Mapping without regex found, Target: [{target}]");
                     }
                     else
@@ -106,20 +112,25 @@ namespace FortyFingers.SeoRedirect.Components
                             {
                                 // got a match!
                                 target = Regex.Replace(incoming, mappingSource, mappingTarget);
+                                HttpContext.Current.Items["40F_SEO_MappingFound"] = true;
+                                addRedirectLogging = RedirectConfig.Instance.IsLoggingEnabled(mapping.Key);
                                 Common.Logger.Debug($"Mapping with regex found, Target: [{target}]");
                             }
                         }
                     }
                 }
 
+                // if there should not be logged, register the HttpItem for that
+                if(!addRedirectLogging) HttpContext.Current.Items["40F_SEO_AlreadyLogged"] = true;
+
                 // Log this 404
                 var ps = Common.CurrentPortalSettings;
-                if (is404 || (redirectWhenNo404Detected && !string.IsNullOrEmpty(target)))
+                if (addRedirectLogging && (is404 || (redirectWhenNo404Detected && !string.IsNullOrEmpty(target))))
                 {
                     Common.Logger.Debug($"Logging redirect: is404:{is404}, redirectWhenNo404Detected:{redirectWhenNo404Detected}, target:[{target}]");
                     AddRedirectLog(ps.PortalId, incoming, target);
                 }
-                else if (!onlyLogWhen404)
+                else if (addRedirectLogging && !onlyLogWhen404)
                 {
                     Common.Logger.Debug($"Logging redirect for !onlyLogWhen404 target:[{target}]");
                     AddRedirectLog(ps.PortalId, incoming, target);
@@ -205,12 +216,12 @@ namespace FortyFingers.SeoRedirect.Components
         internal static void AddRedirectLog(int portalId, string incoming, string target)
         {
             if (HttpContext.Current.Items["40F_SEO_AlreadyLogged"] != null) return;
-
+            
             DataProvider.Instance()
                         .AddRedirectLog(portalId, incoming, DateTime.UtcNow,
                                         Request.UrlReferrer == null ? "" : Request.UrlReferrer.ToString(),
                                         Request.ServerVariables.AllKeys.Contains("HTTP_USER_AGENT") ? Request.ServerVariables["HTTP_USER_AGENT"] : "",
-                                        target);
+                                        target, HttpContext.Current.Items["40F_SEO_MappingFound"] != null);
             // clear the context item so it isn't logged twice
             HttpContext.Current.Items["40F_SEO_IncomingUrl"] = "";
             HttpContext.Current.Items["40F_SEO_AlreadyLogged"] = true;

@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="EnableLoggingHeaderLabel.Text" xml:space="preserve">
+    <value>Log requests like this</value>
+  </data>
   <data name="MappingsLabel.Help" xml:space="preserve">
     <value>Edit your mappings here:</value>
   </data>
@@ -124,7 +127,7 @@
     <value>Mappings</value>
   </data>
   <data name="NoRedirect.Text" xml:space="preserve">
-    <value>Remove from list (future 404's will make the URL reappear in the list)</value>
+    <value>Remove mapping (no redirect will occur)</value>
   </data>
   <data name="RedirectTabNotFound.Text" xml:space="preserve">
     <value>This url is mapped to a page, but I can't find that page.</value>

@@ -51,7 +51,7 @@ namespace FortyFingers.SeoRedirect.API
             else
             {
                 // keep giving 404
-                map = null;
+                map.EnableLogging = false;
             }
             if (map != null)
             {
@@ -102,6 +102,7 @@ namespace FortyFingers.SeoRedirect.API
 
             map.SourceUrl = model.SourceUrl.Trim();
             map.UseRegex = model.UseRegex;
+            map.EnableLogging = model.EnableLogging;
             if (!string.IsNullOrEmpty(model.TargetUrl))
             {
                 map.TargetTabId = Null.NullInteger;
@@ -112,7 +113,7 @@ namespace FortyFingers.SeoRedirect.API
                 map.TargetTabId = model.TargetTabId;
                 map.TargetUrl = DotNetNuke.Common.Globals.NavigateURL(map.TargetTabId, PortalSettings, "");
             }
-            else
+            else if(model.TargetTabId == -2) // matches with number in js file, meaning it needs to be deleted
             {
                 // remove mapping
                 RedirectConfig.Instance.Mappings.Remove(map);

@@ -95,11 +95,12 @@ namespace FortyFingers.SeoRedirect.Components.Data
 
         #endregion
 
-        public override void AddRedirectLog(int portalId, string requestedUrl, DateTime requestDateTime, string referrer, string httpUserAgent,
-                                       string redirectedToUrl)
+        public override void AddRedirectLog(int portalId, string requestedUrl, DateTime requestDateTime, string referrer, string httpUserAgent, string redirectedToUrl, bool isHandled = false)
         {
-            SqlHelper.ExecuteNonQuery(ConnectionString, GetObjectName("AddRedirectLog"),
-                portalId, requestedUrl, requestDateTime, referrer, httpUserAgent, redirectedToUrl);
+            if(isHandled)
+            SqlHelper.ExecuteNonQuery(ConnectionString, GetObjectName("AddRedirectLogHandled"), portalId, requestedUrl, requestDateTime, referrer, httpUserAgent, redirectedToUrl);
+            else
+            SqlHelper.ExecuteNonQuery(ConnectionString, GetObjectName("AddRedirectLog"), portalId, requestedUrl, requestDateTime, referrer, httpUserAgent, redirectedToUrl);
         }
 
         public override IDataReader GetTopUnhandledUrls(int portalId, DateTime startDate, int maxUrls)

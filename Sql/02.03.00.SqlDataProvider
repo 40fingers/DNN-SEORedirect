@@ -1,0 +1,30 @@
+﻿CREATE PROCEDURE {databaseOwner}[{objectQualifier}40F_SEO_AddRedirectLogHandled]
+@PortalId INT,
+@RequestedUrl nvarchar(max),
+@RequestDateTime DATETIME,
+@Referrer nvarchar(max),
+@HTTP_USER_AGENT nvarchar(max),
+@RedirectedToUrl nvarchar(max)
+AS
+BEGIN
+
+INSERT INTO {databaseOwner}[{objectQualifier}40F_SEO_RedirectLog]
+           ([PortalId]
+		   ,[RequestedUrl]
+           ,[RequestDateTime]
+           ,[Referrer]
+           ,[HTTP_USER_AGENT]
+           ,[RedirectedToUrl]
+		   ,[HandledOn])
+     VALUES
+           (@PortalId
+		   ,@RequestedUrl
+           ,@RequestDateTime
+           ,@Referrer
+           ,@HTTP_USER_AGENT
+           ,@RedirectedToUrl
+		   ,GETDATE())
+
+END
+
+GO

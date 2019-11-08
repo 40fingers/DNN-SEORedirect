@@ -315,6 +315,7 @@ SR.MappingVm = function(data) {
         postData.Id = self.id();
         postData.SourceUrl = self.sourceUrl();
         postData.UseRegex = self.useRegex();
+        postData.EnableLogging = self.enableLogging();
 
         var maptotype = self.mapToType();
 
@@ -325,6 +326,10 @@ SR.MappingVm = function(data) {
             break;
         case "TAB":
             postData.TargetTabId = self.targetTabId();
+            postData.TargetUrl = "";
+            break;
+        case "NONE":
+            postData.TargetTabId = -2; // Q&D: this means the mapping will be deleted
             postData.TargetUrl = "";
             break;
         default:
@@ -355,6 +360,7 @@ SR.MappingVm = function(data) {
             self.id(obj.id);
             self.sourceUrl(obj.sourceUrl);
             self.useRegex(obj.useRegex);
+            self.enableLogging(obj.enableLogging);
             self.targetUrl(obj.targetUrl);
             self.targetTabId(obj.targetTabId);
             self.initMapToType();
@@ -527,7 +533,8 @@ SR.MappingsVm = function() {
                 "targetUrl": "",
                 "targetTabId": -1,
                 "targetTabName": "",
-                "useRegex": false
+                "useRegex": false,
+                "enableLogging": true
             });
         newMap.index(0);
         self.mappings.unshift(newMap);
