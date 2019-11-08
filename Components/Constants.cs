@@ -8,7 +8,8 @@
         /// </summary>
         public const string DESKTOPMODULES_MODULEROOT_URL = "~/DesktopModules/40Fingers/SeoRedirect/";
 
-        public const string PORTALREDIRECTCONFIGFILE = "40Fingers\\SeoRedirect\\redirectconfig.xml";
+        public const string PORTALREDIRECTCONFIGFILE_OLD = "40Fingers\\SeoRedirect\\redirectconfig.xml";
+        public const string PORTALREDIRECTCONFIGFILE = "40Fingers\\SeoRedirect\\redirectconfig.xml.resources";
 
         public const string SHAREDRESOURCES =
             "~/DesktopModules/40Fingers/SeoRedirect/App_LocalResources/SharedResources.resx";
