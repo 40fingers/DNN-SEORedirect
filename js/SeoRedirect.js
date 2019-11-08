@@ -366,7 +366,7 @@ SR.MappingVm = function(data) {
         return false;
     };
 
-    self.toggleEditMappingPanel = function() {
+    self.toggleEditMappingPanel = function () {
         FF.log("toggleEditMappingPanel " + self.index().toString());
         var panelSelector = "#editMappingPanel_" + self.index().toString();
         var showImgSelector = "#showEditMapping_" + self.index().toString();
@@ -518,6 +518,7 @@ SR.MappingsVm = function() {
     };
 
     self.addMapping = function() {
+        FF.log("AddMapping");
 
         var newMap = new SR.MappingVm(
             {
@@ -528,8 +529,13 @@ SR.MappingsVm = function() {
                 "targetTabName": "",
                 "useRegex": false
             });
-        newMap.index(self.mappings().length);
-        self.mappings.push(newMap);
+        newMap.index(0);
+        self.mappings.unshift(newMap);
+        var i;
+        for (i = 1; i < self.mappings().length; i++) {
+            FF.log("Changing " + self.mappings()[i].id() + ' to ' + i.toString());
+            self.mappings()[i].index(i);
+        }
         newMap.toggleEditMappingPanel();
     };
 
