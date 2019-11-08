@@ -34,7 +34,7 @@
                 <tr class="dnnGridHeader">
                     <th><%= Localization.GetString("SourceUrlHeaderLabel", LocalResourceFile) %></th>
                     <th><%= Localization.GetString("TargetUrlHeaderLabel", LocalResourceFile) %></th>
-                    <th><img class="imgShowEditMapping" data-bind="click: addMapping" src="<%= Icons.GetUrl(IconTypes.Add) %>" /></th>
+                    <th><span class="icon col-ok" data-bind="click: addMapping"><%= Icons.GetUrl(IconTypes.Add) %></span></th>
                 </tr>
             </thead>
             <tbody data-bind="foreach: mappings">
@@ -43,8 +43,10 @@
                     <td><span data-bind="text: targetUrl"></span></td>
                     <td>
                         <a href="#" data-bind="click: toggleEditMappingPanel">
-                            <img class="imgShowEditMapping" data-bind="attr: {id: 'showEditMapping_' + $index()}" src="<%= Icons.GetUrl(IconTypes.Add) %>" />
-                            <img class="imgHideEditMapping hidden" data-bind="attr: {id: 'hideEditMapping_' + $index()}" src="<%= Icons.GetUrl(IconTypes.Cancel) %>" />
+
+                            <span class="icon" data-bind="attr: {id: 'showEditMapping_' + $index()}"><%= Icons.GetUrl(IconTypes.Open) %></span>
+                            <span class="icon hidden" data-bind="attr: {id: 'hideEditMapping_' + $index()}"><%= Icons.GetUrl(IconTypes.Close) %></span>
+
                         </a>
                     </td>
                 </tr>

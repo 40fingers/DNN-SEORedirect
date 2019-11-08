@@ -45,7 +45,9 @@
                         <td><span data-bind="text: occurrences"></span></td>
                         <td>
                             <a href="#" data-bind="click: toggleAddRedirectPanel($index)">
-                                <img data-bind="attr: {id: 'showAddRedirect_' + $index()}" src="<%= Icons.GetUrl(IconTypes.Add) %>" /><img data-bind="    attr: {id: 'hideAddRedirect_' + $index()}" class="hidden" src="<%= Icons.GetUrl(IconTypes.Cancel) %>" /></a>
+                                <span class="icon" data-bind="attr: {id: 'showAddRedirect_' + $index()}"><%= Icons.GetUrl(IconTypes.Open) %></span>
+                                <span class="icon hidden" data-bind="attr: {id: 'hideAddRedirect_' + $index()}"><%= Icons.GetUrl(IconTypes.Close) %></span>
+                            </a>
                         </td>
                     </tr>
                     <tr class="ffsr-edit ffrs-addRedirectPanel hidden" data-bind="attr: {id: 'addRedirectPanel_' + $index()} ">

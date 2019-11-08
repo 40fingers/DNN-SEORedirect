@@ -1,0 +1,94 @@
+{
+  "name": "40f-icons",
+  "css_prefix_text": "icon-",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "a66cdc7278e6b33b8bd44a141f5e1a8d",
+      "css": "plus-circled",
+      "code": 59392,
+      "src": "entypo"
+    },
+    {
+      "uid": "3eb93689881ad0804f87052a53edc2b6",
+      "css": "minus-circled",
+      "code": 59393,
+      "src": "entypo"
+    },
+    {
+      "uid": "289b5f92f23acf1059c93fbf401c1ad5",
+      "css": "down-open-big",
+      "code": 59394,
+      "src": "entypo"
+    },
+    {
+      "uid": "0805cca616b3c12714f35af4d0912c10",
+      "css": "up-open-big",
+      "code": 59395,
+      "src": "entypo"
+    },
+    {
+      "uid": "c759418c008e9562944080fee617fc76",
+      "css": "cancel-circled",
+      "code": 59396,
+      "src": "entypo"
+    },
+    {
+      "uid": "de9a631a7d18106aea1c89ba51b1990a",
+      "css": "help-circled",
+      "code": 59397,
+      "src": "entypo"
+    },
+    {
+      "uid": "603d5ccab42d916e79d7c0fcdb56a614",
+      "css": "drive",
+      "code": 59398,
+      "src": "entypo"
+    },
+    {
+      "uid": "c77fd2fd065b5fe16d6f2b41e190b266",
+      "css": "pencil",
+      "code": 59399,
+      "src": "entypo"
+    },
+    {
+      "uid": "390d6d13398cbf8c8c3c5493f7d34088",
+      "css": "export",
+      "code": 59400,
+      "src": "entypo"
+    },
+    {
+      "uid": "43c4064ec1260d0e55c37e0467c75cbb",
+      "css": "up",
+      "code": 59401,
+      "src": "entypo"
+    },
+    {
+      "uid": "d5098cb09be5827a2911dbab5af49ad2",
+      "css": "down",
+      "code": 59402,
+      "src": "entypo"
+    },
+    {
+      "uid": "2626e3a1bbcd90e45849af3b58a1d594",
+      "css": "trash",
+      "code": 59403,
+      "src": "entypo"
+    },
+    {
+      "uid": "97902f87200ce74d181044df02a0458d",
+      "css": "attention",
+      "code": 59404,
+      "src": "entypo"
+    },
+    {
+      "uid": "5d595124cecf472869d1cdc020da0ccc",
+      "css": "upload-cloud",
+      "code": 59405,
+      "src": "entypo"
+    }
+  ]
+}

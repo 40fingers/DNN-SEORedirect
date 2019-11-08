@@ -1,4 +1,6 @@
-﻿.loader {
+﻿@import url(icons/css/40f-icons.css);
+
+.loader {
      position: absolute;
      /*left: 50%;*/
      /*top: 50%;*/
@@ -62,3 +64,21 @@
 }
 
 .hidden{ display: none; }
+
+/* Icons */
+.icon{
+	
+	font-size:1.3em;
+	cursor:pointer;
+}
+
+.col-ok{
+	color:#0a0;
+}
+.col-warning{
+	color:#a80;
+}
+
+.col-danger{
+	color:#a00;
+}
