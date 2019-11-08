@@ -61,6 +61,9 @@
                             <div class="">
                                 <div><input type="checkbox" value="true" data-bind="checked: useRegex" /><%= Localization.GetString("UseRegexHeaderLabel", LocalResourceFile) %></div>
                             </div>
+                            <div class="">
+                                <div><input type="checkbox" value="true" data-bind="checked: enableLogging" /><%= Localization.GetString("EnableLoggingHeaderLabel", LocalResourceFile) %></div>
+                            </div>
                             <div class="dnnFormMessage dnnFormValidationSummary" data-bind="visible: targetTabId() > 0 && targetTabName() === ''">
                                 <div>
                                     <%= Localization.GetString("RedirectTabNotFound", LocalResourceFile) %>

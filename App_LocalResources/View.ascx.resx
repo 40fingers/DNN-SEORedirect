@@ -127,7 +127,7 @@
     <value>Edit Mappings</value>
   </data>
   <data name="NoRedirect.Text" xml:space="preserve">
-    <value>Remove mapping (no redirect will occur)</value>
+    <value>Remove from list (future 404's will make the URL reappear in the list)</value>
   </data>
   <data name="Occurrences.Header" xml:space="preserve">
     <value>Count</value>

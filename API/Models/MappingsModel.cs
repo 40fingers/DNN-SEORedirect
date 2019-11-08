@@ -30,6 +30,7 @@ namespace FortyFingers.SeoRedirect.API.Models
             TargetUrl = mapping.TargetUrl;
             TargetTabId = mapping.TargetTabId;
             UseRegex = mapping.UseRegex;
+            EnableLogging = mapping.EnableLogging;
         }
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -58,5 +59,7 @@ namespace FortyFingers.SeoRedirect.API.Models
         }
         [JsonProperty("useRegex")]
         public bool UseRegex { get; set; }
+        [JsonProperty("enableLogging")]
+        public bool EnableLogging { get; set; }
     }
 }

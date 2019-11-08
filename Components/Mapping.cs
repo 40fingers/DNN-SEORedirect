@@ -6,6 +6,12 @@ namespace FortyFingers.SeoRedirect.Components
 {
     public class Mapping
     {
+        // constructor to set defaults
+        public Mapping()
+        {
+            EnableLogging = true;
+        }
+
         // dummy xmldocument for creating cdata elements
         [XmlIgnore]
         private XmlDocument _dummyXmlDoc = null;
@@ -69,5 +75,7 @@ namespace FortyFingers.SeoRedirect.Components
 
         [XmlElement("UseRegex")]
         public bool UseRegex { get; set; }
+        [XmlElement("EnableLogging")]
+        public bool EnableLogging { get; set; }
     }
 }

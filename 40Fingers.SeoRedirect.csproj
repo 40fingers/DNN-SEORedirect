@@ -212,6 +212,7 @@
     <Content Include="_Installation\40Fingers.SeoRedirect\02.01.00\40Fingers.SeoRedirect.02.01.00.00.Install.zip" />
     <Content Include="_Installation\40Fingers.SeoRedirect\02.01.01\40Fingers.SeoRedirect.02.01.01.00.Install.zip" />
     <Content Include="Sql\02.01.02.SqlDataProvider" />
+    <Content Include="Sql\02.03.00.SqlDataProvider" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="css\" />
@@ -223,6 +224,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_LocalResources\ConfigDefaults.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\Edit.ascx.nl-NL.resx" />
+    <Content Include="App_LocalResources\SharedResources.nl-NL.resx" />
+    <Content Include="App_LocalResources\View.ascx.nl-NL.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
