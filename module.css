@@ -52,9 +52,9 @@
 .ffsr .dnnGrid .dnnActions{padding:0 0.5em;}
 .ffsr .dnnGrid td{border-bottom:solid 1px #ddd;}
 
-.ffsr .dnnGrid th:last-child{width:2em;}
+.ffsr .dnnGrid th:last-child{width:5em;}
 
-.ffsr-view .dnnGrid th:nth-child(2){width:3em;}
+.ffsr-view .dnnGrid th:nth-child(2){width:5em;}
 
 .ffsr-edit input[type="text"] {
     width: 98%;
