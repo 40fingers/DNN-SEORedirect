@@ -1,7 +1,7 @@
 ﻿<dotnetnuke type="Package" version="5.0">
   <packages><package name="40Fingers.SeoRedirect" type="Module" version="02.03.00">
   <friendlyName>40Fingers SeoRedirect</friendlyName>
-  <description>This is a 40FINGERS module will allow you to monintor and manage the 404's your DNN site is receiving.</description>
+  <description>This 40FINGERS module will allow you to monitor and manage (redirect) the 404's on your DNN site for SEO.</description>
   <owner>
     <name>40Fingers</name>
     <organization>40Fingers</organization>
