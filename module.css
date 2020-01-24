@@ -1,4 +1,4 @@
-﻿@import url(icons/css/40f-icons.css);
+@import url(icons/css/40f-icons.css);
 
 .loader {
      position: absolute;
@@ -54,7 +54,12 @@
 .ffsr .dnnGrid .dnnActions{padding:0 0.5em;}
 .ffsr .dnnGrid td{border-bottom:solid 1px #ddd;}
 
+.ffsr .dnnGrid th{text-align:left;}
 .ffsr .dnnGrid th:last-child{width:2em;}
+
+.ffsr .dnnGrid input[type=radio]{
+	margin: 0 0.5em;
+}
 
 .ffsr-view .dnnGrid th:nth-child(2){width:3em;}
 
