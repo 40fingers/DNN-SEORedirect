@@ -218,7 +218,7 @@ namespace FortyFingers.SeoRedirect.Components
             if (HttpContext.Current.Items["40F_SEO_AlreadyLogged"] != null) return;
             
             DataProvider.Instance()
-                        .AddRedirectLog(portalId, incoming, DateTime.UtcNow,
+                        .AddRedirectLog(portalId, incoming, DateTime.Now,
                                         Request.UrlReferrer == null ? "" : Request.UrlReferrer.ToString(),
                                         Request.ServerVariables.AllKeys.Contains("HTTP_USER_AGENT") ? Request.ServerVariables["HTTP_USER_AGENT"] : "",
                                         target, HttpContext.Current.Items["40F_SEO_MappingFound"] != null);

@@ -130,7 +130,10 @@
     <value>Mappings</value>
   </data>
   <data name="NoRedirect.Text" xml:space="preserve">
-    <value>Remove mapping (no redirect will occur)</value>
+    <value>Don't redirect</value>
+  </data>
+  <data name="RedirectHeaderLabel.Text" xml:space="preserve">
+    <value>Redirect</value>
   </data>
   <data name="RedirectTabNotFound.Text" xml:space="preserve">
     <value>This url is mapped to a page, but I can't find that page.</value>
@@ -140,6 +143,9 @@
   </data>
   <data name="RedirectToUrl.Text" xml:space="preserve">
     <value>Redirect to url:</value>
+  </data>
+  <data name="RemoveMapping.Text" xml:space="preserve">
+    <value>Delete mapping</value>
   </data>
   <data name="ReturnLink.Text" xml:space="preserve">
     <value>Return</value>

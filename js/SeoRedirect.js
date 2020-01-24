@@ -78,8 +78,12 @@ SR.UnhandledUrlVm = function(data) {
             postData.TargetTabId = self.targetTabId();
             postData.TargetUrl = "";
             break;
-        default:
+        case "NOLOG":
             postData.TargetTabId = -1;
+            postData.TargetUrl = "";
+            break;
+        default:
+            postData.TargetTabId = -2;
             postData.TargetUrl = "";
             break;
         }
@@ -287,13 +291,17 @@ SR.MappingVm = function(data) {
     });
 
     self.initMapToType = function() {
-        if (self.mapToUrl()) {
+        if (self.mapToUrl() && self.mapToUrl().length > 0) {
             FF.log(self.id() + " setting to URL");
             self.mapToType("URL");
         }
         if (self.mapToPage()) {
             FF.log(self.id() + " setting to TAB");
             self.mapToType("TAB");
+        }
+        if ((!self.mapToUrl() || self.mapToUrl().length == 0) && self.mapToPage() <= 0) {
+            FF.log(self.id() + " setting to NOREDIRECT");
+            self.mapToType("NOREDIRECT");
         }
     };
 
@@ -328,7 +336,11 @@ SR.MappingVm = function(data) {
             postData.TargetTabId = self.targetTabId();
             postData.TargetUrl = "";
             break;
-        case "NONE":
+        case "NOREDIRECT":
+            postData.TargetTabId = -1;
+            postData.TargetUrl = "";
+            break;
+        case "DELETE":
             postData.TargetTabId = -2; // Q&D: this means the mapping will be deleted
             postData.TargetUrl = "";
             break;

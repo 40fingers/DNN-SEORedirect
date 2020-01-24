@@ -48,10 +48,14 @@ namespace FortyFingers.SeoRedirect.API
                 map.TargetTabId = model.TargetTabId;
                 map.TargetUrl = DotNetNuke.Common.Globals.NavigateURL(map.TargetTabId, PortalSettings, "");
             }
+            else if (model.TargetTabId == -1)
+            {
+                // stop logging 404's
+                map.EnableLogging = false;
+            }
             else
             {
-                // keep giving 404
-                map.EnableLogging = false;
+                // no mapping to be made
             }
             if (map != null)
             {
@@ -112,6 +116,11 @@ namespace FortyFingers.SeoRedirect.API
             {
                 map.TargetTabId = model.TargetTabId;
                 map.TargetUrl = DotNetNuke.Common.Globals.NavigateURL(map.TargetTabId, PortalSettings, "");
+            }
+            else if (model.TargetTabId == -1) // matches with number in js file
+            {
+                map.TargetTabId = model.TargetTabId;
+                map.TargetUrl = "";
             }
             else if(model.TargetTabId == -2) // matches with number in js file, meaning it needs to be deleted
             {

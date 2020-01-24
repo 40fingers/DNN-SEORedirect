@@ -130,7 +130,10 @@
     <value>Doorverwijzingen</value>
   </data>
   <data name="NoRedirect.Text" xml:space="preserve">
-    <value>Verwijder de doorverwijzing (geen doorverwijzingen meer)</value>
+    <value>Niet doorverwijzen</value>
+  </data>
+  <data name="RedirectHeaderLabel.Text" xml:space="preserve">
+    <value>Doorverwijzen</value>
   </data>
   <data name="RedirectTabNotFound.Text" xml:space="preserve">
     <value>De URL is gekoppeld aan een pagina, maar die pagina is niet te vinden</value>
@@ -140,6 +143,9 @@
   </data>
   <data name="RedirectToUrl.Text" xml:space="preserve">
     <value>Verwijs door naar URL:</value>
+  </data>
+  <data name="RemoveMapping.Text" xml:space="preserve">
+    <value>Verwijder doorverwijzing</value>
   </data>
   <data name="ReturnLink.Text" xml:space="preserve">
     <value>Terug</value>

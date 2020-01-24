@@ -50,21 +50,29 @@
                         </a>
                     </td>
                 </tr>
-                <tr class="ffsr-edit ffrs-editMappingPanel hidden" data-bind="attr: {id: 'editMappingPanel_' + $index()} ">
+                <tr class="dnnGridItem ffsr-edit ffrs-editMappingPanel hidden" data-bind="attr: {id: 'editMappingPanel_' + $index()} ">
                     <td colspan="3">
                         <div class="loader" data-bind="visible: isLoading"></div>
-                        <div class="">
+                        <div class="ffsr-block">
+                            <h5>
+                                <%= Localization.GetString("SourceUrlHeaderLabel", LocalResourceFile) %>
+                            </h5>
                             <div class="">
-                                <div>
-                                    <%= Localization.GetString("SourceUrlHeaderLabel", LocalResourceFile) %>
-                                </div>
                                 <input type="text" data-bind="value: sourceUrl, attr: {id: 'sourceUrl_' + $index(), name: 'sourceUrl_' + $index()} " />
                             </div>
                             <div class="">
                                 <div><input type="checkbox" value="true" data-bind="checked: useRegex" /><%= Localization.GetString("UseRegexHeaderLabel", LocalResourceFile) %></div>
                             </div>
+                        </div>
+                        <div class="ffsr-block">
+                            <h5>
+                                <%= Localization.GetString("RedirectHeaderLabel", LocalResourceFile) %>
+                            </h5>
                             <div class="">
                                 <div><input type="checkbox" value="true" data-bind="checked: enableLogging" /><%= Localization.GetString("EnableLoggingHeaderLabel", LocalResourceFile) %></div>
+                            </div>
+                            <div class="">
+                                <input type="text" data-bind="value: sourceUrl, attr: {id: 'sourceUrl_' + $index(), name: 'sourceUrl_' + $index()} " />
                             </div>
                             <div class="dnnFormMessage dnnFormValidationSummary" data-bind="visible: targetTabId() > 0 && targetTabName() === ''">
                                 <div>
@@ -90,7 +98,13 @@
                             </div>
                             <div class="">
                                 <div>
-                                    <input type="radio" data-bind="checked: mapToType, attr: {name: 'mapToTypeRadio_' + $index()}" value="NONE" /><%= Localization.GetString("NoRedirect", LocalResourceFile) %>
+                                    <input type="radio" data-bind="checked: mapToType, attr: {name: 'mapToTypeRadio_' + $index()}" value="NOREDIRECT" /><%= Localization.GetString("NoRedirect", LocalResourceFile) %>
+                                </div>
+                                <span>&nbsp;</span>
+                            </div>
+                            <div class="">
+                                <div>
+                                    <input type="radio" data-bind="checked: mapToType, attr: {name: 'mapToTypeRadio_' + $index()}" value="DELETE" /><%= Localization.GetString("RemoveMapping", LocalResourceFile) %>
                                 </div>
                                 <span>&nbsp;</span>
                             </div>

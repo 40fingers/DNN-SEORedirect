@@ -77,6 +77,12 @@
                                     </div>
                                     <span>&nbsp;</span>
                                 </div>
+                                <div class="">
+                                    <div>
+                                        <input type="radio" data-bind="checked: mapToType, attr: {id: 'redirectTypeRadioNoLog_' + $index(), name: 'redirectType_' + $index(), value: 'NOLOG'} " /><%= Localization.GetString("NoLogging", LocalResourceFile) %>
+                                    </div>
+                                    <span>&nbsp;</span>
+                                </div>
                             </div>
                             <ul class="dnnActions dnnClear">
                                 <li><a class="dnnPrimaryAction" data-bind="click: saveRedirect">Save</a></li>
