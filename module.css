@@ -55,13 +55,9 @@
 .ffsr .dnnGrid td{border-bottom:solid 1px #ddd;}
 
 .ffsr .dnnGrid th{text-align:left;}
-.ffsr .dnnGrid th:last-child{width:2em;}
 
-.ffsr .dnnGrid input[type=radio]{
-	margin: 0 0.5em;
-}
-
-.ffsr-view .dnnGrid th:nth-child(2){width:3em;}
+.ffsr-view .dnnGrid th:nth-child(2){width:5em;}
+.ffsr .dnnGrid th:nth-child(3){width:3em;}
 
 .ffsr-edit input[type="text"] {
     width: 98%;
