@@ -104,5 +104,8 @@
             </tbody>
         </table>
     </div>
+    <ul class="dnnActions dnnClear">
+        <li><asp:HyperLink runat="server" id="lnkBack" CssClass="dnnPrimaryAction"><%= Localization.GetString("Back", LocalResourceFile) %></asp:HyperLink></li>
+    </ul>
 
 </div>
