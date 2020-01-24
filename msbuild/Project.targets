@@ -109,6 +109,7 @@
         <CreateItem Exclude="$(MSBuildProjectDirectory)\**\.svn\**;
 						          $(MSBuildProjectDirectory)\_ReSharper**;
 						          $(MSBuildProjectDirectory)\**\obj\**;
+						          $(MSBuildProjectDirectory)\**\_Source\**;
 						          $(MSBuildProjectDirectory)\**\bin\**;
 						          $(MSBuildProjectDirectory)\**\My Project\**;
 						          $(MSBuildProjectDirectory)\Dependencies\**;
@@ -125,6 +126,7 @@
 						          $(MSBuildProjectDirectory)\**\*.gif;
 						          $(MSBuildProjectDirectory)\**\*.jpg;
 						          $(MSBuildProjectDirectory)\**\*.png;
+						          $(MSBuildProjectDirectory)\**\font\**;
                       $(MSBuildProjectDirectory)\Templates\**">
             <Output TaskParameter="Include" ItemName="resources" />
         </CreateItem>
