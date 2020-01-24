@@ -126,8 +126,11 @@
   <data name="EditModule.Action" xml:space="preserve">
     <value>Edit Mappings</value>
   </data>
+  <data name="NoLogging.Text" xml:space="preserve">
+    <value>Remove from list and do not show future 404's</value>
+  </data>
   <data name="NoRedirect.Text" xml:space="preserve">
-    <value>Remove from list (future 404's will make the URL reappear in the list)</value>
+    <value>Remove from list but show future 404's</value>
   </data>
   <data name="Occurrences.Header" xml:space="preserve">
     <value>Count</value>

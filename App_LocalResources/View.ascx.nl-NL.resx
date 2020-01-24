@@ -127,8 +127,11 @@ Dit is belangrijk wanneer je geavanceerde FriendlyURLS's gebruikt, dus het aanma
   <data name="EditModule.Action" xml:space="preserve">
     <value>Wijzig doorverwijzing</value>
   </data>
+  <data name="NoLogging.Text" xml:space="preserve">
+    <value>Verwijder deze uit de lijst en toon toekomstige 404's niet.</value>
+  </data>
   <data name="NoRedirect.Text" xml:space="preserve">
-    <value>Verwijder deze uit de lijst (toekomstige 404's zorgen ervoor dat deze weer in de lijst komt)</value>
+    <value>Verwijder deze uit de lijst en toon toekomstige 404's</value>
   </data>
   <data name="Occurrences.Header" xml:space="preserve">
     <value>Aantal</value>
