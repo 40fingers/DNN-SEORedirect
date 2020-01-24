@@ -59,6 +59,7 @@
 .ffsr-view .dnnGrid th:nth-child(2){width:5em;}
 .ffsr .dnnGrid th:nth-child(3){width:3em;}
 
+
 .ffsr .ffsr-block{
 	margin: 0 0 2em;
 }
@@ -67,6 +68,7 @@
 	font-size:1.2em;
 	margin:0;
 }
+
 
 .ffsr-edit input[type="text"] {
     width: 98%;

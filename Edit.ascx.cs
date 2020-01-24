@@ -30,6 +30,10 @@ namespace FortyFingers.SeoRedirect
             //    var config = RedirectConfig.Instance;
             //    FillForm(config);
             //}
+            if (!IsPostBack)
+            {
+                lnkBack.NavigateUrl = Globals.NavigateURL(TabId);
+            }
         }
 
         private void RegisterResources(Page page)
