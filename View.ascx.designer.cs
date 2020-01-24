@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FortyFingers.SeoRedirect {
-    
-    
-    public partial class View {
-        
+namespace FortyFingers.SeoRedirect
+{
+
+
+    public partial class View
+    {
+
         /// <summary>
         /// LoggingPlaceholder control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace FortyFingers.SeoRedirect {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder LoggingPlaceholder;
-        
+
         /// <summary>
         /// UnhandledUrlsPanel control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace FortyFingers.SeoRedirect {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel UnhandledUrlsPanel;
-        
+
         /// <summary>
         /// UnhandledUrlsPanelHeader control.
         /// </summary>
