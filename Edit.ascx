@@ -61,7 +61,7 @@
                                 <input type="text" data-bind="value: sourceUrl, attr: {id: 'sourceUrl_' + $index(), name: 'sourceUrl_' + $index()} " />
                             </div>
                             <div class="">
-                                <div><input type="checkbox" value="true" data-bind="checked: useRegex" /><%= Localization.GetString("UseRegexHeaderLabel", LocalResourceFile) %></div>
+                                <div><input type="checkbox" value="true" data-bind="checked: useRegex" /> <%= Localization.GetString("UseRegexHeaderLabel", LocalResourceFile) %></div>
                             </div>
                         </div>
                         <div class="ffsr-block">
@@ -69,7 +69,7 @@
                                 <%= Localization.GetString("RedirectHeaderLabel", LocalResourceFile) %>
                             </h5>
                             <div class="">
-                                <div><input type="checkbox" value="true" data-bind="checked: enableLogging" /><%= Localization.GetString("EnableLoggingHeaderLabel", LocalResourceFile) %></div>
+                                <div><input type="checkbox" value="true" data-bind="checked: enableLogging" /> <%= Localization.GetString("EnableLoggingHeaderLabel", LocalResourceFile) %></div>
                             </div>
                             <div class="">
                                 <input type="text" data-bind="value: sourceUrl, attr: {id: 'sourceUrl_' + $index(), name: 'sourceUrl_' + $index()} " />
@@ -81,13 +81,13 @@
                             </div>
                             <div class="">
                                 <div>
-                                    <input type="radio" data-bind="checked: mapToType, attr: {name: 'mapToTypeRadio_' + $index()}" value="URL" /><%= Localization.GetString("RedirectToUrl", LocalResourceFile) %>
+                                    <input type="radio" data-bind="checked: mapToType, attr: {name: 'mapToTypeRadio_' + $index()}" value="URL" /> <%= Localization.GetString("RedirectToUrl", LocalResourceFile) %>
                                 </div>
                                 <input type="text" data-bind="value: targetUrl, attr: {id: 'redirectUrl_' + $index(), name: 'redirectUrl_' + $index()}, event: { change: mapToType('URL') }" />
                             </div>
                             <div class="" data-bind="attr: {id: 'redirectPageDropdown_' + $index()} ">
                                 <div>
-                                    <input type="radio" data-bind="checked: mapToType, attr: {name: 'mapToTypeRadio_' + $index()}" value="TAB" /><%= Localization.GetString("RedirectToTabId", LocalResourceFile) %>
+                                    <input type="radio" data-bind="checked: mapToType, attr: {name: 'mapToTypeRadio_' + $index()}" value="TAB" /> <%= Localization.GetString("RedirectToTabId", LocalResourceFile) %>
                                 </div>
                                 <div class="page dnnDropDownList" data-bind="attr: {id: 'createPageDropdown_' + $index()}">
                                     <div class="selected-item">
@@ -98,13 +98,13 @@
                             </div>
                             <div class="">
                                 <div>
-                                    <input type="radio" data-bind="checked: mapToType, attr: {name: 'mapToTypeRadio_' + $index()}" value="NOREDIRECT" /><%= Localization.GetString("NoRedirect", LocalResourceFile) %>
+                                    <input type="radio" data-bind="checked: mapToType, attr: {name: 'mapToTypeRadio_' + $index()}" value="NOREDIRECT" /> <%= Localization.GetString("NoRedirect", LocalResourceFile) %>
                                 </div>
                                 <span>&nbsp;</span>
                             </div>
                             <div class="">
                                 <div>
-                                    <input type="radio" data-bind="checked: mapToType, attr: {name: 'mapToTypeRadio_' + $index()}" value="DELETE" /><%= Localization.GetString("RemoveMapping", LocalResourceFile) %>
+                                    <input type="radio" data-bind="checked: mapToType, attr: {name: 'mapToTypeRadio_' + $index()}" value="DELETE" /> <%= Localization.GetString("RemoveMapping", LocalResourceFile) %>
                                 </div>
                                 <span>&nbsp;</span>
                             </div>
