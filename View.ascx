@@ -51,16 +51,16 @@
                         </td>
                     </tr>
                     <tr class="ffsr-edit ffrs-addRedirectPanel hidden" data-bind="attr: {id: 'addRedirectPanel_' + $index()} ">
-                        <td colspan="3">
+                        <td class="ffsr-edit-item" colspan="3">
                             <div class="loader" data-bind="visible: isLoading"></div>
-                            <div class="">
-                                <div class="">
+                            <div class="ffsr-block">
+                                <div class="ffsr-block-item">
                                     <div>
                                         <input type="radio" data-bind="checked: mapToType, attr: {id: 'redirectTypeRadioUrl_' + $index(), name: 'redirectType_' + $index(), value: 'URL'} " /><%= Localization.GetString("RedirectToUrl", LocalResourceFile) %>
                                     </div>
                                     <input type="text" data-bind="value: targetUrl, attr: {id: 'redirectUrl_' + $index(), name: 'redirectUrl_' + $index()} " />
                                 </div>
-                                <div class="" data-bind="attr: {id: 'redirectPageDropdown_' + $index()} ">
+                                <div class="ffsr-block-item" data-bind="attr: {id: 'redirectPageDropdown_' + $index()} ">
                                     <div>
                                         <input type="radio" data-bind="checked: mapToType, attr: {id: 'redirectTypeRadioTab_' + $index(), name: 'redirectType_' + $index(), value: 'TAB'} " /><%= Localization.GetString("RedirectToTabId", LocalResourceFile) %>
                                     </div>
@@ -71,13 +71,13 @@
                                         <input type="hidden" data-bind="attr: {id: 'createPageDropdownState_' + $index()}, event: { change: setSelectedTab }" />
                                     </div>
                                 </div>
-                                <div class="">
+                                <div class="ffsr-block-item">
                                     <div>
                                         <input type="radio" data-bind="checked: mapToType, attr: {id: 'redirectTypeRadioNone_' + $index(), name: 'redirectType_' + $index(), value: 'NONE'} " /><%= Localization.GetString("NoRedirect", LocalResourceFile) %>
                                     </div>
                                     <span>&nbsp;</span>
                                 </div>
-                                <div class="">
+                                <div class="ffsr-block-item">
                                     <div>
                                         <input type="radio" data-bind="checked: mapToType, attr: {id: 'redirectTypeRadioNoLog_' + $index(), name: 'redirectType_' + $index(), value: 'NOLOG'} " /><%= Localization.GetString("NoLogging", LocalResourceFile) %>
                                     </div>
