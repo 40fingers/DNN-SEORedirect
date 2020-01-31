@@ -1,0 +1,158 @@
+/* ###
+	Please note that this file is generated from /src/less/module.less, 
+	Pull requests on module.css only will not de accepted */
+	
+	@import url(icons/css/40f-icons.css);
+
+.ffsr{
+
+	@ff-red: #d00;
+	@ff-grey: #ddd;
+	@border-grey: solid 1px #eee;
+
+	position:relative;
+
+	// --- Loader
+	
+	@-webkit-keyframes spin {
+		0% { -webkit-transform: rotate(0deg); }
+		100% { -webkit-transform: rotate(360deg); }
+	}
+
+	@keyframes spin {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
+	}
+
+
+	.loader {
+		 position: absolute;
+		 left: 50%;
+		 top: 50%;
+		 z-index: 1;
+		 border: 6px solid @ff-red;
+		 border-radius: 50%;
+		 border-top: 6px solid @ff-grey;
+		 width: 40px;
+		 height: 40px;
+		 -webkit-animation: spin 2s linear infinite;
+		 animation: spin 2s linear infinite;
+	 }
+	.loaderSmall {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		z-index: 1;
+		border: 6px solid @ff-red;
+		border-radius: 50%;
+		border-top: 6px solid @ff-grey;
+		width: 20px;
+		height: 20px;
+		-webkit-animation: spin 2s linear infinite;
+		animation: spin 2s linear infinite;
+	}
+	
+	// --- Grid
+	.dnnGrid{
+		width:100%; 
+		margin:1em 0; 
+		
+		.dnnForm{
+			padding:0.5em;
+			.dnnFormItem{
+				
+				margin:0.5em; 
+				width:auto;}
+		}
+		.dnnActions{
+			padding:0 0.5em;
+		}
+		td{
+			border-bottom:solid 1px #ddd;
+			
+			&.ffsr-edit-item{
+				padding:0 0.4em;
+			}
+			
+			
+		}
+
+		th{text-align:left;}
+		th:nth-child(3){width:3em;}
+	}
+	
+	
+	// --- View 
+	&-view {
+		.dnnGrid th:nth-child(2){width:5em;}
+	}
+	
+	// --- Edit 
+	&-edit{ 
+		input[type="radio"] {
+			margin-right:0.3em;
+			verical-align:middle;
+		}
+		
+		input[type="text"], .dnnDropDownList{
+			margin: 0.5em 0 0.5em;
+		}
+
+		input[type="text"]{
+			width: 98%;
+			
+		}
+	}
+
+	
+	// --- Blocks inside each items edit "block"
+	.ffsr-block{
+		margin: 0 0 2em;
+		
+		h5{
+			font-size:1.2em;
+			margin:0.5em 0;
+		}
+		
+		&-item{
+			border-bottom:solid 1px @ff-grey; 
+			padding:0.5em;
+		}
+	}
+
+	
+	
+	// --- Icons 
+	.icon{
+		font-size:1.3em;
+		cursor:pointer;
+	}
+
+	// --- Colours
+	.col{
+		&-ok{
+			color:#0a0;
+		}
+		&-warning{
+			color:#a80;
+		}
+		&-danger{
+			color:#a00;
+		}
+	}
+	
+	// --- Show and hide
+	.hidden{ 
+		display: none;
+	}
+
+}
+
+
+
+
+
+
+
+	
+	

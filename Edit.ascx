@@ -51,16 +51,14 @@
                     </td>
                 </tr>
                 <tr class="dnnGridItem ffsr-edit ffrs-editMappingPanel hidden" data-bind="attr: {id: 'editMappingPanel_' + $index()} ">
-                    <td colspan="3">
+                    <td class="ffsr-edit-item" colspan="3">
                         <div class="loader" data-bind="visible: isLoading"></div>
                         <div class="ffsr-block">
                             <h5>
                                 <%= Localization.GetString("SourceUrlHeaderLabel", LocalResourceFile) %>
                             </h5>
-                            <div class="">
+                            <div class="ffsr-block-item">
                                 <input type="text" data-bind="value: sourceUrl, attr: {id: 'sourceUrl_' + $index(), name: 'sourceUrl_' + $index()} " />
-                            </div>
-                            <div class="">
                                 <div><input type="checkbox" value="true" data-bind="checked: useRegex" /><%= Localization.GetString("UseRegexHeaderLabel", LocalResourceFile) %></div>
                             </div>
                         </div>
@@ -68,24 +66,21 @@
                             <h5>
                                 <%= Localization.GetString("RedirectHeaderLabel", LocalResourceFile) %>
                             </h5>
-                            <div class="">
+                            <div class="ffsr-block-item">
                                 <div><input type="checkbox" value="true" data-bind="checked: enableLogging" /><%= Localization.GetString("EnableLoggingHeaderLabel", LocalResourceFile) %></div>
-                            </div>
-                            <div class="">
-                                <input type="text" data-bind="value: sourceUrl, attr: {id: 'sourceUrl_' + $index(), name: 'sourceUrl_' + $index()} " />
                             </div>
                             <div class="dnnFormMessage dnnFormValidationSummary" data-bind="visible: targetTabId() > 0 && targetTabName() === ''">
                                 <div>
                                     <%= Localization.GetString("RedirectTabNotFound", LocalResourceFile) %>
                                 </div>
                             </div>
-                            <div class="">
+                            <div class="ffsr-block-item">
                                 <div>
                                     <input type="radio" data-bind="checked: mapToType, attr: {name: 'mapToTypeRadio_' + $index()}" value="URL" /><%= Localization.GetString("RedirectToUrl", LocalResourceFile) %>
                                 </div>
                                 <input type="text" data-bind="value: targetUrl, attr: {id: 'redirectUrl_' + $index(), name: 'redirectUrl_' + $index()}, event: { change: mapToType('URL') }" />
                             </div>
-                            <div class="" data-bind="attr: {id: 'redirectPageDropdown_' + $index()} ">
+                            <div class="ffsr-block-item" data-bind="attr: {id: 'redirectPageDropdown_' + $index()} ">
                                 <div>
                                     <input type="radio" data-bind="checked: mapToType, attr: {name: 'mapToTypeRadio_' + $index()}" value="TAB" /><%= Localization.GetString("RedirectToTabId", LocalResourceFile) %>
                                 </div>
@@ -96,13 +91,13 @@
                                     <input type="hidden" data-bind="attr: {id: 'createPageDropdownState_' + $index()}, event: { change: setSelectedTab }" />
                                 </div>
                             </div>
-                            <div class="">
+                            <div class="ffsr-block-item">
                                 <div>
                                     <input type="radio" data-bind="checked: mapToType, attr: {name: 'mapToTypeRadio_' + $index()}" value="NOREDIRECT" /><%= Localization.GetString("NoRedirect", LocalResourceFile) %>
                                 </div>
                                 <span>&nbsp;</span>
                             </div>
-                            <div class="">
+                            <div class="ffsr-block-item">
                                 <div>
                                     <input type="radio" data-bind="checked: mapToType, attr: {name: 'mapToTypeRadio_' + $index()}" value="DELETE" /><%= Localization.GetString("RemoveMapping", LocalResourceFile) %>
                                 </div>
