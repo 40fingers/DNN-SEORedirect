@@ -137,6 +137,13 @@
     <Compile Include="Components\SeoRedirectModule.cs" />
     <Compile Include="Components\RedirectConfig.cs" />
     <Compile Include="Components\RedirectController.cs" />
+    <Compile Include="EditForce404.ascx.cs">
+      <DependentUpon>EditForce404.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditForce404.ascx.designer.cs">
+      <DependentUpon>EditForce404.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Edit.ascx.cs">
       <DependentUpon>Edit.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -161,7 +168,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="EditForce404.ascx" />
     <Content Include="js\40F-Common.js" />
+    <Content Include="js\jstree\jstree.min.js" />
+    <Content Include="js\jstree\themes\default\32px.png" />
+    <Content Include="js\jstree\themes\default\40px.png" />
+    <Content Include="js\jstree\themes\default\style.css" />
+    <Content Include="js\jstree\themes\default\throbber.gif" />
     <Content Include="js\SeoRedirect.js" />
     <Content Include="module.css" />
     <Content Include="msbuild\version.txt" />
@@ -230,6 +243,9 @@
     <Content Include="App_LocalResources\Edit.ascx.nl-NL.resx" />
     <Content Include="App_LocalResources\SharedResources.nl-NL.resx" />
     <Content Include="App_LocalResources\View.ascx.nl-NL.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\EditForce404.ascx.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

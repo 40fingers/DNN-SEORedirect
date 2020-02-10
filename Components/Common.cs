@@ -145,6 +145,11 @@ namespace FortyFingers.SeoRedirect.Components
             return false;
         }
 
+        public static void SetForce404(this TabInfo tab, bool newValue)
+        {
+            new TabController().UpdateTabSetting(tab.TabID, Constants.Force404TabSetting, newValue.ToString());
+        }
+
         /// <summary>
         /// Redirect current response to 404 error page or output 404 content if error page not defined.
         /// Method copied from DNN8.0.4 UrlUtils, because it's missing in 7

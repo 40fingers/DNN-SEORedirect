@@ -124,6 +124,9 @@
     <value>SInds DNN versie 7.1 is er een instelling genaamd 'AUM_ErrorPage404' met de TabId van de 404 pagina van de site.
 Dit is belangrijk wanneer je geavanceerde FriendlyURLS's gebruikt, dus het aanmaken van de instelling en pagina is geadviseerd.</value>
   </data>
+  <data name="EditForce404.Action" xml:space="preserve">
+    <value>Wijzig forceer-404-pagina's</value>
+  </data>
   <data name="EditModule.Action" xml:space="preserve">
     <value>Wijzig doorverwijzing</value>
   </data>

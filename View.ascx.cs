@@ -143,6 +143,15 @@ namespace FortyFingers.SeoRedirect
                             false, DotNetNuke.Security.SecurityAccessLevel.Edit,
                             true,
                             false);
+                actions.Add(GetNextActionID(),
+                            Localization.GetString("EditForce404.Action", LocalResourceFile),
+                            ModuleActionType.ContentOptions,
+                            "",
+                            "",
+                            EditUrl("EditForce404"),
+                            false, DotNetNuke.Security.SecurityAccessLevel.Edit,
+                            true,
+                            false);
 
                 return actions;
             }

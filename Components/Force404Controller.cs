@@ -29,11 +29,10 @@ namespace FortyFingers.SeoRedirect.Components
                 // also check TabUrls with httpstatus=200
                 foreach (var tabUrlInfo in activeTab.TabUrls.Where(tu => tu.HttpStatus == ((int)HttpStatusCode.OK).ToString()))
                 {
-                    if (incUrl.LocalPath.StartsWith(tabUrlInfo.Url) && incUrl.LocalPath.Length > tabUrlInfo.Url.Length)
+                    if (incUrl.LocalPath.StartsWith(tabUrlInfo.Url.ToLowerInvariant()) && incUrl.LocalPath.Length > tabUrlInfo.Url.Length)
                     {
                         Common.Handle404Exception(HttpContext.Current.Response, Common.CurrentPortalSettings);
                     }
-                    
                 }
             }
         }
