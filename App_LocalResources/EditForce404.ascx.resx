@@ -117,37 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Actions.Header" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Dnn404PortalSettingAbsent.Text" xml:space="preserve">
-    <value>As of DNN version 7.1 there needs to be a setting called 'AUM_ErrorPage404' with the tabid of your 404 page as SettingValue. This is especially important when you're using Advanced FriendlyURLs, but we advice you to create it anyway.</value>
-  </data>
-  <data name="EditForce404.Action" xml:space="preserve">
-    <value>Edit Force-404 Pages</value>
-  </data>
-  <data name="EditModule.Action" xml:space="preserve">
-    <value>Edit Mappings</value>
-  </data>
-  <data name="NoLogging.Text" xml:space="preserve">
-    <value>Remove from list and do not show future 404's</value>
-  </data>
-  <data name="NoRedirect.Text" xml:space="preserve">
-    <value>Remove from list but show future 404's</value>
-  </data>
-  <data name="Occurrences.Header" xml:space="preserve">
-    <value>Count</value>
-  </data>
-  <data name="RedirectToTabId.Text" xml:space="preserve">
-    <value>Redirect to page:</value>
-  </data>
-  <data name="RedirectToUrl.Text" xml:space="preserve">
-    <value>Redirect to url:</value>
-  </data>
-  <data name="UnhandledUrlsPanelHeader.Text" xml:space="preserve">
-    <value>Top {0} unhandled URL's</value>
-  </data>
-  <data name="Url.Header" xml:space="preserve">
-    <value>Requested Url</value>
+  <data name="NeutralLanguage.Text" xml:space="preserve">
+    <value>Neutral language</value>
   </data>
 </root>

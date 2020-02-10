@@ -1,7 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Edit.ascx.cs" Inherits="FortyFingers.SeoRedirect.Edit" %>
 <%@ Import Namespace="FortyFingers.SeoRedirect.Components" %>
-<%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
-<%@ Register TagPrefix="dnn" Assembly="DotNetNuke.Web" Namespace="DotNetNuke.Web.UI.WebControls" %>
 
 <script type="text/javascript">
     ff_seo_selectedPageChanged = function (selectedNode, arg2) {

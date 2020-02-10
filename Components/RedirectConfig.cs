@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Portals;
+using DotNetNuke.Entities.Tabs;
 using DotNetNuke.Services.Cache;
 using DotNetNuke.Services.Exceptions;
 
@@ -307,5 +308,38 @@ namespace FortyFingers.SeoRedirect.Components
 
         [XmlArrayItem("Mapping")]
         public List<Mapping> Mappings { get; set; }
+
+        private string force404lockobject = "lock";
+        private IEnumerable<TabInfo> _force404Tabs = null;
+
+        [XmlIgnore]
+        public IEnumerable<TabInfo> Force404Tabs
+        {
+            get
+            {
+                if (_force404Tabs == null)
+                {
+                    lock (force404lockobject)
+                    {
+                        if (_force404Tabs == null)
+                        {
+                            var allTabs = TabController.GetPortalTabs(Common.CurrentPortalSettings.PortalId,
+                                Null.NullInteger,
+                                false,
+                                "",
+                                true,
+                                false,
+                                true,
+                                false,
+                                false);
+
+                            _force404Tabs = allTabs.Where(t => t.IsForce404()).AsEnumerable<TabInfo>();
+                        }
+                    }
+                }
+
+                return _force404Tabs;
+            }
+        }
     }
 }

@@ -51,9 +51,9 @@ namespace FortyFingers.SeoRedirect.Components
                 // we're matching lowercased: case insensitive
                 incoming = IncomingUrl(logToControls, ref is404).ToLower();
                 // enable logging when DNN detects a 404 later on (e.g. for extentionless urls)
-                HttpContext.Current.Items["40F_SEO_IncomingUrl"] = incoming;
+                Common.IncomingUrl = incoming;
                 // register whether or not a 404 was detected
-                RedirectController.SetRequest404Detected(is404);
+                Common.Is404Detected = is404;
 
                 // since generating a 404 inside a 404 page 
                 // (which is what we do in case of .aspx errors)
@@ -75,7 +75,6 @@ namespace FortyFingers.SeoRedirect.Components
                 
                 if (UserInfo.IsSuperUser) logToControls.Add(new LiteralControl(String.Format("Mappings (with regex): {0}<br/>", RedirectConfig.Instance.MappingsDictionary(true).Count)));
                 if (UserInfo.IsSuperUser) logToControls.Add(new LiteralControl(String.Format("Mappings (no regex): {0}<br/>", mappingsNoRegex.Count)));
-
 
                 bool addRedirectLogging = true;
                 // if we're in a 404, let's try to find a mapping
@@ -121,7 +120,7 @@ namespace FortyFingers.SeoRedirect.Components
                 }
 
                 // if there should not be logged, register the HttpItem for that
-                if(!addRedirectLogging) HttpContext.Current.Items["40F_SEO_AlreadyLogged"] = true;
+                if(!addRedirectLogging) Common.IsAlreadyLogged = true;
 
                 // Log this 404
                 var ps = Common.CurrentPortalSettings;
@@ -202,20 +201,9 @@ namespace FortyFingers.SeoRedirect.Components
             Response.StatusCode = 404;
         }
 
-        internal static void SetRequest404Detected(bool is404)
-        {
-            if (HttpContext.Current.Items["40F_SEO_404Detected"] != null) return;
-            HttpContext.Current.Items["40F_SEO_404Detected"] = is404;
-        }
-        internal static bool RequestHas404Detected()
-        {
-            if (HttpContext.Current.Items["40F_SEO_404Detected"] == null) return false;
-            return (bool)HttpContext.Current.Items["40F_SEO_404Detected"];
-        }
-
         internal static void AddRedirectLog(int portalId, string incoming, string target)
         {
-            if (HttpContext.Current.Items["40F_SEO_AlreadyLogged"] != null) return;
+            if (Common.IsAlreadyLogged) return;
             
             DataProvider.Instance()
                         .AddRedirectLog(portalId, incoming, DateTime.Now,
@@ -223,27 +211,10 @@ namespace FortyFingers.SeoRedirect.Components
                                         Request.ServerVariables.AllKeys.Contains("HTTP_USER_AGENT") ? Request.ServerVariables["HTTP_USER_AGENT"] : "",
                                         target, HttpContext.Current.Items["40F_SEO_MappingFound"] != null);
             // clear the context item so it isn't logged twice
-            HttpContext.Current.Items["40F_SEO_IncomingUrl"] = "";
-            HttpContext.Current.Items["40F_SEO_AlreadyLogged"] = true;
+            Common.IncomingUrl = "";
+            Common.IsAlreadyLogged = true;
 
         }
-        //private static void AddRedirectLog(IList<string> values)
-        //{
-        //    DataProvider.Instance()
-        //                .AddRedirectLog(Common.CurrentPortalSettings.PortalId, values[0], DateTime.UtcNow, Request.UrlReferrer.ToString(),
-        //                                Request.ServerVariables["HTTP_USER_AGENT"], values[1]);
-        //    // clear the context item so it isn't logged twice
-        //    HttpContext.Current.Items["40F_SEO_IncomingUrl"] = "";
-        //    HttpContext.Current.Items["40F_SEO_AlreadyLogged"] = true;
-        //}
-        //internal static void AddRedirectLogAsync(string incoming, string target)
-        //{
-        //    var values = new List<string>()
-        //        {incoming, target};
-
-        //    Action<IList<string>> action = AddRedirectLog;
-        //    action.BeginInvoke(values, null, null);
-        //}
 
         public static List<RedirectLogUrl> GetTopUnhandledUrls(int portalId, int maxDays, int maxUrls)
         {

@@ -25,7 +25,14 @@ namespace FortyFingers.SeoRedirect.Components
             {
                 var rsp = HttpContext.Current.Response;
                 var ps = Common.CurrentPortalSettings;
-                string incoming = (string) HttpContext.Current.Items["40F_SEO_IncomingUrl"];
+
+                // this needs to be done on EndRequest, to be sure PortalSettings.ActiveTab is correct
+                if (rsp.StatusCode == (int) HttpStatusCode.OK)
+                {
+                    Force404Controller.DoForce404Check();
+                }
+
+                string incoming = Common.IncomingUrl;
                 if (rsp.StatusCode == (int) HttpStatusCode.NotFound && !string.IsNullOrEmpty(incoming))
                 {
                     Common.Logger.Debug($"Logging redirect from Context_EndRequest. incoming:[{incoming}]");

@@ -24,12 +24,6 @@ namespace FortyFingers.SeoRedirect
         {
             RegisterResources(Page);
 
-            //if (!IsPostBack)
-            //{
-            //    // we don't want anything cached here
-            //    var config = RedirectConfig.Instance;
-            //    FillForm(config);
-            //}
             if (!IsPostBack)
             {
                 lnkBack.NavigateUrl = Globals.NavigateURL(TabId);

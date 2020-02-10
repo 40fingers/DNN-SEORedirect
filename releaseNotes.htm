@@ -5,50 +5,6 @@
         <pre>^http[s]?://.*\.40fingers\.net.*$</pre>
         will match any url on http or https for 40fingers.net or any subdomain.
     </p>
-    <h3>02.02</h3>
-    <ul>
-        <li>Bugfix (.07)</li>
-        <li>Fixes for DNN9.x (.06)</li>
-        <li>Edit-page bugfixes</li>
-        <li>Secured the services</li>
-        <li>Non-existant static files now return 404 (DNN gives 200)</li>
-        <li>Changed edit pages from postbacks to services</li>
-    </ul>
-    <h3>02.01.00</h3>
-    <ul>
-        <li>Changed config retreval to be used without cache</li>
-        <li>tab-url's are now stored too</li>
-    </ul>
-    <h3>02.00.00</h3>
-    <ul>
-        <li>Added top-5 list of unhandled 404's</li>
-        <li>Option to handle top-5 urls</li>
-        <li>Option to redirect to tabid</li>
-    </ul>
-    <h3>01.02.06</h3>
-    <ul>
-        <li>Bugfix</li>
-    </ul>
-    <h3>01.02.04</h3>
-    <ul>
-        <li>Stuff to make it work with Advanced URLs in DNN.</li>
-        <li>Slight change for fail safety in HttpModule.</li>
-    </ul>
-    <h3>01.01.01</h3>
-    <ul>
-        <li>Only in case of incoming 404: Return Status 404 for not mapped requests.</li>
-    </ul>
-    <h3>01.01.0</h3>
-    <ul>
-        <li>Return Status 404 for not mapped requests.</li>
-    </ul>
-    <h3>01.00.00</h3>
-    <ul>
-        <li>Configure redirects for known URLs</li>
-        <li>Configuration stored in xml file under portal root</li>
-        <li>Includes HTTPModule to redirect pages that DNN redirects to the website root. To use: add the following to HttpModules in web.config, BEFORE the UrlRewriter:<br/>
-            &lt;add name="SeoRedirectModule" type="FortyFingers.SeoRedirect.Components.SeoRedirectModule, 40Fingers.DNN.Modules.SeoRedirect" preCondition="managedHandler" /&gt;
-        </li>
-        <li>Includes regular expression option</li>
-    </ul>
-</div>
+    <h3>Version history</h3>
+    Check our <a href="https://www.40fingers.net/Products/DNN-SEO-Redirect">project page</a> or <a href="https://github.com/40fingers/DNN-SEORedirect/releases">github</a>.
+    </div>
