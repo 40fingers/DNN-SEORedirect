@@ -80,7 +80,7 @@ namespace FortyFingers.SeoRedirect
 
         private void Page_PreRender(object sender, EventArgs e)
         {
-            string incoming = (string)HttpContext.Current.Items["40F_SEO_IncomingUrl"];
+            string incoming = Common.IncomingUrl;
 
             // check if IIS/ASP.NET/DNN already found this to be a 404
             if (Response.Status == "404 Not Found")
@@ -93,7 +93,7 @@ namespace FortyFingers.SeoRedirect
             }
 
             // DNN returns 200 for static files that are actually 404's
-            if (RedirectController.RequestHas404Detected() && Response.StatusCode == (int) HttpStatusCode.OK)
+            if (Common.Is404Detected && Response.StatusCode == (int) HttpStatusCode.OK)
             {
                 //RedirectController.AddRedirectLog(PortalId, incoming, "");
                 RedirectController.SetStatus404();

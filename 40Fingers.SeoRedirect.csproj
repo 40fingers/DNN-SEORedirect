@@ -131,6 +131,7 @@
     <Compile Include="Components\Data\DataProvider.cs" />
     <Compile Include="Components\Data\RedirectLogItem.cs" />
     <Compile Include="Components\Data\SqlDataProvider.cs" />
+    <Compile Include="Components\Force404Controller.cs" />
     <Compile Include="Components\Icons.cs" />
     <Compile Include="Components\Mapping.cs" />
     <Compile Include="Components\SeoRedirectModule.cs" />
