@@ -25,6 +25,7 @@ namespace FortyFingers.SeoRedirect.Components
                 if (incUrl.LocalPath.StartsWith(tabUrl.LocalPath) && incUrl.LocalPath.Length > tabUrl.LocalPath.Length)
                 {
                     Common.Handle404Exception(HttpContext.Current.Response, Common.CurrentPortalSettings);
+                    RedirectController.AddRedirectLog(Common.CurrentPortalSettings.PortalId, incoming, "");
                 }
                 // also check TabUrls with httpstatus=200
                 foreach (var tabUrlInfo in activeTab.TabUrls.Where(tu => tu.HttpStatus == ((int)HttpStatusCode.OK).ToString()))
@@ -32,6 +33,7 @@ namespace FortyFingers.SeoRedirect.Components
                     if (incUrl.LocalPath.StartsWith(tabUrlInfo.Url.ToLowerInvariant()) && incUrl.LocalPath.Length > tabUrlInfo.Url.Length)
                     {
                         Common.Handle404Exception(HttpContext.Current.Response, Common.CurrentPortalSettings);
+                        RedirectController.AddRedirectLog(Common.CurrentPortalSettings.PortalId, incoming, "");
                     }
                 }
             }
