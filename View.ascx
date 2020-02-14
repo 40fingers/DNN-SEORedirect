@@ -44,9 +44,9 @@
                         <td><a target="_new"><span data-bind="text: url"></span></a></td>
                         <td><span data-bind="text: occurrences"></span></td>
                         <td>
-                            <a href="#" data-bind="click: toggleAddRedirectPanel($index)">
-                                <span class="icon" data-bind="attr: {id: 'showAddRedirect_' + $index()}"><%= Icons.GetUrl(IconTypes.Open) %></span>
-                                <span class="icon hidden" data-bind="attr: {id: 'hideAddRedirect_' + $index()}"><%= Icons.GetUrl(IconTypes.Close) %></span>
+                            <a href="#" onclick="return false;">
+                                <span class="icon" data-bind="attr: {id: 'showAddRedirect_' + $index()}, click: toggleAddRedirectPanel($index)"><%= Icons.GetUrl(IconTypes.Open) %></span>
+                                <span class="icon hidden" data-bind="attr: {id: 'hideAddRedirect_' + $index()}, click: toggleAddRedirectPanel($index)"><%= Icons.GetUrl(IconTypes.Close) %></span>
                             </a>
                         </td>
                     </tr>
