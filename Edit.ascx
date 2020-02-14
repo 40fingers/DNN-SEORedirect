@@ -40,10 +40,10 @@
                     <td><a target="_new"><span data-bind="text: sourceUrl"></span></a></td>
                     <td><span data-bind="text: targetUrl"></span></td>
                     <td>
-                        <a href="#" data-bind="click: toggleEditMappingPanel">
+                        <a href="#" onclick="return false;">
 
-                            <span class="icon" data-bind="attr: {id: 'showEditMapping_' + $index()}"><%= Icons.GetUrl(IconTypes.Open) %></span>
-                            <span class="icon hidden" data-bind="attr: {id: 'hideEditMapping_' + $index()}"><%= Icons.GetUrl(IconTypes.Close) %></span>
+                            <span class="icon" data-bind="attr: {id: 'showEditMapping_' + $index()}, click: toggleEditMappingPanel"><%= Icons.GetUrl(IconTypes.Open) %></span>
+                            <span class="icon hidden" data-bind="attr: {id: 'hideEditMapping_' + $index()}, click: toggleEditMappingPanel"><%= Icons.GetUrl(IconTypes.Close) %></span>
 
                         </a>
                     </td>
