@@ -11,7 +11,8 @@ namespace FortyFingers.SeoRedirect.Components
     {
         public static void DoForce404Check()
         {
-
+            // no forced 404 for authenticated users
+            if (HttpContext.Current.Request.IsAuthenticated) return;
             // als tabInfo.IsForce404() en de url is "dieper" dan de tab zelf: dan een 404 geven
             var activeTab = Common.CurrentPortalSettings.ActiveTab;
             if (activeTab.IsForce404())
