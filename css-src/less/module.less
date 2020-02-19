@@ -2,6 +2,8 @@
 	Please note that this file is generated from /src/less/module.less, 
 	Pull requests on module.css only will not de accepted */
 	
+	@col-hightlight: #888;
+	
 	@import url(icons/css/40f-icons.css);
 
 .ffsr{
@@ -56,6 +58,7 @@
 	.dnnGrid{
 		width:100%; 
 		margin:1em 0; 
+		border-collapse:collapse;
 		
 		.dnnForm{
 			padding:0.5em;
@@ -67,13 +70,24 @@
 		.dnnActions{
 			padding:0 0.5em;
 		}
+		
+		.ffsr-item{
+
+			&.open{
+				td:first-child{
+					
+					border-left:solid 4px @col-hightlight;
+						
+				}
+			}
+		}
 		td{
 			border-bottom:solid 1px #ddd;
 			
 			&.ffsr-edit-item{
-				padding:0 0.4em;
+				padding:1em;
+				border-left:solid 4px @col-hightlight;
 			}
-			
 			
 		}
 

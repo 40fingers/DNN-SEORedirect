@@ -40,7 +40,7 @@
                     </tr>
                 </thead>
                 <tbody data-bind="foreach: urls">
-                    <tr class="dnnGridItem ffsr-item" data-bind="css: { hidden : isHandled }">
+                    <tr class="dnnGridItem ffsr-item" data-bind="css: { hidden : isHandled }, attr: {id: 'urlRow_' + $index()}">
                         <td><a target="_new"><span data-bind="text: url"></span></a></td>
                         <td><span data-bind="text: occurrences"></span></td>
                         <td>
