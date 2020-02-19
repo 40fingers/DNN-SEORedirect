@@ -85,6 +85,13 @@ FF.show = function (selector, callback) {
     }
 }
 
+FF.setClass = function (listSelector, itemSelector, className){
+	
+	$(listSelector).removeClass(className);
+	$(itemSelector).addClass(className);
+	
+}
+
 FF.hideNshow = function (hideSelector, showSelector, callback) {
     FF.hide(hideSelector, function () { FF.show(showSelector, callback); });
 }

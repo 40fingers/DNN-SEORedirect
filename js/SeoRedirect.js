@@ -115,6 +115,10 @@ SR.UnhandledUrlVm = function(data) {
     };
 
     self.toggleAddRedirectPanel = function() {
+		
+		var urlRowsSelector = ".ffsr-item";
+		var urlRowSelector = "#urlRow_" + self.index().toString();
+		 
         var panelSelector = "#addRedirectPanel_" + self.index().toString();
         var showImgSelector = "#showAddRedirect_" + self.index().toString();
         var hideImgSelector = "#hideAddRedirect_" + self.index().toString();
@@ -135,6 +139,12 @@ SR.UnhandledUrlVm = function(data) {
             FF.show(panelSelector);
             FF.show(hideImgSelector);
             FF.hide(showImgSelector);
+			
+			
+			
+			//Set Active class for urlRow
+			FF.setClass(urlRowsSelector, urlRowSelector, "open")
+
 
             if (self.PageDropDownInitialized() === false) {
                 self.PageDropDownInitialized(true);
@@ -385,6 +395,9 @@ SR.MappingVm = function(data) {
     };
 
     self.toggleEditMappingPanel = function () {
+		var urlRowsSelector = ".ffsr-item";
+		var urlRowSelector = "#urlRow_" + self.index().toString();
+		
         FF.log("toggleEditMappingPanel " + self.index().toString());
         var panelSelector = "#editMappingPanel_" + self.index().toString();
         var showImgSelector = "#showEditMapping_" + self.index().toString();
@@ -400,6 +413,10 @@ SR.MappingVm = function(data) {
         } else {
             // make sure the maptotype is correct before showing
             self.initMapToType();
+			
+						
+			//Set Active class for urlRow
+			FF.setClass(urlRowsSelector, urlRowSelector, "open")
 
             // first hide all other panels
             FF.hide(".ffrs-editMappingPanel");
@@ -563,3 +580,5 @@ SR.MappingsVm = function() {
         self.mappings.remove(mappingModel);
     };
 };
+
+

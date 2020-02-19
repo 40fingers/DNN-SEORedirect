@@ -36,7 +36,7 @@
                 </tr>
             </thead>
             <tbody data-bind="foreach: mappings">
-                <tr class="dnnGridItem ffsr-item"  data-bind="css:{ hidden : isRemoved }">
+                <tr class="dnnGridItem ffsr-item"  data-bind="css:{ hidden : isRemoved }, attr: {id: 'urlRow_' + $index()}">
                     <td><a target="_new"><span data-bind="text: sourceUrl"></span></a></td>
                     <td><span data-bind="text: targetUrl"></span></td>
                     <td>
