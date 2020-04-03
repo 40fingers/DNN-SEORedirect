@@ -117,7 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ExplainForce404.Text" xml:space="preserve">
+    <value>DNN does not generate 404 errors for URL's below an existing page. &lt;br/&gt;For example: if /Banana does exist, there will not be a 404 error for /Banana/Green, even when that page does not exist.
+&lt;br/&gt;&lt;br/&gt;
+If you check the page /Banana in the tree below, SEORedirect WILL force a 404 error for /Banana/Green.</value>
+  </data>
   <data name="NeutralLanguage.Text" xml:space="preserve">
     <value>Neutral language</value>
+  </data>
+  <data name="PleaseReadDocs.Text" xml:space="preserve">
+    <value>Please read &lt;a href="https://www.40fingers.net/Products/DNN-SEO-Redirect"&gt;our documentation&lt;/a&gt; before using this option. It gives you the power to block access to your website.</value>
   </data>
 </root>
