@@ -22,6 +22,12 @@
     });
 </script>
 
+<div class="dnnFormMessage dnnFormWarning">
+    <asp:Label runat="server" resourcekey="PleaseReadDocs"></asp:Label>
+</div>
+<div class="dnnFormMessage dnnFormInfo">
+    <asp:Label runat="server" resourcekey="ExplainForce404"></asp:Label>
+</div>
 <div class="ffsr ffsr-editforce404">
     <div id="treeTabs"></div>
 </div>
