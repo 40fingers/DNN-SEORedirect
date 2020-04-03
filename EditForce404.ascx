@@ -13,9 +13,15 @@
     //    { "id" : "ajson4", "parent" : "ajson2", "text" : "Child 2" },
     //];
     $(document).ready(function () {
-        $('#treeTabs').jstree({'plugins':["wholerow","checkbox"], 'core' : {
-            'data' : ffsrdata
-        }});
+        $('#treeTabs').jstree({
+            'plugins':["wholerow","checkbox"], 
+            'core' : {
+                'data' : ffsrdata
+            },
+            "checkbox" : {
+                "three_state" : false,
+            }
+            });
         $('#treeTabs').on("changed.jstree", function (e, data) {
             $("#" + selectedField).val(data.selected);
         });
