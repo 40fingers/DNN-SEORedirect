@@ -15,7 +15,7 @@ namespace FortyFingers.SeoRedirect.Components
             if (HttpContext.Current.Request.IsAuthenticated) return;
             // als tabInfo.IsForce404() en de url is "dieper" dan de tab zelf: dan een 404 geven
             var activeTab = Common.CurrentPortalSettings.ActiveTab;
-            if (activeTab.IsForce404())
+            if (activeTab.IsForce404() && !IsDnnControlUrl())
             {
                 Common.Logger.Debug($"Force404-check for tab {Common.CurrentPortalSettings.ActiveTab.TabID}");
 
@@ -38,6 +38,23 @@ namespace FortyFingers.SeoRedirect.Components
                     }
                 }
             }
+        }
+
+        private static bool IsDnnControlUrl()
+        {
+            var ps = Common.CurrentPortalSettings;
+            var req = HttpContext.Current.Request;
+
+            if (ps.LoginTabId <= 0 && req.QueryString["ctl"]?.ToLower() == "login")
+            {
+                return true;
+            }
+            if (ps.RegisterTabId <= 0 && req.QueryString["ctl"]?.ToLower() == "register")
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
