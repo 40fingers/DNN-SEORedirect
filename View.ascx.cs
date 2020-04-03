@@ -80,6 +80,12 @@ namespace FortyFingers.SeoRedirect
 
         private void Page_PreRender(object sender, EventArgs e)
         {
+            // nothing to do if we're on the 404 page
+            if (PortalSettings.ErrorPage404 == TabId)
+            {
+                return;
+            }
+
             string incoming = Common.IncomingUrl;
 
             // check if IIS/ASP.NET/DNN already found this to be a 404

@@ -33,7 +33,7 @@ namespace FortyFingers.SeoRedirect.Components
                 }
 
                 string incoming = Common.IncomingUrl;
-                if (rsp.StatusCode == (int) HttpStatusCode.NotFound && !string.IsNullOrEmpty(incoming))
+                if (ps.ActiveTab?.TabID != ps.ErrorPage404 && rsp.StatusCode == (int) HttpStatusCode.NotFound && !string.IsNullOrEmpty(incoming))
                 {
                     Common.Logger.Debug($"Logging redirect from Context_EndRequest. incoming:[{incoming}]");
                     RedirectController.AddRedirectLog(ps.PortalId, incoming, "");
