@@ -62,15 +62,17 @@ namespace FortyFingers.SeoRedirect
                 var nodes = new List<JsTreeNode>();
                 foreach (var locale in locales.OrderBy(s => s))
                 {
-                    nodes.Add(new JsTreeNode() {
-                        id = string.IsNullOrEmpty(locale) ? "neutral" : locale, 
-                        text = string.IsNullOrEmpty(locale) ? LocalizeString("NeutralLanguage.Text") : locale, 
+                    nodes.Add(new JsTreeNode()
+                    {
+                        id = string.IsNullOrEmpty(locale) ? "neutral" : locale,
+                        text = string.IsNullOrEmpty(locale) ? LocalizeString("NeutralLanguage.Text") : locale,
                         parent = "#",
                         state = new JsTreeNodeState()
                         {
                             opened = false,
                             disabled = true
-                        }});
+                        }
+                    });
                 }
 
                 // now add all the pages
@@ -100,22 +102,19 @@ namespace FortyFingers.SeoRedirect
         {
             var sSelectedTabs = selectedField.Value;
             // when empty: no changes
-            if (!String.IsNullOrEmpty(sSelectedTabs))
+            var selectedTabIds = new List<int>();
+            foreach (var sTabId in sSelectedTabs.Split(','))
             {
-                var selectedTabIds = new List<int>();
-                foreach (var sTabId in sSelectedTabs.Split(','))
+                int i = 0;
+                if (int.TryParse(sTabId, out i)) selectedTabIds.Add(i);
+            }
+            var allTabs = new TabController().GetTabsByPortal(PortalId);
+            foreach (var tabInfo in allTabs.Values)
+            {
+                if (tabInfo.IsForce404() != selectedTabIds.Contains(tabInfo.TabID))
                 {
-                    int i = 0;
-                    if(int.TryParse(sTabId, out i)) selectedTabIds.Add(i);
-                }
-                var allTabs = new TabController().GetTabsByPortal(PortalId);
-                foreach (var tabInfo in allTabs.Values)
-                {
-                    if (tabInfo.IsForce404() != selectedTabIds.Contains(tabInfo.TabID))
-                    {
-                        // changed:
-                        tabInfo.SetForce404(selectedTabIds.Contains(tabInfo.TabID));
-                    }
+                    // changed:
+                    tabInfo.SetForce404(selectedTabIds.Contains(tabInfo.TabID));
                 }
             }
 
