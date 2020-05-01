@@ -216,6 +216,11 @@ namespace FortyFingers.SeoRedirect.Components
 
         }
 
+        internal static void CleanRedirectLog(int portalId, int maxAgeDays, int maxEntries)
+        {
+
+        }
+
         public static List<RedirectLogUrl> GetTopUnhandledUrls(int portalId, int maxDays, int maxUrls)
         {
             var startdate = DateTime.Today.AddDays(-1 * maxDays);

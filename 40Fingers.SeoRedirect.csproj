@@ -137,6 +137,7 @@
     <Compile Include="Components\SeoRedirectModule.cs" />
     <Compile Include="Components\RedirectConfig.cs" />
     <Compile Include="Components\RedirectController.cs" />
+    <Compile Include="Components\TaskCleaner.cs" />
     <Compile Include="EditForce404.ascx.cs">
       <DependentUpon>EditForce404.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -227,6 +228,7 @@
     <Content Include="_Installation\40Fingers.SeoRedirect\02.01.01\40Fingers.SeoRedirect.02.01.01.00.Install.zip" />
     <Content Include="Sql\02.01.02.SqlDataProvider" />
     <Content Include="Sql\02.03.00.SqlDataProvider" />
+    <Content Include="Sql\02.05.00.SqlDataProvider" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="css\" />

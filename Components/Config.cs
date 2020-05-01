@@ -123,6 +123,27 @@ namespace FortyFingers.SeoRedirect.Components
             get { return GetSettingInt("NoOfEntries", true); }
             set { ModuleCtrl.UpdateModuleSetting(ModuleId, "NoOfEntries", value.ToString()); }
         }
+        public bool CleanerEnabled
+        {
+            get => PortalController.GetPortalSettingAsBoolean("40F_SEO_CleanerEnabled", Ps.PortalId, false);
+            set
+            {
+                PortalController.UpdatePortalSetting(Ps.PortalId, "40F_SEO_CleanerEnabled", value.ToString());
+                if(value) Common.EnableScheduleItem(Constants.CleanerTaskTypeName);
+                else Common.DisableScheduleItem(Constants.CleanerTaskTypeName);
+            }
+        }
+
+        public int MaxAgeDays
+        {
+            get => PortalController.GetPortalSettingAsInteger("40F_SEO_MaxAgeDays", Ps.PortalId, 90);
+            set => PortalController.UpdatePortalSetting(Ps.PortalId, "40F_SEO_MaxAgeDays", value.ToString());
+        }
+        public int MaxEntries
+        {
+            get => PortalController.GetPortalSettingAsInteger("40F_SEO_MaxEntries", Ps.PortalId, 10000);
+            set => PortalController.UpdatePortalSetting(Ps.PortalId, "40F_SEO_MaxEntries", value.ToString());
+        }
 
     }
 }
