@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -10,6 +12,7 @@ using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Tabs;
 using DotNetNuke.Instrumentation;
+using DotNetNuke.Services.Scheduling;
 
 namespace FortyFingers.SeoRedirect.Components
 {
@@ -170,6 +173,63 @@ namespace FortyFingers.SeoRedirect.Components
                 response.Status = "404 Not Found";
                 response.Write("404 Not Found");
                 response.End();
+            }
+        }
+
+        public static ScheduleItem GetScheduleItem(string fullTypeName)
+        {
+            ScheduleItem retval = null;
+
+            var provider = SchedulingProvider.Instance();
+
+            var list = new List<ScheduleItem>();
+            list.AddRange(provider.GetSchedule().OfType<ScheduleItem>());
+
+            if (list.Any(s => s.TypeFullName == fullTypeName))
+                retval = list.First(s => s.TypeFullName == fullTypeName);
+
+            return retval;
+        }
+        public static bool IsScheduleItemEnabled(string fullTypeName)
+        {
+            var item = GetScheduleItem(fullTypeName);
+            return item != null && item.Enabled;
+        }
+
+        public static ScheduleItem EnableScheduleItem(string fullTypeName)
+        {
+            var provider = SchedulingProvider.Instance();
+            var item = GetScheduleItem(fullTypeName);
+
+            if (item == null)
+            {
+                item = new ScheduleItem();
+                item.CatchUpEnabled = false;
+                item.FriendlyName = Constants.CleanerTaskName;
+                item.RetainHistoryNum = 50;
+                item.RetryTimeLapse = -1;
+                item.RetryTimeLapseMeasurement = "d";
+                item.TimeLapse = 1;
+                item.TimeLapseMeasurement = "d";
+                item.TypeFullName = fullTypeName;
+
+                item.ScheduleID = provider.AddSchedule(item);
+            }
+
+            item.Enabled = true;
+            provider.UpdateSchedule(item);
+
+            return item;
+        }
+        public static void DisableScheduleItem(string fullTypeName)
+        {
+            var provider = SchedulingProvider.Instance();
+            var item = GetScheduleItem(fullTypeName);
+
+            if (item != null)
+            {
+                item.Enabled = false;
+                provider.UpdateSchedule(item);
             }
         }
 

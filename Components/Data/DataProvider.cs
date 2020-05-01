@@ -40,5 +40,6 @@ namespace FortyFingers.SeoRedirect.Components.Data
 
         public abstract IDataReader GetTopUnhandledUrls(int portalId, DateTime startDate, int maxUrls);
         public abstract void SetHandledUrl(string url, DateTime handledOn, string handledBy);
+        public abstract void CleanupRedirectLog(int portalId, int maxAgeDays, int maxEntries);
     }
 }

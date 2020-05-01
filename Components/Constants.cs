@@ -20,5 +20,9 @@
         public const string MODULE_LOGGER_NAME = "40Fingers.SeoRedirect";
 
         public const string Force404TabSetting = "40F_SEO_Force404";
+
+        public const string CleanerTaskName = "40F Seo Cleaner";
+        public const string CleanerTaskTypeName = "FortyFingers.SeoRedirect.Components.TaskCleaner, 40Fingers.DNN.Modules.SeoRedirect";
+
     }
 }

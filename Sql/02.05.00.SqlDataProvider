@@ -1,0 +1,31 @@
+﻿CREATE PROCEDURE {databaseOwner}[{objectQualifier}40F_SEO_CleanRedirectLog]
+@PortalId INT,
+@MaxAgeDays INT,
+@MaxEntries INT
+AS
+BEGIN
+
+	DECLARE @firstIdToKeep INT
+	SET @firstIdToKeep = 0
+	IF @MaxAgeDays > 0
+	BEGIN
+		DECLARE @tmpDate DATETIME
+		SET @tmpDate = DATEADD(d, -1 * @MaxAgeDays, GETDATE())
+		SELECT @firstIdToKeep = MIN(Id) FROM {databaseOwner}[{objectQualifier}40F_SEO_RedirectLog] WHERE RequestDateTime > DATEADD(d, -1 * @MaxAgeDays, GETDATE())
+	END
+	IF @MaxEntries > 0
+	BEGIN
+		DECLARE @tmpId INT
+		SELECT @tmpId = MIN(Id) FROM (SELECT TOP (@MaxEntries) Id FROM {databaseOwner}[{objectQualifier}40F_SEO_RedirectLog] ORDER BY Id DESC) AS L
+		IF @tmpId > @firstIdToKeep
+			SET @firstIdToKeep = @tmpId
+
+	END
+
+	IF @firstIdToKeep > 0
+		DELETE FROM {databaseOwner}[{objectQualifier}40F_SEO_RedirectLog] WHERE Id < @firstIdToKeep
+
+
+END
+
+GO

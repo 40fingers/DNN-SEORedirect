@@ -112,5 +112,10 @@ namespace FortyFingers.SeoRedirect.Components.Data
         {
             SqlHelper.ExecuteNonQuery(ConnectionString, GetObjectName("SetHandledUrl"), url, handledOn, handledBy);
         }
+
+        public override void CleanupRedirectLog(int portalId, int maxAgeDays, int maxEntries)
+        {
+            SqlHelper.ExecuteNonQuery(ConnectionString, GetObjectName("CleanRedirectLog"), portalId, maxAgeDays, maxEntries);
+        }
     }
 }
