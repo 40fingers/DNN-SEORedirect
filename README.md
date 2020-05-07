@@ -7,4 +7,4 @@ For SEO, it’s useful to redirect renamed or moved pages or files to their new 
 Although DNN has built in functionality for renamed pages, it does not for all other situations.
 The SEO redirect allows you to see the incoming 404’s and add a redirect them to a new location if needed.
 
-For the latest DNN installer and documentation visit [our](https://www.40fingers.net/) [project page](https://www.40fingers.net/Products/DNN-SeoRedirect) for this module.
+For the latest DNN installer and documentation visit [our](https://www.40fingers.net/) [project page](https://www.40fingers.net/Products/DNN-SEO-Redirect) for this module.
