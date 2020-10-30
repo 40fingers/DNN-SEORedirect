@@ -19,8 +19,22 @@ namespace FortyFingers.SeoRedirect.Components
             {
                 Common.Logger.Debug($"Force404-check for tab {Common.CurrentPortalSettings.ActiveTab.TabID}");
 
+                var tabFullUrl = "";
+                // activeTab can be a tab when handlers are being called.
+                // in those cases, FullUrl throws an exception
+                // we're "handling" that here
+                try
+                {
+                    tabFullUrl = activeTab.FullUrl.ToLowerInvariant();
+                }
+                catch (Exception e)
+                {
+                }
+
+                if (string.IsNullOrEmpty(tabFullUrl)) return;
+
                 var incoming = Common.IncomingUrl;
-                var tabUrl = new Uri(activeTab.FullUrl.ToLowerInvariant());
+                var tabUrl = new Uri(tabFullUrl);
                 var incUrl = new Uri(incoming);
 
                 if (incUrl.LocalPath.StartsWith(tabUrl.LocalPath) && incUrl.LocalPath.Length > tabUrl.LocalPath.Length)
