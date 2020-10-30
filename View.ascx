@@ -2,30 +2,30 @@
 <%@ Import Namespace="FortyFingers.SeoRedirect.Components" %>
 <%@ Register TagPrefix="dnn" Assembly="DotNetNuke.Web" Namespace="DotNetNuke.Web.UI.WebControls" %>
 
-<script type="text/javascript">
-    ff_seo_selectedPageChanged = function (selectedNode, arg2) {
-        // no way to figure out which textbox to clear
-        //console.log(JSON.stringify(selectedNode));
-        FF.log("triggering change on : " + $("#" + arg2[0].previousElementSibling.id).attr('id'));
-
-        $("#" + arg2[0].previousElementSibling.id).trigger('change');
-    };
-
-</script>
-<script type="text/javascript">
-    var srPid = <%= PortalId %>;
-    var srMid = <%= ModuleId %>;
-    var srVM;
-    $(document).ready(function () {
-        SR.service = $.ServicesFramework(srMid);
-        SR.service.baseUrl = SR.service.getServiceRoot("40Fingers") + "SeoRedirect/";
-
-        srVM = new SR.UnhandledUrlsVm({ urls: [] });
-        srVM.load();
-    });
-</script>
 <asp:PlaceHolder runat="server" ID="LoggingPlaceholder"></asp:PlaceHolder>
 <asp:Panel runat="server" ID="UnhandledUrlsPanel" Visible="False">
+    <script type="text/javascript">
+        ff_seo_selectedPageChanged = function (selectedNode, arg2) {
+            // no way to figure out which textbox to clear
+            //console.log(JSON.stringify(selectedNode));
+            FF.log("triggering change on : " + $("#" + arg2[0].previousElementSibling.id).attr('id'));
+
+            $("#" + arg2[0].previousElementSibling.id).trigger('change');
+        };
+
+    </script>
+    <script type="text/javascript">
+        var srPid = <%= PortalId %>;
+        var srMid = <%= ModuleId %>;
+        var srVM;
+        $(document).ready(function () {
+            SR.service = $.ServicesFramework(srMid);
+            SR.service.baseUrl = SR.service.getServiceRoot("40Fingers") + "SeoRedirect/";
+
+            srVM = new SR.UnhandledUrlsVm({ urls: [] });
+            srVM.load();
+        });
+    </script>
     <div class="ffsr ffsr-view">
         <h4>
             <asp:Label runat="server" ID="UnhandledUrlsPanelHeader"></asp:Label></h4>
