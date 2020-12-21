@@ -156,6 +156,9 @@
   <data name="SourceUrlHeaderLabel.Text" xml:space="preserve">
     <value>Bron URL</value>
   </data>
+  <data name="StatusCode.Text" xml:space="preserve">
+    <value>Gebruik Http Status Code (&lt;a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#3xx_redirection" target="_blank"&gt;meer info&lt;/a&gt;)</value>
+  </data>
   <data name="TargetUrlHeaderLabel.Text" xml:space="preserve">
     <value>Doel URL of TabID</value>
   </data>
