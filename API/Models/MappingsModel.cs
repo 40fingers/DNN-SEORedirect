@@ -31,6 +31,7 @@ namespace FortyFingers.SeoRedirect.API.Models
             TargetTabId = mapping.TargetTabId;
             UseRegex = mapping.UseRegex;
             EnableLogging = mapping.EnableLogging;
+            StatusCode = mapping.StatusCode;
         }
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -61,5 +62,8 @@ namespace FortyFingers.SeoRedirect.API.Models
         public bool UseRegex { get; set; }
         [JsonProperty("enableLogging")]
         public bool EnableLogging { get; set; }
+
+        [JsonProperty("statusCode")]
+        public Constants.HttpRedirectStatus StatusCode { get; set; } = Constants.HttpRedirectStatus.MovedPermanently;
     }
 }

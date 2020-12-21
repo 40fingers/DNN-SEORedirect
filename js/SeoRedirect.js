@@ -334,6 +334,7 @@ SR.MappingVm = function(data) {
         postData.SourceUrl = self.sourceUrl();
         postData.UseRegex = self.useRegex();
         postData.EnableLogging = self.enableLogging();
+        postData.StatusCode = self.statusCode();
 
         var maptotype = self.mapToType();
 
@@ -383,6 +384,7 @@ SR.MappingVm = function(data) {
             self.sourceUrl(obj.sourceUrl);
             self.useRegex(obj.useRegex);
             self.enableLogging(obj.enableLogging);
+            self.statusCode(obj.statusCode);
             self.targetUrl(obj.targetUrl);
             self.targetTabId(obj.targetTabId);
             self.initMapToType();
@@ -563,7 +565,8 @@ SR.MappingsVm = function() {
                 "targetTabId": -1,
                 "targetTabName": "",
                 "useRegex": false,
-                "enableLogging": true
+                "enableLogging": true,
+                "statusCode": 301
             });
         newMap.index(0);
         self.mappings.unshift(newMap);

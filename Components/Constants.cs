@@ -24,5 +24,15 @@
         public const string CleanerTaskName = "40F Seo Cleaner";
         public const string CleanerTaskTypeName = "FortyFingers.SeoRedirect.Components.TaskCleaner, 40Fingers.DNN.Modules.SeoRedirect";
 
+        public enum HttpRedirectStatus
+        {
+            MovedPermanently = 301,
+            Found = 302,
+            SeeOther = 303,
+            NotModified = 304,
+            UseProxy = 305,
+            TemporaryRedirect = 307,
+            PermanentRedirect = 308
+        }
     }
 }

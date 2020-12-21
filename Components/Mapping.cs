@@ -77,5 +77,7 @@ namespace FortyFingers.SeoRedirect.Components
         public bool UseRegex { get; set; }
         [XmlElement("EnableLogging")]
         public bool EnableLogging { get; set; }
+        [XmlElement("StatusCode")]
+        public Constants.HttpRedirectStatus StatusCode { get; set; } = Constants.HttpRedirectStatus.MovedPermanently;
     }
 }

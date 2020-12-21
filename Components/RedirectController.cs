@@ -70,7 +70,8 @@ namespace FortyFingers.SeoRedirect.Components
 
                 // check if URL is in Sources of mappingtable
                 string target = "";
-
+                Constants.HttpRedirectStatus targetStatus = Constants.HttpRedirectStatus.MovedPermanently;
+                
                 var mappingsNoRegex = RedirectConfig.Instance.MappingsDictionary(false);
                 
                 if (UserInfo.IsSuperUser) logToControls.Add(new LiteralControl(String.Format("Mappings (with regex): {0}<br/>", RedirectConfig.Instance.MappingsDictionary(true).Count)));
@@ -87,13 +88,16 @@ namespace FortyFingers.SeoRedirect.Components
                         target = mappingsNoRegex[incoming];
                         HttpContext.Current.Items["40F_SEO_MappingFound"] = true;
                         addRedirectLogging = RedirectConfig.Instance.IsLoggingEnabled(incoming);
+                        targetStatus = RedirectConfig.Instance.GetRedirectStatus(incoming);
                         Common.Logger.Debug($"Mapping without regex found, Target: [{target}]");
                     }
                     else if (mappingsNoRegex.ContainsKey(ToRelativeUrl(incoming)))
                     {
-                        target = mappingsNoRegex[ToRelativeUrl(incoming)];
+                        var relIncoming = ToRelativeUrl(incoming);
+                        target = mappingsNoRegex[relIncoming];
                         HttpContext.Current.Items["40F_SEO_MappingFound"] = true;
-                        addRedirectLogging = RedirectConfig.Instance.IsLoggingEnabled(incoming);
+                        addRedirectLogging = RedirectConfig.Instance.IsLoggingEnabled(relIncoming);
+                        targetStatus = RedirectConfig.Instance.GetRedirectStatus(relIncoming);
                         Common.Logger.Debug($"Mapping without regex found, Target: [{target}]");
                     }
                     else
@@ -113,6 +117,7 @@ namespace FortyFingers.SeoRedirect.Components
                                 target = Regex.Replace(incoming, mappingSource, mappingTarget);
                                 HttpContext.Current.Items["40F_SEO_MappingFound"] = true;
                                 addRedirectLogging = RedirectConfig.Instance.IsLoggingEnabled(mapping.Key);
+                                targetStatus = RedirectConfig.Instance.GetRedirectStatus(mappingSource);
                                 Common.Logger.Debug($"Mapping with regex found, Target: [{target}]");
                             }
                         }
@@ -143,7 +148,7 @@ namespace FortyFingers.SeoRedirect.Components
                     {
                         Common.Logger.Debug($"Redirect to:[{target}]");
                         Response.Redirect(target, false);
-                        Response.StatusCode = 301;
+                        Response.StatusCode = (int)targetStatus;
                         Response.End();
                     }
                     catch (Exception)

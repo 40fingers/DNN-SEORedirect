@@ -134,9 +134,11 @@ namespace FortyFingers.SeoRedirect.Components
         //    return String.Format("40FINGERS.SeoRedirect.MAPPINGS,{0},{1}", Common.CurrentPortalSettings.PortalId, usingRegex);
         //}
         private static string loggingListLockObject = "lockIt";
+        private static string statusCodesDicLockObject = "lockIt";
         private static string mappingsDicLockObject = "lockIt";
         private static string mappingsDicRegexLockObject = "lockIt";
         private List<string> _LoggingSourceUrls = null;
+        private Dictionary<string, Constants.HttpRedirectStatus> _StatusCodesDictionary = null;
         private Dictionary<string, string> _MappingsDictionary = null;
         private Dictionary<string, string> _MappingsDictionaryRegex = null;
         public Dictionary<string, string> MappingsDictionary(bool usingRegex)
@@ -173,15 +175,7 @@ namespace FortyFingers.SeoRedirect.Components
                     if (mapping.UseRegex == usingRegex && !dic.ContainsKey(mapping.SourceUrl.ToLower()))
                     {
                         string targetUrl;
-                        if (mapping.TargetTabId > 0)
-                        {
-                            targetUrl = mapping.TargetUrl;
-                            //targetUrl = Globals.NavigateURL(mapping.TargetTabId, Common.CurrentPortalSettings, "");
-                        }
-                        else
-                        {
-                            targetUrl = mapping.TargetUrl;
-                        }
+                        targetUrl = mapping.TargetUrl;
                         dic.Add(mapping.SourceUrl.ToLower(), targetUrl);
                     }
                 }
@@ -216,6 +210,22 @@ namespace FortyFingers.SeoRedirect.Components
             }
 
             return _LoggingSourceUrls.Contains(mappingSourceUrl);
+        }
+        public Constants.HttpRedirectStatus GetRedirectStatus(string mappingSourceUrl)
+        {
+            if (_StatusCodesDictionary == null)
+            {
+                lock (statusCodesDicLockObject)
+                {
+                    _StatusCodesDictionary = new Dictionary<string, Constants.HttpRedirectStatus>();
+                    foreach (var mapping in Mappings)
+                    {
+                        _StatusCodesDictionary.Add(mapping.SourceUrl.ToLower(), mapping.StatusCode);
+                    }
+                }
+            }
+
+            return _StatusCodesDictionary.ContainsKey(mappingSourceUrl) ? _StatusCodesDictionary[mappingSourceUrl] : Constants.HttpRedirectStatus.MovedPermanently;
         }
         //private static void ClearCache()
         //{

@@ -56,7 +56,7 @@
                                 <%= Localization.GetString("SourceUrlHeaderLabel", LocalResourceFile) %>
                             </h5>
                             <div class="ffsr-block-item">
-                                <input type="text" data-bind="value: sourceUrl, attr: {id: 'sourceUrl_' + $index(), name: 'sourceUrl_' + $index()} " />
+                                <input type="text" class="form-control" data-bind="value: sourceUrl, attr: {id: 'sourceUrl_' + $index(), name: 'sourceUrl_' + $index()} " />
                                 <div><input type="checkbox" value="true" data-bind="checked: useRegex" /><%= Localization.GetString("UseRegexHeaderLabel", LocalResourceFile) %></div>
                             </div>
                         </div>
@@ -67,6 +67,23 @@
                             <div class="ffsr-block-item">
                                 <div><input type="checkbox" value="true" data-bind="checked: enableLogging" /><%= Localization.GetString("EnableLoggingHeaderLabel", LocalResourceFile) %></div>
                             </div>
+
+                            <div class="ffsr-block-item">
+                                <div>
+                                    <%= Localization.GetString("StatusCode", LocalResourceFile) %>
+                                </div>
+                                <select class="form-control" data-bind="attr: {id: 'statusCodeDropDown_' + $index()}, value: statusCode">
+                                    <option value="301">301 - Moved Permanently</option>
+                                    <option value="302">302 - Found</option>
+                                    <option value="303">303 - See Other</option>
+                                    <option value="304">304 - Not Modified</option>
+                                    <option value="305">305 - Use Proxy</option>
+                                    <option value="307">307 - Temporary Redirect</option>
+                                    <option value="308">308 - Permanent Redirect</option>
+                                </select>
+                            </div>
+                            
+
                             <div class="dnnFormMessage dnnFormValidationSummary" data-bind="visible: targetTabId() > 0 && targetTabName() === ''">
                                 <div>
                                     <%= Localization.GetString("RedirectTabNotFound", LocalResourceFile) %>
@@ -76,7 +93,7 @@
                                 <div>
                                     <input type="radio" data-bind="checked: mapToType, attr: {name: 'mapToTypeRadio_' + $index()}" value="URL" /><%= Localization.GetString("RedirectToUrl", LocalResourceFile) %>
                                 </div>
-                                <input type="text" data-bind="value: targetUrl, attr: {id: 'redirectUrl_' + $index(), name: 'redirectUrl_' + $index()}, event: { change: mapToType('URL') }" />
+                                <input type="text" class="form-control" data-bind="value: targetUrl, attr: {id: 'redirectUrl_' + $index(), name: 'redirectUrl_' + $index()}, event: { change: mapToType('URL') }" />
                             </div>
                             <div class="ffsr-block-item" data-bind="attr: {id: 'redirectPageDropdown_' + $index()} ">
                                 <div>

@@ -39,6 +39,7 @@ namespace FortyFingers.SeoRedirect.API
         {
             var map = new Mapping();
             map.SourceUrl = model.SourceUrl.Trim();
+            map.StatusCode = Constants.HttpRedirectStatus.MovedPermanently;
             if (!string.IsNullOrEmpty(model.TargetUrl))
             {
                 map.TargetUrl = model.TargetUrl;
@@ -104,6 +105,7 @@ namespace FortyFingers.SeoRedirect.API
                 RedirectConfig.Instance.Mappings.Add(map);
             }
 
+            map.StatusCode = model.StatusCode;
             map.SourceUrl = model.SourceUrl.Trim();
             map.UseRegex = model.UseRegex;
             map.EnableLogging = model.EnableLogging;
