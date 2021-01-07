@@ -36,6 +36,12 @@ namespace FortyFingers.SeoRedirect.Components
                 var incoming = Common.IncomingUrl;
                 var tabUrl = new Uri(tabFullUrl);
                 var incUrl = new Uri(incoming);
+                
+                // requests for dependancyhandler.axd don't get recognised as a handler and need to be explicitly ignored
+                if (incoming.Contains("dependencyhandler.axd"))
+                {
+                    return;
+                }
 
                 if (incUrl.LocalPath.StartsWith(tabUrl.LocalPath) && incUrl.LocalPath.Length > tabUrl.LocalPath.Length)
                 {
