@@ -8,7 +8,7 @@
     <url>http://www.40fingers.net</url>
     <email>info@40fingers.net</email>
   </owner>
-  <license>The license for this package is not currently included within the installation file, please check with the vendor for full license details.</license>
+  <license>40FINGERS-OS-Module-License.htm</license>
   <releaseNotes src="ReleaseNotes.htm"></releaseNotes>
   <dependencies>
     <dependency type="CoreVersion">07.02.01</dependency>
