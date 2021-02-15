@@ -25,7 +25,7 @@
         <td class="SubHead" width="150" valign="top"><dnn:label id="plMaxEntries" controlname="MaxEntries" runat="server" Text="Max number of entries" suffix=":" /></td>
         <td valign="top">
             <asp:TextBox ID="MaxEntries" runat="server" CssClass="NormalTextBox" Width="60"></asp:TextBox>
-            <asp:RangeValidator runat="server" ID="ValMaxEntries" ControlToValidate="MaxEntries" MinimumValue="0" MaximumValue="1000" ErrorMessage="Please enter a number between 0 and 1000" Type="Integer" />
+            <asp:RangeValidator runat="server" ID="ValMaxEntries" ControlToValidate="MaxEntries" MinimumValue="0" MaximumValue="200000" ErrorMessage="Please enter a number between 0 and 200000" Type="Integer" />
         </td>
     </tr>
 </table>
