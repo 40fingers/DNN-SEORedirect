@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Web;
 using System.Web.UI;
 using DotNetNuke;
@@ -71,10 +72,12 @@ namespace FortyFingers.SeoRedirect.Components
                 // check if URL is in Sources of mappingtable
                 string target = "";
                 Constants.HttpRedirectStatus targetStatus = Constants.HttpRedirectStatus.MovedPermanently;
-                
+
                 var mappingsNoRegex = RedirectConfig.Instance.MappingsDictionary(false);
-                
-                if (UserInfo.IsSuperUser) logToControls.Add(new LiteralControl(String.Format("Mappings (with regex): {0}<br/>", RedirectConfig.Instance.MappingsDictionary(true).Count)));
+
+                if (UserInfo.IsSuperUser)
+                    logToControls.Add(new LiteralControl(String.Format("Mappings (with regex): {0}<br/>",
+                        RedirectConfig.Instance.MappingsDictionary(true).Count)));
                 if (UserInfo.IsSuperUser) logToControls.Add(new LiteralControl(String.Format("Mappings (no regex): {0}<br/>", mappingsNoRegex.Count)));
 
                 bool addRedirectLogging = true;
@@ -125,7 +128,7 @@ namespace FortyFingers.SeoRedirect.Components
                 }
 
                 // if there should not be logged, register the HttpItem for that
-                if(!addRedirectLogging) Common.IsAlreadyLogged = true;
+                if (!addRedirectLogging) Common.IsAlreadyLogged = true;
 
                 // Log this 404
                 var ps = Common.CurrentPortalSettings;
@@ -147,8 +150,8 @@ namespace FortyFingers.SeoRedirect.Components
                     try
                     {
                         Common.Logger.Debug($"Redirect to:[{target}]");
-                        Response.Redirect(target, false);
                         Response.StatusCode = (int)targetStatus;
+                        Response.Redirect(target, false);
                         Response.End();
                     }
                     catch (Exception)
@@ -168,6 +171,10 @@ namespace FortyFingers.SeoRedirect.Components
                 //    // tell the client that the page wasn't found
                 //    SetStatus404();
                 //}
+            }
+            catch (ThreadAbortException tae)
+            {
+                // do nothing: threadabortexception is normal behaviour
             }
             catch (Exception exception)
             {
