@@ -7,6 +7,7 @@ using System.Threading;
 using System.Web;
 using System.Web.UI;
 using DotNetNuke;
+using DotNetNuke.Application;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Portals;
@@ -73,7 +74,16 @@ namespace FortyFingers.SeoRedirect.Components
                 string target = "";
                 Constants.HttpRedirectStatus targetStatus = Constants.HttpRedirectStatus.MovedPermanently;
 
-                var mappingsNoRegex = RedirectConfig.Instance.MappingsDictionary(false);
+                Dictionary<string, string> mappingsNoRegex;
+                try
+                {
+                    mappingsNoRegex = RedirectConfig.Instance.MappingsDictionary(false);
+                }
+                catch (Exception e)
+                {
+                    return;
+                }
+                if(mappingsNoRegex?.Keys.Count <= 0) return;
 
                 if (UserInfo.IsSuperUser)
                     logToControls.Add(new LiteralControl(String.Format("Mappings (with regex): {0}<br/>",

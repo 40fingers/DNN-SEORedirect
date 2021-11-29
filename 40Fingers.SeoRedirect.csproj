@@ -200,6 +200,7 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="msbuild\build.bat" />
+    <Content Include="msbuild\custom.targets" />
     <None Include="msbuild\Project.targets" />
     <Content Include="_external\DotNetNuke.Instrumentation.dll" />
     <Content Include="_external\DotNetNuke.Log4Net.dll" />
@@ -272,7 +273,6 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>62596</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://production.local/482/DesktopModules/SimpleGalleryShow</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
           <IISAppRootUrl>http://production.local/482</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

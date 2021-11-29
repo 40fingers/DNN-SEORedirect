@@ -23,9 +23,12 @@
         <InstallDir>_Installation\$(MSBuildProjectName)</InstallDir>
         <svn></svn>
         <BinDir>$(MSBuildProjectDirectory)\bin</BinDir>
-        <DotNetNukeDir>$(MSBuildProjectDirectory)\..\..\..</DotNetNukeDir>
+        <DotNetNukeDir>$(MSBuildProjectDirectory)\DNNDeploy</DotNetNukeDir>
         <DotNetNukeVer>4</DotNetNukeVer>
+	    <ImportPath Condition="Exists('$(MSBuildProjectDirectory)\msbuild\custom.targets')">$(MSBuildProjectDirectory)\msbuild\custom.targets</ImportPath> <!-- check if custom.targets exists -->
     </PropertyGroup>
+
+    <Import Project="$(ImportPath)" Condition=" '$(ImportPath)' != '' "/>
 
     <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" Condition="Exists('$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets')"/>
 
@@ -177,8 +180,36 @@
                             $(BinDir)\*.pdb;$(BinDir)\*.pdb">
             <Output TaskParameter="Include" ItemName="Assemblies" />
         </CreateItem>
-        <Copy SourceFiles="@(Assemblies)" DestinationFolder="$(DotNetNukeDir)\bin\" SkipUnchangedFiles="false" ContinueOnError="true" />
+        <Copy SourceFiles="@(Assemblies)" DestinationFolder="$(DotNetNukeDir)\files\bin\" SkipUnchangedFiles="false" ContinueOnError="true" />
         <Message Text="MSBUILD: Copied @(Assemblies) to $(DotNetNukeDir)\bin\" Importance="high"></Message>
+
+        <CreateItem Exclude="$(MSBuildProjectDirectory)\**\.svn\**;
+						          $(MSBuildProjectDirectory)\.git\**;
+						          $(MSBuildProjectDirectory)\_ReSharper**;
+						          $(MSBuildProjectDirectory)\**\obj\**;
+						          $(MSBuildProjectDirectory)\**\_Source\**;
+						          $(MSBuildProjectDirectory)\**\bin\**;
+						          $(MSBuildProjectDirectory)\**\My Project\**;
+						          $(MSBuildProjectDirectory)\Dependencies\**;
+						          $(MSBuildProjectDirectory)\**\Properties\**;
+						          $(MSBuildProjectDirectory)\*.dnn;
+						          $(MSBuildProjectDirectory)\**\msbuild\**"
+                    Include="$(MSBuildProjectDirectory)\**\*.ascx;
+						          $(MSBuildProjectDirectory)\**\*.aspx;
+						          $(MSBuildProjectDirectory)\**\*.ashx;
+						          $(MSBuildProjectDirectory)\**\*.css;
+						          $(MSBuildProjectDirectory)\**\*.js;
+				  	          $(MSBuildProjectDirectory)\**\*.resx;
+						          $(MSBuildProjectDirectory)\**\*.rdlc;
+						          $(MSBuildProjectDirectory)\**\*.gif;
+						          $(MSBuildProjectDirectory)\**\*.jpg;
+						          $(MSBuildProjectDirectory)\**\*.png;
+						          $(MSBuildProjectDirectory)\**\font\**;
+                      $(MSBuildProjectDirectory)\Templates\**">
+	        <Output TaskParameter="Include" ItemName="ModuleFiles" />
+        </CreateItem>
+        <Copy SourceFiles="@(ModuleFiles)" DestinationFolder="$(DotNetNukeDir)\files\DesktopModules\$(CompanyName)\$(ModuleName)\%(RecursiveDir)" SkipUnchangedFiles="false" ContinueOnError="true" />
+
     </Target>
 </Project>
 
