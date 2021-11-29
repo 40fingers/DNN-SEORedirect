@@ -5,6 +5,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
+using DotNetNuke.Application;
 using DotNetNuke.Common;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Users;
@@ -21,6 +22,8 @@ namespace FortyFingers.SeoRedirect.Components
 
         private void Context_EndRequest(object sender, EventArgs e)
         {
+            if (IsUpgrade) return;
+
             try
             {
                 var rsp = HttpContext.Current.Response;
@@ -48,6 +51,7 @@ namespace FortyFingers.SeoRedirect.Components
 
         private void OnBeginRequest(object sender, EventArgs e)
         {
+            if (IsUpgrade) return;
 
             // find incoming URL
             string incoming = "";
@@ -73,6 +77,22 @@ namespace FortyFingers.SeoRedirect.Components
         public void Dispose()
         {
 
+        }
+
+        public bool IsUpgrade
+        {
+            get
+            {
+                if (!HttpContext.Current.Items.Contains("40f_seo_isupgrade"))
+                {
+                    var assemblyVersion = DotNetNukeContext.Current.Application.Version;
+                    var databaseVersion = DotNetNuke.Data.DataProvider.Instance().GetVersion();
+
+                    HttpContext.Current.Items["40f_seo_isupgrade"] = !assemblyVersion.Equals(databaseVersion);
+                }
+
+                return (bool)HttpContext.Current.Items["40f_seo_isupgrade"];
+            }
         }
     }
 }
