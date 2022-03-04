@@ -88,7 +88,9 @@ namespace FortyFingers.SeoRedirect.Components
                     var assemblyVersion = DotNetNukeContext.Current.Application.Version;
                     var databaseVersion = DotNetNuke.Data.DataProvider.Instance().GetVersion();
 
-                    HttpContext.Current.Items["40f_seo_isupgrade"] = !assemblyVersion.Equals(databaseVersion);
+                    HttpContext.Current.Items["40f_seo_isupgrade"] = !(assemblyVersion.Major == databaseVersion.Major 
+                                                                       && assemblyVersion.Minor == databaseVersion.Minor 
+                                                                       && assemblyVersion.Build == databaseVersion.Build);
                 }
 
                 return (bool)HttpContext.Current.Items["40f_seo_isupgrade"];
