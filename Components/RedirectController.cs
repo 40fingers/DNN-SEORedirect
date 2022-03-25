@@ -124,7 +124,7 @@ namespace FortyFingers.SeoRedirect.Components
                             var mappingSource = ToFullUrl(mapping.Key);
                             var mappingTarget = ToFullUrl(mapping.Value);
 
-                            if (Regex.IsMatch(incoming, mappingSource))
+                            if (Regex.IsMatch(incoming, mappingSource, RegexOptions.IgnoreCase))
                             {
                                 // got a match!
                                 target = Regex.Replace(incoming, mappingSource, mappingTarget);

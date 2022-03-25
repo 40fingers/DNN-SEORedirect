@@ -175,12 +175,11 @@
     </Target>
     <Target Name="CopyFilesToDotNetNuke">
         <!-- Copy assemblies and Debug Info to DNN Bin Dir -->
-        <Message Text="MSBUILD: copying @(Assemblies) to $(DotNetNukeDir)\bin\" Importance="high"></Message>
-        <CreateItem Include="$(BinDir)\*.pdb;$(BinDir)\*.dll;
-                            $(BinDir)\*.pdb;$(BinDir)\*.pdb">
+        <CreateItem Include="$(BinDir)\*.pdb;$(BinDir)\*.dll;">
             <Output TaskParameter="Include" ItemName="Assemblies" />
         </CreateItem>
-        <Copy SourceFiles="@(Assemblies)" DestinationFolder="$(DotNetNukeDir)\files\bin\" SkipUnchangedFiles="false" ContinueOnError="true" />
+        <Message Text="MSBUILD: copying @(Assemblies) to $(DotNetNukeDir)\bin\" Importance="high"></Message>
+        <Copy SourceFiles="@(Assemblies)" DestinationFolder="$(DotNetNukeDir)\bin\" SkipUnchangedFiles="false" ContinueOnError="false" />
         <Message Text="MSBUILD: Copied @(Assemblies) to $(DotNetNukeDir)\bin\" Importance="high"></Message>
 
         <CreateItem Exclude="$(MSBuildProjectDirectory)\**\.svn\**;
