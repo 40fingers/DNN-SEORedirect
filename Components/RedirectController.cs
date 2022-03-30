@@ -74,7 +74,7 @@ namespace FortyFingers.SeoRedirect.Components
                 string target = "";
                 Constants.HttpRedirectStatus targetStatus = Constants.HttpRedirectStatus.MovedPermanently;
 
-                Dictionary<string, string> mappingsNoRegex;
+                Dictionary<string, Mapping> mappingsNoRegex;
                 try
                 {
                     mappingsNoRegex = RedirectConfig.Instance.MappingsDictionary(false);
@@ -91,6 +91,7 @@ namespace FortyFingers.SeoRedirect.Components
                 if (UserInfo.IsSuperUser) logToControls.Add(new LiteralControl(String.Format("Mappings (no regex): {0}<br/>", mappingsNoRegex.Count)));
 
                 bool addRedirectLogging = true;
+                Mapping usedMapping = null;
                 // if we're in a 404, let's try to find a mapping
                 if (is404 || redirectWhenNo404Detected)
                 {
@@ -98,7 +99,8 @@ namespace FortyFingers.SeoRedirect.Components
                     // first try non-regex mappings, as they're supposed to be faster
                     if (mappingsNoRegex.ContainsKey(incoming))
                     {
-                        target = mappingsNoRegex[incoming];
+                        usedMapping = mappingsNoRegex[incoming];
+                        target = usedMapping.TargetUrl;
                         HttpContext.Current.Items["40F_SEO_MappingFound"] = true;
                         addRedirectLogging = RedirectConfig.Instance.IsLoggingEnabled(incoming);
                         targetStatus = RedirectConfig.Instance.GetRedirectStatus(incoming);
@@ -106,8 +108,9 @@ namespace FortyFingers.SeoRedirect.Components
                     }
                     else if (mappingsNoRegex.ContainsKey(ToRelativeUrl(incoming)))
                     {
+                        usedMapping = mappingsNoRegex[incoming];
                         var relIncoming = ToRelativeUrl(incoming);
-                        target = mappingsNoRegex[relIncoming];
+                        target = usedMapping.TargetUrl;
                         HttpContext.Current.Items["40F_SEO_MappingFound"] = true;
                         addRedirectLogging = RedirectConfig.Instance.IsLoggingEnabled(relIncoming);
                         targetStatus = RedirectConfig.Instance.GetRedirectStatus(relIncoming);
@@ -122,11 +125,12 @@ namespace FortyFingers.SeoRedirect.Components
                         foreach (var mapping in mappingsUsingRegex)
                         {
                             var mappingSource = ToFullUrl(mapping.Key);
-                            var mappingTarget = ToFullUrl(mapping.Value);
+                            var mappingTarget = ToFullUrl(mapping.Value.TargetUrl);
 
                             if (Regex.IsMatch(incoming, mappingSource, RegexOptions.IgnoreCase))
                             {
                                 // got a match!
+                                usedMapping = mapping.Value;
                                 target = Regex.Replace(incoming, mappingSource, mappingTarget);
                                 HttpContext.Current.Items["40F_SEO_MappingFound"] = true;
                                 addRedirectLogging = RedirectConfig.Instance.IsLoggingEnabled(mapping.Key);
@@ -160,6 +164,8 @@ namespace FortyFingers.SeoRedirect.Components
                     try
                     {
                         Common.Logger.Debug($"Redirect to:[{target}]");
+                        Response.AppendHeader("X-Redirect-Reason", $"SEORedirect mapping {usedMapping?.SourceUrl}");
+                        Response.AppendHeader("X-Redirect-ID", $"SEORedirect mapping {usedMapping?.Id}");
                         Response.StatusCode = (int)targetStatus;
                         Response.Redirect(target, false);
                         Response.End();
