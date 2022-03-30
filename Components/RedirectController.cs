@@ -83,7 +83,13 @@ namespace FortyFingers.SeoRedirect.Components
                 {
                     return;
                 }
-                if(mappingsNoRegex?.Keys.Count <= 0) return;
+
+                // no need to proceed if we don't have mappings anyway
+                if (!RedirectConfig.Instance.Mappings?.Any() ?? false)
+                {
+                    if (UserInfo.IsSuperUser) logToControls.Add(new LiteralControl("No Mappings configured<br/>"));
+                    return;
+                }
 
                 if (UserInfo.IsSuperUser)
                     logToControls.Add(new LiteralControl(String.Format("Mappings (with regex): {0}<br/>",
