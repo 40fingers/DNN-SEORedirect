@@ -139,9 +139,9 @@ namespace FortyFingers.SeoRedirect.Components
         private static string mappingsDicRegexLockObject = "lockIt";
         private List<string> _LoggingSourceUrls = null;
         private Dictionary<string, Constants.HttpRedirectStatus> _StatusCodesDictionary = null;
-        private Dictionary<string, string> _MappingsDictionary = null;
-        private Dictionary<string, string> _MappingsDictionaryRegex = null;
-        public Dictionary<string, string> MappingsDictionary(bool usingRegex)
+        private Dictionary<string, Mapping> _MappingsDictionary = null;
+        private Dictionary<string, Mapping> _MappingsDictionaryRegex = null;
+        public Dictionary<string, Mapping> MappingsDictionary(bool usingRegex)
         {
             if (usingRegex && _MappingsDictionaryRegex != null)
             {
@@ -156,7 +156,7 @@ namespace FortyFingers.SeoRedirect.Components
 
             lock (lockobject)
             {
-                Dictionary<string, string> dic = null;
+                Dictionary<string, Mapping> dic = null;
 
                 //try
                 //{
@@ -168,15 +168,14 @@ namespace FortyFingers.SeoRedirect.Components
                 //}
                 // if there are no mappings, the use of this module is pointless
                 // so we'll assume something went wrong reading the file in that case
-                dic = new Dictionary<string, string>();
+                dic = new Dictionary<string, Mapping>();
                 // add the sourceurl lowercased: we're case insensitive
                 foreach (var mapping in Mappings)
                 {
                     if (mapping.UseRegex == usingRegex && !dic.ContainsKey(mapping.SourceUrl.ToLower()))
                     {
                         string targetUrl;
-                        targetUrl = mapping.TargetUrl;
-                        dic.Add(mapping.SourceUrl.ToLower(), targetUrl);
+                        dic.Add(mapping.SourceUrl.ToLower(), mapping);
                     }
                 }
 
