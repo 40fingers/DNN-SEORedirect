@@ -80,7 +80,7 @@ namespace FortyFingers.SeoRedirect.Components
         //    return GetConfig(true);
         //}
 
-        private static string getConfigLockObject = "lockIt";
+        private static string _getConfigLockObject = "lockIt";
         private static RedirectConfig GetConfig()
         {
             RedirectConfig config = null;
@@ -98,7 +98,7 @@ namespace FortyFingers.SeoRedirect.Components
             // so we'll assume something went wrong reading the file in that case
             if (config == null || config.Mappings == null || config.Mappings.Count == 0)
             {
-                lock (getConfigLockObject)
+                lock (_getConfigLockObject)
                 {
                     var file = Common.RedirectConfigFile();
                     config = FromFile(file);
@@ -119,13 +119,13 @@ namespace FortyFingers.SeoRedirect.Components
 
         public void ResetMappingDictionaries()
         {
-            lock (mappingsDicLockObject)
+            lock (_mappingsDicLockObject)
             {
-                _MappingsDictionary = null;
+                _mappingsDictionary = null;
             }
-            lock (mappingsDicRegexLockObject)
+            lock (_mappingsDicRegexLockObject)
             {
-                _MappingsDictionaryRegex = null;
+                _mappingsDictionaryRegex = null;
             }
         }
 
@@ -133,26 +133,26 @@ namespace FortyFingers.SeoRedirect.Components
         //{
         //    return String.Format("40FINGERS.SeoRedirect.MAPPINGS,{0},{1}", Common.CurrentPortalSettings.PortalId, usingRegex);
         //}
-        private static string loggingListLockObject = "lockIt";
-        private static string statusCodesDicLockObject = "lockIt";
-        private static string mappingsDicLockObject = "lockIt";
-        private static string mappingsDicRegexLockObject = "lockIt";
-        private List<string> _LoggingSourceUrls = null;
-        private Dictionary<string, Constants.HttpRedirectStatus> _StatusCodesDictionary = null;
-        private Dictionary<string, Mapping> _MappingsDictionary = null;
-        private Dictionary<string, Mapping> _MappingsDictionaryRegex = null;
+        private static string _loggingListLockObject = "lockIt";
+        private static string _statusCodesDicLockObject = "lockIt";
+        private static string _mappingsDicLockObject = "lockIt";
+        private static string _mappingsDicRegexLockObject = "lockIt";
+        private List<string> _loggingSourceUrls = null;
+        private Dictionary<string, Constants.HttpRedirectStatus> _statusCodesDictionary = null;
+        private Dictionary<string, Mapping> _mappingsDictionary = null;
+        private Dictionary<string, Mapping> _mappingsDictionaryRegex = null;
         public Dictionary<string, Mapping> MappingsDictionary(bool usingRegex)
         {
-            if (usingRegex && _MappingsDictionaryRegex != null)
+            if (usingRegex && _mappingsDictionaryRegex != null)
             {
-                return _MappingsDictionaryRegex;
+                return _mappingsDictionaryRegex;
             }
-            if (!usingRegex && _MappingsDictionary != null)
+            if (!usingRegex && _mappingsDictionary != null)
             {
-                return _MappingsDictionary;
+                return _mappingsDictionary;
             }
 
-            var lockobject = usingRegex ? mappingsDicRegexLockObject : mappingsDicLockObject;
+            var lockobject = usingRegex ? _mappingsDicRegexLockObject : _mappingsDicLockObject;
 
             lock (lockobject)
             {
@@ -174,18 +174,17 @@ namespace FortyFingers.SeoRedirect.Components
                 {
                     if (mapping.UseRegex == usingRegex && !dic.ContainsKey(mapping.SourceUrl.ToLower()))
                     {
-                        string targetUrl;
                         dic.Add(mapping.SourceUrl.ToLower(), mapping);
                     }
                 }
 
                 if (usingRegex)
                 {
-                    _MappingsDictionaryRegex = dic;
+                    _mappingsDictionaryRegex = dic;
                 }
                 else
                 {
-                    _MappingsDictionary = dic;
+                    _mappingsDictionary = dic;
                 }
 
                 //DataCache.SetCache(RedirectMappingsDictionaryCacheKey(usingRegex), dic, new DNNCacheDependency(Common.RedirectConfigFile()));
@@ -195,36 +194,37 @@ namespace FortyFingers.SeoRedirect.Components
 
         public bool IsLoggingEnabled(string mappingSourceUrl)
         {
-            if (_LoggingSourceUrls == null)
+            if (_loggingSourceUrls == null)
             {
-                lock (loggingListLockObject)
+                lock (_loggingListLockObject)
                 {
-                    _LoggingSourceUrls = new List<string>();
+                    _loggingSourceUrls = new List<string>();
                     foreach (var mapping in Mappings)
                     {
-                        if (mapping.EnableLogging && !_LoggingSourceUrls.Contains(mapping.SourceUrl.ToLower()))
-                            _LoggingSourceUrls.Add(mapping.SourceUrl.ToLower());
+                        if (mapping.EnableLogging && !_loggingSourceUrls.Contains(mapping.SourceUrl.ToLower()))
+                            _loggingSourceUrls.Add(mapping.SourceUrl.ToLower());
                     }
                 }
             }
 
-            return _LoggingSourceUrls.Contains(mappingSourceUrl);
+            return _loggingSourceUrls.Contains(mappingSourceUrl);
         }
         public Constants.HttpRedirectStatus GetRedirectStatus(string mappingSourceUrl)
         {
-            if (_StatusCodesDictionary == null)
+            if (_statusCodesDictionary == null)
             {
-                lock (statusCodesDicLockObject)
+                lock (_statusCodesDicLockObject)
                 {
-                    _StatusCodesDictionary = new Dictionary<string, Constants.HttpRedirectStatus>();
+                    _statusCodesDictionary = new Dictionary<string, Constants.HttpRedirectStatus>();
                     foreach (var mapping in Mappings)
                     {
-                        _StatusCodesDictionary.Add(mapping.SourceUrl.ToLower(), mapping.StatusCode);
+                        if(!_statusCodesDictionary.ContainsKey(mapping.SourceUrl.ToLower()))
+                            _statusCodesDictionary.Add(mapping.SourceUrl.ToLower(), mapping.StatusCode);
                     }
                 }
             }
 
-            return _StatusCodesDictionary.ContainsKey(mappingSourceUrl) ? _StatusCodesDictionary[mappingSourceUrl] : Constants.HttpRedirectStatus.MovedPermanently;
+            return _statusCodesDictionary.ContainsKey(mappingSourceUrl) ? _statusCodesDictionary[mappingSourceUrl] : Constants.HttpRedirectStatus.MovedPermanently;
         }
         //private static void ClearCache()
         //{
@@ -318,7 +318,7 @@ namespace FortyFingers.SeoRedirect.Components
         [XmlArrayItem("Mapping")]
         public List<Mapping> Mappings { get; set; }
 
-        private string force404lockobject = "lock";
+        private string _force404Lockobject = "lock";
         private IEnumerable<TabInfo> _force404Tabs = null;
 
         [XmlIgnore]
@@ -328,7 +328,7 @@ namespace FortyFingers.SeoRedirect.Components
             {
                 if (_force404Tabs == null)
                 {
-                    lock (force404lockobject)
+                    lock (_force404Lockobject)
                     {
                         if (_force404Tabs == null)
                         {
