@@ -174,14 +174,13 @@ namespace FortyFingers.SeoRedirect.Components
                         Response.AppendHeader("X-Redirect-ID", $"SEORedirect mapping {usedMapping?.Id}");
                         Response.StatusCode = (int)targetStatus;
                         Response.Redirect(target, false);
-                        Response.End();
                     }
                     catch (Exception)
                     {
                         // do nothing: threadabortexception is normal behaviour
                     }
                 }
-
+                
                 // we're only displaying the logging if it's a 404
                 if (!is404)
                 {

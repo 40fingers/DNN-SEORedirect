@@ -4,3 +4,4 @@ bin/
 _Installation/
 _external/vakata-jstree-c9d7c14/
 msbuild/custom.targets
+*.user
