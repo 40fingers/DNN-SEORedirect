@@ -207,7 +207,7 @@
                       $(MSBuildProjectDirectory)\Templates\**">
 	        <Output TaskParameter="Include" ItemName="ModuleFiles" />
         </CreateItem>
-        <Copy SourceFiles="@(ModuleFiles)" DestinationFolder="$(DotNetNukeDir)\files\DesktopModules\$(CompanyName)\$(ModuleName)\%(RecursiveDir)" SkipUnchangedFiles="false" ContinueOnError="true" />
+        <Copy SourceFiles="@(ModuleFiles)" DestinationFolder="$(DotNetNukeDir)\DesktopModules\$(CompanyName)\$(ModuleName)\%(RecursiveDir)" SkipUnchangedFiles="false" ContinueOnError="true" />
 
     </Target>
 </Project>
