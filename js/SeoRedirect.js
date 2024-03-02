@@ -412,6 +412,10 @@ SR.MappingVm = function(data) {
             FF.hide(panelSelector);
             FF.hide(hideImgSelector);
             FF.show(showImgSelector);
+            if (!self.id()) {
+                self.isRemoved(true);
+            }
+
         } else {
             // make sure the maptotype is correct before showing
             self.initMapToType();

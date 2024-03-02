@@ -1,5 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Edit.ascx.cs" Inherits="FortyFingers.SeoRedirect.Edit" %>
 <%@ Import Namespace="FortyFingers.SeoRedirect.Components" %>
+<%@ Import Namespace="DotNetNuke.Services.Localization" %>
 
 <script type="text/javascript">
     ff_seo_selectedPageChanged = function (selectedNode, arg2) {
