@@ -409,14 +409,10 @@ SR.MappingVm = function(data) {
         var createdropdownContainerStateId = "createPageDropdownState_" + self.index().toString();
         var isVisible = FF.isVisible(panelSelector);
         if (isVisible) {
-            if (self.id()) {
-                FF.hide(panelSelector);
-                FF.hide(hideImgSelector);
-                FF.show(showImgSelector);
-            } else {
-                FF.hide(panelSelector);
-                FF.hide(hideImgSelector);
-                FF.show(showImgSelector);
+            FF.hide(panelSelector);
+            FF.hide(hideImgSelector);
+            FF.show(showImgSelector);
+            if (!self.id()) {
                 self.isRemoved(true);
             }
 
