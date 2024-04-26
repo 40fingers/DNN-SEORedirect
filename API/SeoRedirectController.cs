@@ -42,21 +42,26 @@ namespace FortyFingers.SeoRedirect.API
             map.StatusCode = Constants.HttpRedirectStatus.MovedPermanently;
             if (!string.IsNullOrEmpty(model.TargetUrl))
             {
+                // we have a targeturl, so we need to create a mapping
                 map.TargetUrl = model.TargetUrl;
             }
             else if (model.TargetTabId > 0)
             {
+                // we have a targettabid, so we need to create a mapping
                 map.TargetTabId = model.TargetTabId;
                 map.TargetUrl = DotNetNuke.Common.Globals.NavigateURL(map.TargetTabId, PortalSettings, "");
             }
             else if (model.TargetTabId == -1)
             {
                 // stop logging 404's
+                // we'll still create a mapping, but with an empty targeturl
                 map.EnableLogging = false;
             }
             else
             {
+                // remove from list, but log future 404's: so no mapping.
                 // no mapping to be made
+                map = null;
             }
             if (map != null)
             {
