@@ -27,6 +27,7 @@ namespace FortyFingers.SeoRedirect
             if (!IsPostBack)
             {
                 lnkBack.NavigateUrl = Globals.NavigateURL(TabId);
+                lnkBackTop.NavigateUrl = lnkBack.NavigateUrl;
             }
         }
 
