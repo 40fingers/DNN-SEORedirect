@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="View.ascx.cs" Inherits="FortyFingers.SeoRedirect.View" %>
 <%@ Import Namespace="FortyFingers.SeoRedirect.Components" %>
 <%@ Register TagPrefix="dnn" Assembly="DotNetNuke.Web" Namespace="DotNetNuke.Web.UI.WebControls" %>
+<%@ Import Namespace="DotNetNuke.Services.Localization" %>
 
 <asp:PlaceHolder runat="server" ID="LoggingPlaceholder"></asp:PlaceHolder>
 <asp:Panel runat="server" ID="UnhandledUrlsPanel" Visible="False">
