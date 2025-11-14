@@ -1,14 +1,16 @@
-﻿using System;
+﻿using DotNetNuke.Abstractions.Portals;
+using DotNetNuke.Application;
+using DotNetNuke.Common;
+using DotNetNuke.Entities.Portals;
+using DotNetNuke.Entities.Users;
+using DotNetNuke.Web.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
-using DotNetNuke.Application;
-using DotNetNuke.Common;
-using DotNetNuke.Entities.Portals;
-using DotNetNuke.Entities.Users;
 
 namespace FortyFingers.SeoRedirect.Components
 {
@@ -52,6 +54,7 @@ namespace FortyFingers.SeoRedirect.Components
         private void OnBeginRequest(object sender, EventArgs e)
         {
             if (IsUpgrade) return;
+            if (!Common.AreDIServicesReady) return;
 
             // find incoming URL
             string incoming = "";

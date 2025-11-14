@@ -26,6 +26,9 @@
 </script>
 
 <div class="ffsr ffsr-edit">
+    <ul class="dnnActions dnnClear">
+        <li><asp:HyperLink runat="server" id="lnkBackTop" CssClass="dnnPrimaryAction"><%= Localization.GetString("Back", LocalResourceFile) %></asp:HyperLink></li>
+    </ul>
     <div id="koEditMappingsWrapper">
         <div class="loader" data-bind="visible: isLoading"></div>
         <table class="dnnGrid">

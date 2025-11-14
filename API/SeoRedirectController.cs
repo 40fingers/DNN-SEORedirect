@@ -49,7 +49,7 @@ namespace FortyFingers.SeoRedirect.API
             {
                 // we have a targettabid, so we need to create a mapping
                 map.TargetTabId = model.TargetTabId;
-                map.TargetUrl = DotNetNuke.Common.Globals.NavigateURL(map.TargetTabId, PortalSettings, "");
+                map.TargetUrl = ServiceHelper.I.NavigationManager.NavigateURL(map.TargetTabId, PortalSettings, "");
             }
             else if (model.TargetTabId == -1)
             {
@@ -122,7 +122,7 @@ namespace FortyFingers.SeoRedirect.API
             else if (model.TargetTabId > 0)
             {
                 map.TargetTabId = model.TargetTabId;
-                map.TargetUrl = DotNetNuke.Common.Globals.NavigateURL(map.TargetTabId, PortalSettings, "");
+                map.TargetUrl = ServiceHelper.I.NavigationManager.NavigateURL(map.TargetTabId, PortalSettings, "");
             }
             else if (model.TargetTabId == -1) // matches with number in js file
             {
