@@ -7,12 +7,19 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
+using DotNetNuke.Abstractions.Portals;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Tabs;
 using DotNetNuke.Instrumentation;
 using DotNetNuke.Services.Scheduling;
+using DotNetNuke.DependencyInjection;
+using DotNetNuke.Framework;
+using DotNetNuke.Services.Installer.Dependencies;
+using DotNetNuke.Web.Common;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace FortyFingers.SeoRedirect.Components
 {
@@ -31,26 +38,27 @@ namespace FortyFingers.SeoRedirect.Components
             get
             {
                 var retval = PortalSettings.Current;
-
                 // if there's no current portal, try and get it from the requested domain name
                 if (retval == null)
                 {
                     var domainName = Globals.GetDomainName(HttpContext.Current.Request, true);
 
+                    //var x = PortalAliasController.Instance.GetPortalAlias(domainName);
+                    //var y = new LazyServiceProvider().GetService(typeof(IPortalAliasService));
                     // in multiligual sites, DNN6 might have the current locale appended
-                    var portalAliasInfo = PortalAliasController.GetPortalAliasInfo(domainName);
+                    var portalAliasInfo = ServiceHelper.I.PortalAliasService.GetPortalAlias(domainName);
                     if (portalAliasInfo == null)
                     {
                         if (Regex.IsMatch(domainName, ".*//??-??"))
                         {
                             domainName = domainName.Substring(0, domainName.IndexOf("/"));
-                            portalAliasInfo = PortalAliasController.GetPortalAliasInfo(domainName);
+                            portalAliasInfo = ServiceHelper.I.PortalAliasService.GetPortalAlias(domainName);
                         }
                     }
 
                     if (portalAliasInfo != null)
                     {
-                        retval = new PortalSettings(portalAliasInfo.PortalID);
+                        retval = new PortalSettings(portalAliasInfo.PortalId);
                     }
                 }
                 return retval;

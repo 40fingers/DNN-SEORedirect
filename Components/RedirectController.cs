@@ -14,6 +14,7 @@ using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Services.Url.FriendlyUrl;
 using FortyFingers.SeoRedirect.Components.Data;
+using static FortyFingers.SeoRedirect.Components.ServiceHelper;
 
 namespace FortyFingers.SeoRedirect.Components
 {
