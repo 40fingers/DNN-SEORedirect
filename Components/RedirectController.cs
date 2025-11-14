@@ -200,7 +200,7 @@ namespace FortyFingers.SeoRedirect.Components
             var retval = relativeUrl;
             if (retval.StartsWith("/"))
             {
-                retval = Globals.AddHTTP(Common.CurrentPortalSettings.PortalAlias.HTTPAlias + retval);
+                retval = Globals.AddHTTP(Common.CurrentPortalAliasInfo.HttpAlias + retval);
             }
             return retval;
         }

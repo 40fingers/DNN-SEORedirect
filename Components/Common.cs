@@ -1,4 +1,18 @@
-﻿using System;
+﻿using DotNetNuke.Abstractions.Portals;
+using DotNetNuke.Common;
+using DotNetNuke.Common.Extensions;
+using DotNetNuke.Common.Utilities;
+using DotNetNuke.DependencyInjection;
+using DotNetNuke.Entities.Portals;
+using DotNetNuke.Entities.Tabs;
+using DotNetNuke.Framework;
+using DotNetNuke.Instrumentation;
+using DotNetNuke.Services.Installer.Dependencies;
+using DotNetNuke.Services.Scheduling;
+using DotNetNuke.Web.Common;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,19 +21,6 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
-using DotNetNuke.Abstractions.Portals;
-using DotNetNuke.Common;
-using DotNetNuke.Common.Utilities;
-using DotNetNuke.Entities.Portals;
-using DotNetNuke.Entities.Tabs;
-using DotNetNuke.Instrumentation;
-using DotNetNuke.Services.Scheduling;
-using DotNetNuke.DependencyInjection;
-using DotNetNuke.Framework;
-using DotNetNuke.Services.Installer.Dependencies;
-using DotNetNuke.Web.Common;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace FortyFingers.SeoRedirect.Components
 {
@@ -64,6 +65,8 @@ namespace FortyFingers.SeoRedirect.Components
                 return retval;
             }
         }
+
+        public static IPortalAliasInfo CurrentPortalAliasInfo => CurrentPortalSettings.PortalAlias as IPortalAliasInfo;
 
         public static string IncomingUrl
         {
@@ -171,7 +174,7 @@ namespace FortyFingers.SeoRedirect.Components
         {
             if (portalSetting?.ErrorPage404 > Null.NullInteger)
             {
-                response.Redirect(Globals.NavigateURL(portalSetting.ErrorPage404, string.Empty, "status=404"));
+                response.Redirect(ServiceHelper.I.NavigationManager.NavigateURL(portalSetting.ErrorPage404, string.Empty, "status=404"));
             }
             else
             {
@@ -181,6 +184,31 @@ namespace FortyFingers.SeoRedirect.Components
                 response.Status = "404 Not Found";
                 response.Write("404 Not Found");
                 response.End();
+            }
+        }
+
+        internal static bool AreDIServicesReady
+        {
+            get{
+            // check if our ServiceHelper is ready
+            if (HttpContext.Current.Application["SEORedirect_ServiceHelper_Ready"] != null) 
+                return true;
+
+            // Fast way didn't work, try harder:
+            // Try LazyServiceProvider for a service that will be registered when DI is available.
+            try
+            {
+                var lsp = HttpContextSource.Current?.GetScope()?.ServiceProvider;
+                if (lsp == null) return false;
+
+                var probe = lsp.GetService(typeof(IPortalAliasService));
+                return probe != null;
+            }
+            catch
+            {
+                // LazyServiceProvider may throw while initialization is in progress.
+            }
+            return false;
             }
         }
 
