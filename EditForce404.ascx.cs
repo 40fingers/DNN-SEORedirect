@@ -28,7 +28,7 @@ namespace FortyFingers.SeoRedirect
 
             if (!IsPostBack)
             {
-                lnkBack.NavigateUrl = Globals.NavigateURL(TabId);
+                lnkBack.NavigateUrl = ServiceHelper.I.NavigationManager.NavigateURL(TabId);
             }
         }
 
@@ -118,7 +118,7 @@ namespace FortyFingers.SeoRedirect
                 }
             }
 
-            Response.Redirect(Globals.NavigateURL(TabId));
+            Response.Redirect(ServiceHelper.I.NavigationManager.NavigateURL(TabId));
         }
     }
     /// <summary>

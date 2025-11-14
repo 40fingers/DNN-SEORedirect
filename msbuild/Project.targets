@@ -66,7 +66,7 @@
         </CreateProperty>
         <CreateProperty Value="0$(Revision)" Condition="$(Revision) &lt;= 9" >
             <Output TaskParameter="Value" PropertyName="Revision" />
-        </CreateProperty>
+        </CreateProperty> 
 
         <!-- Write new version to assemblyinfo.cs -->
         <Message Text="MSBUILD: Updating @(AssemblyInfoFile) and @(dnnFile) with new version: $(Major).$(Minor).$(Build).$(Revision)" Importance="high"></Message>
@@ -175,7 +175,7 @@
     </Target>
     <Target Name="CopyFilesToDotNetNuke">
         <!-- Copy assemblies and Debug Info to DNN Bin Dir -->
-        <CreateItem Include="$(BinDir)\*.pdb;$(BinDir)\*.dll;">
+        <CreateItem Include="$(BinDir)\$(AssemblyName).pdb;$(BinDir)\$(AssemblyName).dll;">
             <Output TaskParameter="Include" ItemName="Assemblies" />
         </CreateItem>
         <Message Text="MSBUILD: copying @(Assemblies) to $(DotNetNukeDir)\bin\" Importance="high"></Message>

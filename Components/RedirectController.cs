@@ -14,29 +14,18 @@ using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Services.Url.FriendlyUrl;
 using FortyFingers.SeoRedirect.Components.Data;
+using static FortyFingers.SeoRedirect.Components.ServiceHelper;
 
 namespace FortyFingers.SeoRedirect.Components
 {
     public static class RedirectController
     {
 
-        public static UserInfo UserInfo
-        {
-            get
-            {
-                return UserController.GetCurrentUserInfo();
-            }
-        }
+        public static UserInfo UserInfo => UserController.Instance.GetCurrentUserInfo();
 
-        private static HttpResponse Response
-        {
-            get { return HttpContext.Current.Response; }
-        }
+        private static HttpResponse Response => HttpContext.Current.Response;
 
-        private static HttpRequest Request
-        {
-            get { return HttpContext.Current.Request; }
-        }
+        private static HttpRequest Request => HttpContext.Current.Request;
 
         public static void DoRedirect(ControlCollection logToControls, bool redirectWhenNo404Detected = false, bool onlyLogWhen404 = false)
         {
@@ -211,7 +200,7 @@ namespace FortyFingers.SeoRedirect.Components
             var retval = relativeUrl;
             if (retval.StartsWith("/"))
             {
-                retval = Globals.AddHTTP(Common.CurrentPortalSettings.PortalAlias.HTTPAlias + retval);
+                retval = Globals.AddHTTP(Common.CurrentPortalAliasInfo.HttpAlias + retval);
             }
             return retval;
         }
@@ -266,7 +255,7 @@ namespace FortyFingers.SeoRedirect.Components
 
         public static void SetHandledUrl(string url)
         {
-            DataProvider.Instance().SetHandledUrl(url, DateTime.Now, UserController.GetCurrentUserInfo().Username);
+            DataProvider.Instance().SetHandledUrl(url, DateTime.Now, UserController.Instance.GetCurrentUserInfo().Username);
         }
 
         public static string IncomingUrl(ControlCollection logToControls, ref bool is404)

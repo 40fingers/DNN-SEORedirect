@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using DotNetNuke.Abstractions.Portals;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Services.Scheduling;
@@ -22,15 +23,15 @@ namespace FortyFingers.SeoRedirect.Components
                 ScheduleHistoryItem.AddLogNote(String.Format("Cleaner started<br />", ThreadID));
                 Progressing();
 
-                var portals = new PortalController().GetPortals();
+                var portals = PortalController.Instance.GetPortals();
 
-                foreach (PortalInfo portal in portals)
+                foreach (IPortalInfo portal in portals)
                 {
-                    if (PortalController.GetPortalSettingAsBoolean("40F_SEO_CleanerEnabled", portal.PortalID, false))
+                    if (PortalController.GetPortalSettingAsBoolean("40F_SEO_CleanerEnabled", portal.PortalId, false))
                     {
-                        var maxAgeDays = PortalController.GetPortalSettingAsInteger("40F_SEO_MaxAgeDays", portal.PortalID, Null.NullInteger);
-                        var maxEntries = PortalController.GetPortalSettingAsInteger("40F_SEO_MaxEntries", portal.PortalID, Null.NullInteger);
-                        DataProvider.Instance().CleanupRedirectLog(portal.PortalID, maxAgeDays, maxEntries);
+                        var maxAgeDays = PortalController.GetPortalSettingAsInteger("40F_SEO_MaxAgeDays", portal.PortalId, Null.NullInteger);
+                        var maxEntries = PortalController.GetPortalSettingAsInteger("40F_SEO_MaxEntries", portal.PortalId, Null.NullInteger);
+                        DataProvider.Instance().CleanupRedirectLog(portal.PortalId, maxAgeDays, maxEntries);
                         ScheduleHistoryItem.AddLogNote($"Portal {portal.PortalName} done.<br />");
                     }
                 }
