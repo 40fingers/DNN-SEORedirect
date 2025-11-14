@@ -28,6 +28,7 @@ namespace FortyFingers.SeoRedirect.Components
                     return diHelper;
 
                 // Otherwise resolve the dependency and construct
+                // this seems to be never called, but it's a good fallback
                 var portalSvc = lsp.GetService(typeof(IPortalAliasService)) as IPortalAliasService;
                 var navSvc = lsp.GetService(typeof(INavigationManager)) as INavigationManager;
                 if (portalSvc != null && navSvc != null)
