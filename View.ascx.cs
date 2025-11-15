@@ -102,10 +102,13 @@ namespace FortyFingers.SeoRedirect
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            jQuery.RequestRegistration();
-
             ClientResourceManager.RegisterStyleSheet(Page, "~/Resources/Shared/components/DropDownList/dnn.DropDownList.css", FileOrder.Css.ModuleCss);
             ClientResourceManager.RegisterStyleSheet(Page, "~/Resources/Shared/scripts/jquery/dnn.jScrollBar.css", FileOrder.Css.ModuleCss);
+
+            if (Config.RegisterJquery)
+            {
+                ClientResourceManager.RegisterScript(Page, "~/Resources/Shared/scripts/jquery/jquery.min.js");
+            }
             ClientResourceManager.RegisterScript(Page, "~/Resources/Shared/scripts/dnn.extensions.js");
             ClientResourceManager.RegisterScript(Page, "~/Resources/Shared/scripts/dnn.jquery.extensions.js");
             ClientResourceManager.RegisterScript(Page, "~/Resources/Shared/scripts/dnn.DataStructures.js");

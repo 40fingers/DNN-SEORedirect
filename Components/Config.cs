@@ -44,6 +44,22 @@ namespace FortyFingers.SeoRedirect.Components
             return Localization.GetString(setting, ConfigDefaultsResourceFile);
         }
 
+        private bool GetSettingBool(string setting, bool useDefault = true)
+        {
+            bool b = false;
+            string settingValue = "";
+            if (_settings.ContainsKey(setting))
+            {
+                settingValue = _settings[setting].ToString();
+            }
+            else if (useDefault)
+            {
+                settingValue = GetDefault(setting);
+            }
+            bool.TryParse(settingValue, out b);
+
+            return b;
+        }
         private int GetSettingInt(string setting, bool useDefault = true)
         {
             int i = Null.NullInteger;
@@ -121,7 +137,12 @@ namespace FortyFingers.SeoRedirect.Components
         public int NoOfEntries
         {
             get { return GetSettingInt("NoOfEntries", true); }
-            set { ModuleCtrl.UpdateModuleSetting(ModuleId, "NoOfEntries", value.ToString()); }
+            set => ModuleCtrl.UpdateModuleSetting(ModuleId, "NoOfEntries", value.ToString());
+        }
+        public bool RegisterJquery
+        {
+            get => GetSettingBool("RegisterJquery");
+            set => ModuleCtrl.UpdateModuleSetting(ModuleId, "RegisterJquery", value.ToString());
         }
         public bool CleanerEnabled
         {

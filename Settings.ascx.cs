@@ -30,6 +30,7 @@ namespace FortyFingers.SeoRedirect
         public override void LoadSettings()
         {
             NoOfEntries.Text = Config.NoOfEntries.ToString();
+            RegisterJquery.Checked = Config.RegisterJquery;
             EnableCleaner.Checked = Config.CleanerEnabled;
             MaxAgeDays.Text = Config.MaxAgeDays.ToString();
             MaxEntries.Text = Config.MaxEntries.ToString();
@@ -40,6 +41,7 @@ namespace FortyFingers.SeoRedirect
         public override void UpdateSettings()
         { 
             Config.NoOfEntries = int.Parse(NoOfEntries.Text);
+            Config.RegisterJquery = RegisterJquery.Checked;
             Config.CleanerEnabled = EnableCleaner.Checked;
             Config.MaxEntries = int.Parse(MaxEntries.Text);
             Config.MaxAgeDays = int.Parse(MaxAgeDays.Text);

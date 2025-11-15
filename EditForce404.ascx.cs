@@ -16,12 +16,25 @@ using DotNetNuke.Web.Client;
 using DotNetNuke.Web.Client.ClientResourceManagement;
 using DotNetNuke.Web.UI.WebControls;
 using FortyFingers.SeoRedirect.Components;
+using Config = FortyFingers.SeoRedirect.Components.Config;
 using Globals = DotNetNuke.Common.Globals;
 
 namespace FortyFingers.SeoRedirect
 {
     public partial class EditForce404 : PortalModuleBase
     {
+        private Config _config;
+        protected Config Config
+        {
+            get
+            {
+                if (_config == null)
+                    _config = new Config(Settings, ModuleId, TabModuleId);
+
+                return _config;
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             RegisterResources(Page);
@@ -34,8 +47,10 @@ namespace FortyFingers.SeoRedirect
 
         private void RegisterResources(Page page)
         {
-            jQuery.RequestRegistration();
-
+            if (Config.RegisterJquery)
+            {
+                ClientResourceManager.RegisterScript(Page, "~/Resources/Shared/scripts/jquery/jquery.min.js");
+            }
             ClientResourceManager.RegisterStyleSheet(page, "~/Desktopmodules/40Fingers/SeoRedirect/js/jstree/themes/default/style.css", FileOrder.Css.ModuleCss);
             ClientResourceManager.RegisterScript(page, "~/Desktopmodules/40Fingers/SeoRedirect/js/jstree/jstree.min.js", FileOrder.Js.DefaultPriority);
 
