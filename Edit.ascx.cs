@@ -20,6 +20,18 @@ namespace FortyFingers.SeoRedirect
 {
     public partial class Edit : PortalModuleBase
     {
+        private Config _config;
+        protected Config Config
+        {
+            get
+            {
+                if (_config == null)
+                    _config = new Config(Settings, ModuleId, TabModuleId);
+
+                return _config;
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             RegisterResources(Page);
@@ -33,10 +45,13 @@ namespace FortyFingers.SeoRedirect
 
         private void RegisterResources(Page page)
         {
-            jQuery.RequestRegistration();
-
             ClientResourceManager.RegisterStyleSheet(page, "~/Resources/Shared/components/DropDownList/dnn.DropDownList.css", FileOrder.Css.ModuleCss);
             ClientResourceManager.RegisterStyleSheet(page, "~/Resources/Shared/scripts/jquery/dnn.jScrollBar.css", FileOrder.Css.ModuleCss);
+            
+            if (Config.RegisterJquery)
+            {
+                ClientResourceManager.RegisterScript(Page, "~/Resources/Shared/scripts/jquery/jquery.min.js");
+            }
             ClientResourceManager.RegisterScript(page, "~/Resources/Shared/scripts/dnn.extensions.js");
             ClientResourceManager.RegisterScript(page, "~/Resources/Shared/scripts/dnn.jquery.extensions.js");
             ClientResourceManager.RegisterScript(page, "~/Resources/Shared/scripts/dnn.DataStructures.js");
