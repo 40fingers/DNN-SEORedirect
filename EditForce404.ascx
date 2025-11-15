@@ -1,5 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EditForce404.ascx.cs" Inherits="FortyFingers.SeoRedirect.EditForce404" %>
 <%@ Import Namespace="FortyFingers.SeoRedirect.Components" %>
+<%@ Import Namespace="DotNetNuke.Services.Localization" %>
 
 <script type="text/javascript">
     var srPid = <%= PortalId %>;
