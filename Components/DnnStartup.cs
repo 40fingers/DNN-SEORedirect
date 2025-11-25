@@ -16,7 +16,7 @@ namespace FortyFingers.SeoRedirect.Components
 
             // IndexModel registration is required for
             // constructor injection to work
-            services.AddSingleton<ServiceHelper>();
+            services.AddScoped<ServiceHelper>();
         }
     }
 }
