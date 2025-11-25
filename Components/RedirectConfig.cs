@@ -218,7 +218,7 @@ namespace FortyFingers.SeoRedirect.Components
                     _statusCodesDictionary = new Dictionary<string, Constants.HttpRedirectStatus>();
                     foreach (var mapping in Mappings)
                     {
-                        if(!_statusCodesDictionary.ContainsKey(mapping.SourceUrl.ToLower()))
+                        if (!_statusCodesDictionary.ContainsKey(mapping.SourceUrl.ToLower()))
                             _statusCodesDictionary.Add(mapping.SourceUrl.ToLower(), mapping.StatusCode);
                     }
                 }
@@ -252,7 +252,7 @@ namespace FortyFingers.SeoRedirect.Components
                 // otherwise return new configuration
                 if (File.Exists(filename))
                 {
-                    fs = new FileStream(filename, FileMode.Open);
+                    fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                     retval = (RedirectConfig)XmlSer.Deserialize(fs);
                 }
                 else
@@ -287,68 +287,75 @@ namespace FortyFingers.SeoRedirect.Components
 
             try
             {
+                // If the file exists, try to save a timestamped backup. Ignore backup failures.
                 if (File.Exists(filename))
                 {
-                    File.Copy(filename, filename.Replace(".xml", string.Format(".{0}.xml", DateTime.Now.ToString("yyyyMMdd-HHmmss"))));
-                    File.Delete(filename);
-                }
-
-                fs = new FileStream(filename, FileMode.CreateNew);
-                XmlSer.Serialize(fs, this);
-
-                //ClearCache();
-            }
-            catch (Exception ex)
-            {
-                Exceptions.LogException(ex);
-            }
-            finally
-            {
-                fs.Close();
-                fs.Dispose();
-            }
-        }
-
-        public static void CreateFile(string filename)
-        {
-            var emptyConfig = new RedirectConfig();
-            emptyConfig.ToFile(filename);
-        }
-
-        [XmlArrayItem("Mapping")]
-        public List<Mapping> Mappings { get; set; }
-
-        private string _force404Lockobject = "lock";
-        private IEnumerable<TabInfo> _force404Tabs = null;
-
-        [XmlIgnore]
-        public IEnumerable<TabInfo> Force404Tabs
-        {
-            get
-            {
-                if (_force404Tabs == null)
-                {
-                    lock (_force404Lockobject)
+                    try
                     {
-                        if (_force404Tabs == null)
-                        {
-                            var allTabs = TabController.GetPortalTabs(Common.CurrentPortalSettings.PortalId,
-                                Null.NullInteger,
-                                false,
-                                "",
-                                true,
-                                false,
-                                true,
-                                false,
-                                false);
-
-                            _force404Tabs = allTabs.Where(t => t.IsForce404()).AsEnumerable<TabInfo>();
-                        }
+                        File.Copy(filename, filename.Replace(".xml", string.Format(".{0}.xml", DateTime.Now.ToString("yyyyMMdd-HHmmss"))));
+                    }
+                    catch (Exception)
+                    {
+                        // Ignore backup failure - do not block saving the new file
                     }
                 }
 
-                return _force404Tabs;
+                fs = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.Read);
+                XmlSer.Serialize(fs, this);
+            }
+            catch (Exception ex)
+            {
+                // Ensure exceptions during save are logged (already logged above), and bubble up
+                Exceptions.LogException(ex);
+                throw;
+            }
+            finally
+            {
+                fs?.Close();
+                fs?.Dispose();
             }
         }
+
+public static void CreateFile(string filename)
+{
+    var emptyConfig = new RedirectConfig();
+    emptyConfig.ToFile(filename);
+}
+
+[XmlArrayItem("Mapping")]
+public List<Mapping> Mappings { get; set; }
+
+private string _force404Lockobject = "lock";
+private IEnumerable<TabInfo> _force404Tabs = null;
+
+[XmlIgnore]
+public IEnumerable<TabInfo> Force404Tabs
+{
+    get
+    {
+        if (_force404Tabs == null)
+        {
+            lock (_force404Lockobject)
+            {
+                if (_force404Tabs == null)
+                {
+                    var allTabs = TabController.GetPortalTabs(Common.CurrentPortalSettings.PortalId,
+                        Null.NullInteger,
+                        false,
+                        "",
+                        true,
+                        false,
+                        true,
+                        false,
+                        false);
+
+                    _force404Tabs = allTabs.Where(t => t.IsForce404()).AsEnumerable<TabInfo>();
+                }
+            }
+        }
+
+        return _force404Tabs;
+    }
+}
     }
 }
