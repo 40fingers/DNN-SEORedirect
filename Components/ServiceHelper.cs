@@ -1,15 +1,9 @@
 ﻿using DotNetNuke.Abstractions.Portals;
-using DotNetNuke.Entities.Portals;
-using DotNetNuke.Web.Common;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using DotNetNuke.Abstractions;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Extensions;
-using DotNetNuke.Services.Exceptions;
-using log4net.Core;
 
 namespace FortyFingers.SeoRedirect.Components
 {
