@@ -23,9 +23,10 @@
         <InstallDir>_Installation\$(MSBuildProjectName)</InstallDir>
         <svn></svn>
         <BinDir>$(MSBuildProjectDirectory)\bin</BinDir>
+        <!-- check if custom.targets exists -->
+        <ImportPath Condition="Exists('$(MSBuildProjectDirectory)\msbuild\custom.targets')">$(MSBuildProjectDirectory)\msbuild\custom.targets</ImportPath>
         <DotNetNukeDir>$(MSBuildProjectDirectory)\DNNDeploy</DotNetNukeDir>
         <DotNetNukeVer>4</DotNetNukeVer>
-	    <ImportPath Condition="Exists('$(MSBuildProjectDirectory)\msbuild\custom.targets')">$(MSBuildProjectDirectory)\msbuild\custom.targets</ImportPath> <!-- check if custom.targets exists -->
     </PropertyGroup>
 
     <Import Project="$(ImportPath)" Condition=" '$(ImportPath)' != '' "/>

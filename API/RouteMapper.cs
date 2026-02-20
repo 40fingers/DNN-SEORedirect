@@ -16,7 +16,7 @@ namespace FortyFingers.SeoRedirect.API
         public void RegisterRoutes(IMapRoute mapRouteManager)
         {
             mapRouteManager.MapHttpRoute(
-                moduleFolderName: "40Fingers",
+                moduleFolderName: "SeoRedirect",
                 routeName: "default",
                 url: "{controller}/{action}/{itemId}",
                 defaults: new { itemId = RouteParameter.Optional },
