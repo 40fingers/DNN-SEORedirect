@@ -35,6 +35,8 @@ namespace FortyFingers.SeoRedirect.Components
             }
         }
 
+        private const string CachedPortalSettingsKey = "SEORedirect_CurrentPortalSettings";
+
         public static PortalSettings CurrentPortalSettings
         {
             get
@@ -43,6 +45,12 @@ namespace FortyFingers.SeoRedirect.Components
                 // if there's no current portal, try and get it from the requested domain name
                 if (retval == null)
                 {
+                    // Check if we already resolved and cached the PortalSettings for this request
+                    if (HttpContext.Current?.Items[CachedPortalSettingsKey] is PortalSettings cachedSettings)
+                    {
+                        return cachedSettings;
+                    }
+
                     var domainName = TestableGlobals.Instance.GetDomainName(HttpContext.Current.Request.Url);
 
                     //var domainName = Globals.GetDomainName(HttpContext.Current.Request, true);
@@ -64,6 +72,12 @@ namespace FortyFingers.SeoRedirect.Components
                     {
                         retval = new PortalSettings(portalAliasInfo.PortalId);
                         retval.PortalAlias = (PortalAliasInfo)portalAliasInfo;
+
+                        // Cache the resolved PortalSettings for this request
+                        if (HttpContext.Current != null)
+                        {
+                            HttpContext.Current.Items[CachedPortalSettingsKey] = retval;
+                        }
                     }
                 }
                 return retval;

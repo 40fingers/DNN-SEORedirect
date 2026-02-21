@@ -162,7 +162,7 @@ namespace FortyFingers.SeoRedirect.Components
                         Response.AppendHeader("X-Redirect-Reason", $"SEORedirect mapping {usedMapping?.SourceUrl}");
                         Response.AppendHeader("X-Redirect-ID", $"SEORedirect mapping {usedMapping?.Id}");
                         Response.StatusCode = (int)targetStatus;
-                        Response.Redirect(target, false);
+                        Response.Redirect(target, true);
                     }
                     catch (Exception)
                     {
