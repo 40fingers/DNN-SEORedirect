@@ -1,9 +1,11 @@
 ﻿using DotNetNuke.Abstractions.Portals;
 using System;
+using System.Collections.Generic;
 using System.Web;
 using DotNetNuke.Abstractions;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FortyFingers.SeoRedirect.Components
 {
@@ -16,12 +18,39 @@ namespace FortyFingers.SeoRedirect.Components
 
         internal static ServiceHelper ResolveForRequest(HttpContextBase context)
         {
-            if (context == null)
+            if (context == null && HttpContext.Current == null)
                 throw new InvalidOperationException("ServiceHelper can only be resolved during an active HTTP request.");
 
-            var provider = context.GetScope()?.ServiceProvider;
+            IServiceProvider provider = null;
+
+            try
+            {
+                // Try DNN 10+ with scoped provider first
+                if (context != null)
+                {
+                    provider = context.GetScope()?.ServiceProvider;
+                }
+
+                // In DNN 9, GetScope() returns null even when context exists
+                // Fallback: access Globals.DependencyProvider via reflection
+                if (provider == null)
+                {
+                    var globalsType = typeof(Globals);
+                    var dependencyProviderProperty = globalsType.GetProperty("DependencyProvider", 
+                        System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
+                    if (dependencyProviderProperty != null)
+                    {
+                        provider = dependencyProviderProperty.GetValue(null) as IServiceProvider;
+                    }
+                }
+            }
+            catch
+            {
+                // GetScope might throw during initialization
+            }
+
             if (provider == null)
-                throw new InvalidOperationException("Unable to locate the request service provider.");
+                throw new InvalidOperationException("Unable to locate the request service provider. DI may not be initialized yet.");
 
             // Prefer resolving the scoped instance registered in DI
             if (provider.GetService(typeof(ServiceHelper)) is ServiceHelper diHelper)
@@ -39,7 +68,7 @@ namespace FortyFingers.SeoRedirect.Components
                 return new ServiceHelper(portalSvc, navSvc);
             }
 
-            throw new InvalidOperationException("ServiceHelper could not be resolved from the current request.");
+            throw new InvalidOperationException("ServiceHelper could not be resolved. Required services (IPortalAliasService, INavigationManager) are not available.");
         }
 
         private static void MarkReady()
@@ -63,4 +92,5 @@ namespace FortyFingers.SeoRedirect.Components
         }
 
     }
+
 }
