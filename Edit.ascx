@@ -18,7 +18,7 @@
     var srVM;
     $(document).ready(function () {
         SR.service = $.ServicesFramework(srMid);
-        SR.service.baseUrl = SR.service.getServiceRoot("40Fingers") + "SeoRedirect/";
+        SR.service.baseUrl = SR.service.getServiceRoot("SeoRedirect") + "SeoRedirect/";
 
         srVM = new SR.MappingsVm({ urls: [] });
         srVM.load();

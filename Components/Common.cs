@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
+using DotNetNuke.Common.Internal;
 
 namespace FortyFingers.SeoRedirect.Components
 {
@@ -34,6 +35,8 @@ namespace FortyFingers.SeoRedirect.Components
             }
         }
 
+        private const string CachedPortalSettingsKey = "SEORedirect_CurrentPortalSettings";
+
         public static PortalSettings CurrentPortalSettings
         {
             get
@@ -42,7 +45,15 @@ namespace FortyFingers.SeoRedirect.Components
                 // if there's no current portal, try and get it from the requested domain name
                 if (retval == null)
                 {
-                    var domainName = Globals.GetDomainName(HttpContext.Current.Request, true);
+                    // Check if we already resolved and cached the PortalSettings for this request
+                    if (HttpContext.Current?.Items[CachedPortalSettingsKey] is PortalSettings cachedSettings)
+                    {
+                        return cachedSettings;
+                    }
+
+                    var domainName = TestableGlobals.Instance.GetDomainName(HttpContext.Current.Request.Url);
+
+                    //var domainName = Globals.GetDomainName(HttpContext.Current.Request, true);
 
                     //var x = PortalAliasController.Instance.GetPortalAlias(domainName);
                     //var y = new LazyServiceProvider().GetService(typeof(IPortalAliasService));
@@ -60,6 +71,13 @@ namespace FortyFingers.SeoRedirect.Components
                     if (portalAliasInfo != null)
                     {
                         retval = new PortalSettings(portalAliasInfo.PortalId);
+                        retval.PortalAlias = (PortalAliasInfo)portalAliasInfo;
+
+                        // Cache the resolved PortalSettings for this request
+                        if (HttpContext.Current != null)
+                        {
+                            HttpContext.Current.Items[CachedPortalSettingsKey] = retval;
+                        }
                     }
                 }
                 return retval;
@@ -191,14 +209,31 @@ namespace FortyFingers.SeoRedirect.Components
         {
             get{
             // check if our ServiceHelper is ready
-            if (HttpContext.Current.Application["SEORedirect_ServiceHelper_Ready"] != null) 
+            if (HttpContext.Current?.Application["SEORedirect_ServiceHelper_Ready"] != null) 
                 return true;
 
             // Fast way didn't work, try harder:
-            // Try LazyServiceProvider for a service that will be registered when DI is available.
+            // Try service provider for a service that will be registered when DI is available.
             try
             {
-                var lsp = HttpContextSource.Current?.GetScope()?.ServiceProvider;
+                IServiceProvider lsp = null;
+
+                // Try DNN 10+ first
+                lsp = HttpContextSource.Current?.GetScope()?.ServiceProvider;
+
+                // In DNN 9, GetScope() returns null
+                // Fallback: access Globals.DependencyProvider via reflection
+                if (lsp == null)
+                {
+                    var globalsType = typeof(Globals);
+                    var dependencyProviderProperty = globalsType.GetProperty("DependencyProvider", 
+                        System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
+                    if (dependencyProviderProperty != null)
+                    {
+                        lsp = dependencyProviderProperty.GetValue(null) as IServiceProvider;
+                    }
+                }
+
                 if (lsp == null) return false;
 
                 var probe = lsp.GetService(typeof(IPortalAliasService));
@@ -206,7 +241,7 @@ namespace FortyFingers.SeoRedirect.Components
             }
             catch
             {
-                // LazyServiceProvider may throw while initialization is in progress.
+                // Service provider may throw while initialization is in progress.
             }
             return false;
             }
