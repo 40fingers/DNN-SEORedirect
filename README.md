@@ -10,3 +10,6 @@ The SEO redirect allows you to see the incoming 404’s and add a redirect them 
 As of version 2.6 you can configure each mapping to use a different http status than (the default) 301.
 
 For the latest DNN installer and documentation visit [our](https://www.40fingers.net/) [project page](https://www.40fingers.net/Products/DNN-SEO-Redirect) for this module.
+
+## Module/handler not working (October 2026)
+Please note that the handler is not working in DNN 10.2.5+, so remove it from the web.config.
