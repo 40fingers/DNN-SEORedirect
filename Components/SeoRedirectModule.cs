@@ -24,10 +24,10 @@ namespace FortyFingers.SeoRedirect.Components
 
         private void Context_EndRequest(object sender, EventArgs e)
         {
-            if (IsUpgrade) return;
-
             try
             {
+                if (IsUpgrade) return;
+
                 var rsp = HttpContext.Current.Response;
                 var ps = Common.CurrentPortalSettings;
 
@@ -38,7 +38,7 @@ namespace FortyFingers.SeoRedirect.Components
                 }
 
                 string incoming = Common.IncomingUrl;
-                if (ps.ActiveTab?.TabID != ps.ErrorPage404 && rsp.StatusCode == (int) HttpStatusCode.NotFound && !string.IsNullOrEmpty(incoming))
+                if (ps?.ActiveTab?.TabID != ps?.ErrorPage404 && rsp.StatusCode == (int) HttpStatusCode.NotFound && !string.IsNullOrEmpty(incoming))
                 {
                     Common.Logger.Debug($"Logging redirect from Context_EndRequest. incoming:[{incoming}]");
                     RedirectController.AddRedirectLog(ps.PortalId, incoming, "");
@@ -53,14 +53,11 @@ namespace FortyFingers.SeoRedirect.Components
 
         private void OnBeginRequest(object sender, EventArgs e)
         {
-            if (IsUpgrade) return;
-            if (!Common.AreDIServicesReady) return;
-
-            // find incoming URL
-            string incoming = "";
-
             try
             {
+                if (IsUpgrade) return;
+                if (!Common.AreDIServicesReady) return;
+
                 // in case of een upgrade, PortalSettings will be null, nothing to do in such a case:
                 // if (PortalSettings.Current == null) return;
 
@@ -73,8 +70,6 @@ namespace FortyFingers.SeoRedirect.Components
                 // we're not writing in the eventlog, since the amount of log records can really explode
                 // we MUST catch every possible exception here, otherwise the website would be completely down in case of a bug
             }
-
-
         }
 
         public void Dispose()
@@ -86,17 +81,52 @@ namespace FortyFingers.SeoRedirect.Components
         {
             get
             {
-                if (!HttpContext.Current.Items.Contains("40f_seo_isupgrade"))
-                {
-                    var assemblyVersion = DotNetNukeContext.Current.Application.Version;
-                    var databaseVersion = DotNetNuke.Data.DataProvider.Instance().GetVersion();
+                if (HttpContext.Current == null)
+                    return false;
 
-                    HttpContext.Current.Items["40f_seo_isupgrade"] = !(assemblyVersion.Major == databaseVersion.Major 
-                                                                       && assemblyVersion.Minor == databaseVersion.Minor 
-                                                                       && assemblyVersion.Build == databaseVersion.Build);
+                // Check Application-level cache first (survives across requests)
+                var app = HttpContext.Current.Application;
+                if (app?["40f_seo_isupgrade"] != null)
+                {
+                    return (bool)app["40f_seo_isupgrade"];
                 }
 
-                return (bool)HttpContext.Current.Items["40f_seo_isupgrade"];
+                // Check request-level cache
+                if (HttpContext.Current.Items.Contains("40f_seo_isupgrade"))
+                {
+                    return (bool)HttpContext.Current.Items["40f_seo_isupgrade"];
+                }
+
+                // Need to determine upgrade status
+                bool isUpgrading = false;
+                try
+                {
+                    var assemblyVersion = DotNetNukeContext.Current?.Application?.Version;
+                    if (assemblyVersion == null)
+                        return false;
+
+                    var databaseVersion = DotNetNuke.Data.DataProvider.Instance().GetVersion();
+
+                    isUpgrading = !(assemblyVersion.Major == databaseVersion.Major 
+                                   && assemblyVersion.Minor == databaseVersion.Minor 
+                                   && assemblyVersion.Build == databaseVersion.Build);
+
+                    // Cache at both levels
+                    HttpContext.Current.Items["40f_seo_isupgrade"] = isUpgrading;
+                    if (app != null)
+                    {
+                        app["40f_seo_isupgrade"] = isUpgrading;
+                    }
+                }
+                catch
+                {
+                    // If we can't determine upgrade status (e.g., DB connection error), 
+                    // assume not upgrading and cache that result temporarily
+                    HttpContext.Current.Items["40f_seo_isupgrade"] = false;
+                    return false;
+                }
+
+                return isUpgrading;
             }
         }
     }
